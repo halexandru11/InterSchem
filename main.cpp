@@ -75,6 +75,7 @@ int main() {
 #include <bits/stdc++.h>
 
 #include "Constants.hpp"
+#include "Line.hpp"
 #include "Node.hpp"
 
 using namespace sf;
@@ -139,7 +140,7 @@ void adauga_nod(vector <Node*> &D, int type)
     if(type == 1)
     {
         D.push_back(new Node(Constants::StartNode, font));
-        D[D.size() - 1]->setTextString("");
+        D[D.size() - 1]->setTextString("Start");
     }
     if(type == 2)
     {
@@ -234,14 +235,18 @@ int main()
     text.setString("Nod Stop");
     ButtonText.push_back(text);
 
-    CircleShape circle1 = CircleShape(10, 4);
-    circle1.setFillColor(Color::Cyan);
-    CircleShape circle2 = CircleShape(3, 4);
-    circle2.setFillColor(Color::Cyan);
-    CircleShape circle3 = CircleShape(3, 4);
-    circle3.setFillColor(Color::Cyan);
-    CircleShape circle4 = CircleShape(3, 4);
-    circle4.setFillColor(Color::Cyan);
+    CircleShape circle = CircleShape(3, 14);
+    circle.setFillColor(Color::Cyan);
+    circle.setOrigin(circle.getRadius(), circle.getRadius());
+
+//    sf::Vector2f coordA = sf::Vector2f{300, 300};
+//    sf::Vector2f coordB = sf::Vector2f{500, 500};
+    adauga_nod(nodes, Constants::StartNode);
+    adauga_nod(nodes, Constants::ConditionalNode);
+    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
+    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
+
+    Line line = Line(nodes[0]->coordOut, nodes[1]->coordIn);
 
     bool hold = false;
     Vector2i oldPos;
@@ -265,7 +270,7 @@ int main()
                     Vector2f pos;
                     pos.x = static_cast<float>(oldPos.x);
                     pos.y = static_cast<float>(oldPos.y);
-                    for(int i = 0; i < nodes.size(); ++i)
+                    for(size_t i = 0; i < nodes.size(); ++i)
                         if(isInside(pos, nodes[i]))
                         {
                             target = i;
@@ -283,7 +288,7 @@ int main()
                     if(isInsideButton(pos, buttonEnd))
                         adauga_nod(nodes,5);
                 }
-                else if(evnt.mouseButton.button == Mouse::Right)
+                else if(evnt.mouseButton.button == Mouse::Middle)
                 {
                     oldPos = Mouse::getPosition(window);
                     Vector2f pos;
@@ -299,7 +304,7 @@ int main()
                             break;
                         }
                     */
-                    for(int i = 0; i < nodes.size(); ++i)
+                    for(size_t i = 0; i < nodes.size(); ++i)
                     {
                         if(isInside(pos,nodes[i]))
                         {
@@ -343,23 +348,26 @@ int main()
         for(size_t index = 0; index < nodes.size(); ++index) {
             window.draw(nodes[index]->getShape());
             window.draw(nodes[index]->text);
-            circle1.set(nodes[index]->coordIn);
-            circle2.setPosition(nodes[index]->coordOut);
-            circle3.setPosition(nodes[index]->getNodeCoordonates());
-            circle4.setPosition(nodes[index]->coordOut2);
 
-            window.draw(circle1);
-//            window.draw(circle2);
-            window.draw(circle3);
-//            window.draw(circle4);
+            circle.setPosition(nodes[index]->coordIn);
+            window.draw(circle);
+            circle.setPosition(nodes[index]->coordInRec);
+            window.draw(circle);
+            circle.setPosition(nodes[index]->coordOut);
+            window.draw(circle);
+            circle.setPosition(nodes[index]->coordOutTrue);
+            window.draw(circle);
+            circle.setPosition(nodes[index]->coordOutFalse);
+            window.draw(circle);
 //            window.draw(nodes[index]->hitbox); /// DEBUG
         }
+        window.draw(&line.getLine()[0], line.getLine().size(), sf::Lines);
         window.draw(buttonStart);
         window.draw(buttonAssign);
         window.draw(buttonCond);
         window.draw(buttonOut);
         window.draw(buttonEnd);
-        for(int i = 0; i < ButtonText.size(); ++i)
+        for(size_t i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
         window.display();
     }

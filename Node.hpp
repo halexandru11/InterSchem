@@ -19,8 +19,11 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        coordIn = m_coord - sf::Vector2f{0, (height+m_padding)/2};
-        coordOut = m_coord + sf::Vector2f{0, height/2};
+        coordIn        = m_coord + sf::Vector2f{       0, -height/2};
+        coordInRec     = m_coord + sf::Vector2f{-width/2, -height/2};
+        coordOut       = m_coord + sf::Vector2f{       0,  height/2};
+        coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
+        coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
     }
 
     sf::Vector2f getNodeCoordonates() {
@@ -48,14 +51,18 @@ public:
 
 public:
     Constants::NodeType nodeType;
-    int height = 30;
-    int width = 100;
+    float height = 30;
+    float width = 100;
     sf::RectangleShape hitbox;
     sf::Text text;
     sf::Vector2f coordIn;
+    sf::Vector2f coordInRec;
     sf::Vector2f coordOut;
-    sf::Vector2f coordOut1;
-    sf::Vector2f coordOut2;
+    sf::Vector2f coordOutTrue;
+    sf::Vector2f coordOutFalse;
+    Node* urm;
+    Node* urmTrue;
+    Node* urmFalse;
 
 private:
     sf::ConvexShape setShape() {
@@ -65,8 +72,8 @@ private:
         hitbox.setOutlineColor(sf::Color::Green);
         hitbox.setOutlineThickness(2);
 
-        int textH = text.getGlobalBounds().height;
-        int textW = text.getGlobalBounds().width;
+        float textH = text.getGlobalBounds().height;
+        float textW = text.getGlobalBounds().width;
         text.setPosition(m_coord - sf::Vector2f{textW/2, 4*textH/5});
 
         switch(nodeType) {
