@@ -19,7 +19,7 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        coordIn = m_coord - sf::Vector2f{0, height/2+m_padding};
+        coordIn = m_coord - sf::Vector2f{0, height/2};
     }
 
     sf::Vector2f getNodeCoordonates() {
@@ -70,7 +70,7 @@ private:
 
         switch(nodeType) {
         case Constants::StartNode:
-            return startNodeShape();
+            return StartNodeShape();
         case Constants::AssignNode:
             return assignNodeShape();
         case Constants::ConditionalNode:
@@ -84,7 +84,7 @@ private:
         }
     }
 
-    sf::ConvexShape startNodeShape() {
+    sf::ConvexShape StartNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
 
