@@ -274,7 +274,7 @@ int main()
                     if(isInsideButton(pos, buttonEnd))
                         adauga_nod(nodes,5);
                 }
-                else if(evnt.mouseButton.button == Mouse::Right)
+                else if(evnt.mouseButton.button == Mouse::Middle)
                 {
                     oldPos = Mouse::getPosition(window);
                     Vector2f pos;
