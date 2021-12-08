@@ -19,7 +19,12 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        coordIn = m_coord - sf::Vector2f{0, height/2};
+        coordIn    = m_coord + sf::Vector2f{       0, -height/2};
+        coordInRec = m_coord + sf::Vector2f{-width/2, -height/2};
+        coordOut   = m_coord + sf::Vector2f{       0,  height/2};
+        coordOut1  = m_coord + sf::Vector2f{-width/2,  height/2};
+        coordOut2  = m_coord + sf::Vector2f{ width/2,  height/2};
+
     }
 
     sf::Vector2f getNodeCoordonates() {
@@ -52,6 +57,7 @@ public:
     sf::RectangleShape hitbox;
     sf::Text text;
     sf::Vector2f coordIn;
+    sf::Vector2f coordInRec;
     sf::Vector2f coordOut;
     sf::Vector2f coordOut1;
     sf::Vector2f coordOut2;
