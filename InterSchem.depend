@@ -1,7 +1,7 @@
 # depslib dependency file v1.0
 205 <<<<<<< HEAD
 
-1638994332 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
+1638996182 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
@@ -10,6 +10,7 @@
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
+	"Line.hpp"
 	"Node.hpp"
 
 1638992217 ter
@@ -440,7 +441,7 @@
 
 1638877062 D
 
-1638994806 c:\users\alexh\desktop\c++\graphicssfml\interschem\node.hpp
+1638996182 c:\users\alexh\desktop\c++\graphicssfml\interschem\node.hpp
 	<string>
 	"Constants.hpp"
 
@@ -869,4 +870,8 @@
 	<SFML/Graphics/PrimitiveType.hpp>
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
+
+1638996182 c:\users\alexh\desktop\c++\graphicssfml\interschem\line.hpp
+	<SFML/Graphics.hpp>
+	<vector>
 
