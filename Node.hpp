@@ -20,7 +20,7 @@ public:
         m_shape = setShape();
 
         coordIn = m_coord - sf::Vector2f{0, (height+m_padding)/2};
-        coordOut = m_coord + sf::Vector2f{0, (height+m_padding)/2};
+        coordOut = m_coord + sf::Vector2f{0, height/2};
     }
 
     sf::Vector2f getNodeCoordonates() {
@@ -59,7 +59,7 @@ public:
 
 private:
     sf::ConvexShape setShape() {
-        hitbox = sf::RectangleShape(sf::Vector2f{width, height});
+        hitbox = sf::RectangleShape(sf::Vector2f{width-1, height-1});
         hitbox.setPosition(m_coord - sf::Vector2f{width/2, height/2});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Green);
