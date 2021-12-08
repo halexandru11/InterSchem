@@ -234,6 +234,15 @@ int main()
     text.setString("Nod Stop");
     ButtonText.push_back(text);
 
+    CircleShape circle1 = CircleShape(3, 4);
+    circle.setFillColor(Color::Cyan);
+    CircleShape circle2 = CircleShape(3, 4);
+    circle.setFillColor(Color::Cyan);
+    CircleShape circle3 = CircleShape(3, 4);
+    circle.setFillColor(Color::Cyan);
+    CircleShape circle4 = CircleShape(3, 4);
+    circle.setFillColor(Color::Cyan);
+
     bool hold = false;
     Vector2i oldPos;
     int target = -1;
@@ -334,6 +343,12 @@ int main()
         for(size_t index = 0; index < nodes.size(); ++index) {
             window.draw(nodes[index]->getShape());
             window.draw(nodes[index]->text);
+            circle1.setPosition(nodes[index]->coordIn);
+            circle2.setPosition(nodes[index]->coordOut);
+            circle3.setPosition(nodes[index]->coordOut1);
+            circle4.setPosition(nodes[index]->coordOut2);
+
+            window.draw(circle1);
             /// window.draw(nodes[index]->hitbox); /// DEBUG
         }
         window.draw(buttonStart);

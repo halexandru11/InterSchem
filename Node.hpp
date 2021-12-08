@@ -19,7 +19,8 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        coordIn = m_coord - sf::Vector2f{0, height/2};
+        coordIn = m_coord - sf::Vector2f{0, (height+m_padding)/2};
+        coordOut = m_coord + sf::Vector2f{0, (height+m_padding)/2};
     }
 
     sf::Vector2f getNodeCoordonates() {
