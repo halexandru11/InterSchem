@@ -12,4 +12,13 @@ public:
         OutputNode,
         StopNode
     };
+
+    enum CoordType {
+        CoordIn = 1,
+        CoordInRec,
+        CoordOut,
+        CoordOutTrue,
+        CoordOutFalse,
+        NodeCoord
+    };
 };

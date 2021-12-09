@@ -19,19 +19,34 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        coordIn        = m_coord + sf::Vector2f{       0, -height/2};
-        coordInRec     = m_coord + sf::Vector2f{-width/2, -height/2};
-        coordOut       = m_coord + sf::Vector2f{       0,  height/2};
-        coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
-        coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
+        m_coordIn        = m_coord + sf::Vector2f{       0, -height/2};
+        m_coordInRec     = m_coord + sf::Vector2f{-width/2, -height/2};
+        m_coordOut       = m_coord + sf::Vector2f{       0,  height/2};
+        m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
+        m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
     }
 
-    sf::Vector2f getNodeCoordonates() {
-        return m_coord;
+    sf::Vector2f getNodeCoordonates(Constants::CoordType coordType) {
+        switch(coordType) {
+        case Constants::CoordIn:
+            return m_coordIn;
+        case Constants::CoordInRec:
+            return m_coordInRec;
+        case Constants::CoordOut:
+            return m_coordOut;
+        case Constants::CoordOutTrue:
+            return m_coordOutTrue;
+        case Constants::CoordOutFalse:
+            return m_coordOutFalse;
+        case Constants::NodeCoord:
+            return m_coord;
+        }
+        return sf::Vector2f{-1, -1};
     }
 
     void setTextString(std::string textString) {
         text.setString(textString);
+
 
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
@@ -55,11 +70,6 @@ public:
     float width = 100;
     sf::RectangleShape hitbox;
     sf::Text text;
-    sf::Vector2f coordIn;
-    sf::Vector2f coordInRec;
-    sf::Vector2f coordOut;
-    sf::Vector2f coordOutTrue;
-    sf::Vector2f coordOutFalse;
     Node* urm;
     Node* urmTrue;
     Node* urmFalse;
@@ -157,4 +167,9 @@ private:
     sf::ConvexShape m_shape;
     bool m_shapeAssigned = false;
     int m_padding = 10;
+    sf::Vector2f m_coordIn;
+    sf::Vector2f m_coordInRec;
+    sf::Vector2f m_coordOut;
+    sf::Vector2f m_coordOutTrue;
+    sf::Vector2f m_coordOutFalse;
 };

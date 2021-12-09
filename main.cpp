@@ -107,7 +107,7 @@ bool isInsideButton(Vector2f MousePos, RectangleShape q)
 */
 bool isInside(Vector2f MousePos, Node *q)
 {
-    Vector2f qOrigin = q->getNodeCoordonates();
+    Vector2f qOrigin = q->getNodeCoordonates(Constants::NodeCoord);
     Vector2f qSize = q->hitbox.getSize();
     Vector2f susStanga = qOrigin;
     Vector2f josDreapta = qOrigin;
@@ -246,7 +246,7 @@ int main()
     nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
-    Line line = Line(*nodes[0], *nodes[1]);
+    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
 
     bool hold = false;
     Vector2i oldPos;
@@ -352,16 +352,16 @@ int main()
             window.draw(nodes[index]->getShape());
             window.draw(nodes[index]->text);
 
-            circle.setPosition(nodes[index]->coordIn);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordInRec);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOut);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOutTrue);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOutFalse);
-            window.draw(circle);
+//            circle.setPosition(nodes[index]->coordIn);
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->coordInRec);
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->coordOut);
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->coordOutTrue);
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->coordOutFalse);
+//            window.draw(circle);
 //            window.draw(nodes[index]->hitbox); /// DEBUG
         }
 
