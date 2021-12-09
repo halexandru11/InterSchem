@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstring>
 
 #include "Constants.hpp"
 
@@ -32,7 +33,9 @@ public:
 
     void setTextString(std::string textString) {
         text.setString(textString);
-
+        for(int i = 0; i < textString.size(); ++i)
+            content[i] = textString[i];
+        content[textString.size()] = NULL;
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
         height = text.getGlobalBounds().height + 2*m_padding;
@@ -63,6 +66,7 @@ public:
     Node* urm;
     Node* urmTrue;
     Node* urmFalse;
+    char content[500];
 
 private:
     sf::ConvexShape setShape() {

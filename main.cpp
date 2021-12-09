@@ -77,10 +77,12 @@ int main() {
 #include "Constants.hpp"
 #include "Line.hpp"
 #include "Node.hpp"
+#include "Evaluare.hpp"
 
 using namespace sf;
 using namespace std;
 sf::Font font;
+bool isStartNode, isStopNode;
 bool isInsideButton(Vector2f MousePos, RectangleShape q)
 {
     Vector2f qOrigin = q.getPosition();
@@ -139,8 +141,11 @@ void adauga_nod(vector <Node*> &D, int type)
 {
     if(type == 1)
     {
+        if(isStartNode)
+            return;
         D.push_back(new Node(Constants::StartNode, font));
         D[D.size() - 1]->setTextString("Start");
+        isStartNode = 1;
     }
     if(type == 2)
     {
@@ -159,8 +164,11 @@ void adauga_nod(vector <Node*> &D, int type)
     }
     if(type == 5)
     {
+        if(isStopNode)
+            return;
         D.push_back(new Node(Constants::StopNode, font));
         D[D.size() - 1]->setTextString("Stop");
+        isStopNode = 1;
     }
     D[D.size() - 1]->setNodeCoordonates(sf::Vector2f{1000, 200});
 
@@ -252,6 +260,16 @@ int main()
     Vector2i oldPos;
     int target = -1;
     int emptyRectangle = -1;
+
+
+    /** TEST EXPRESIE
+    */
+    char expresiDeTest[500];
+    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) >= 700");
+    cout << Evalueaza_Expresie(expresiDeTest) << '\n';
+
+
+
     while (window.isOpen())
     {
         Event evnt;
@@ -315,6 +333,10 @@ int main()
                     }
                     if(deletee)
                     {
+                        if(strcmp(nodes[ nodes.size() - 1 ]->content, "Start") == 0)
+                           isStartNode = false;
+                        if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0)
+                           isStopNode = false;
                         delete nodes.back();
                         nodes.pop_back();
                     }
@@ -371,6 +393,8 @@ int main()
             window.draw(ButtonText[i]);
         window.display();
     }
+
+
     return 0;
 }
 
