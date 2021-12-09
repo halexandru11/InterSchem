@@ -445,24 +445,20 @@
 	<string>
 	"Constants.hpp"
 
-1639085654 source:c:\users\petrisor\documents\github\interschem\main.cpp
-	<SFML/Graphics.hpp>
-	<iostream>
-	<vector>
-	"Constants.hpp"
-	"Node.hpp"
+1639088278 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
-	<stdio.h>
 	"Constants.hpp"
 	"Line.hpp"
 	"Node.hpp"
 	"Evaluare.hpp"
 	"ui.hpp"
+	"functiiAuxiliare.hpp"
+	"inputText.hpp"
 
 1639066940 c:\users\petrisor\documents\github\interschem\constants.hpp
 
-1639067327 c:\users\petrisor\documents\github\interschem\node.hpp
+1639088523 c:\users\petrisor\documents\github\interschem\node.hpp
 	<string>
 	<cstring>
 	"Constants.hpp"
@@ -884,13 +880,13 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1639083860 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+1639086786 c:\users\petrisor\documents\github\interschem\evaluare.hpp
 	<math.h>
 	<iostream>
 	<cstring>
 	"Constants.hpp"
 
-1639085714 c:\users\petrisor\documents\github\interschem\buttons.hpp
+1639088192 c:\users\petrisor\documents\github\interschem\buttons.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
@@ -900,4 +896,14 @@
 	<bits/stdc++.h>
 	"Constants.hpp"
 	"Buttons.hpp"
+
+1639088163 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639088464 c:\users\petrisor\documents\github\interschem\inputtext.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Node.hpp"
 

@@ -8,15 +8,10 @@
 
 
 #include "Constants.hpp"
-
+using namespace std;
 typedef double datatype;
 datatype variabile[60];
 
-void initializare()
-{
-    for(int i = 0; i <= 50; ++i)
-        variabile[i] = INT_MAX;
-}
 
 datatype logpow(datatype a, datatype b)
 {
@@ -348,4 +343,15 @@ datatype to_nr(char q[])
     }
     r *= semn;
     return r;
+}
+
+void initializare()
+{
+    for(int i = 0; i <= 50; ++i)
+        variabile[i] = INT_MAX;
+
+    char expresiDeTest[500];
+    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) > 700 && cos(pi) < 0");
+    cout << setprecision(5) << fixed;
+    cout << Evalueaza_Expresie(expresiDeTest) << '\n';
 }

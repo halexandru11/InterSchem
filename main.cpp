@@ -7,6 +7,7 @@
 #include "Evaluare.hpp"
 #include "ui.hpp"
 #include "functiiAuxiliare.hpp"
+#include "inputText.hpp"
 
 using namespace sf;
 using namespace std;
@@ -31,10 +32,6 @@ int main()
     /** TEST EXPRESIE
     */
     initializare();
-    char expresiDeTest[500];
-    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) < 700 && cos(pi) < 0");
-    cout << setprecision(5) << fixed;
-    cout << Evalueaza_Expresie(expresiDeTest) << '\n';
 
     bool hold = false;
     Vector2i oldPos;
@@ -49,6 +46,11 @@ int main()
             if(evnt.type == Event::Closed)
             {
                 window.close();
+            }
+            else if(evnt.type == Event::TextEntered)
+            {
+                if(actWritting != -1)
+                    getInput(evnt,nodes);
             }
             else if(evnt.type == Event::MouseButtonPressed)
             {
@@ -77,6 +79,22 @@ int main()
                         adauga_nod(nodes,5);
                     if(isInsideButton(pos, buttonRead))
                         adauga_nod(nodes,6);
+                }
+                else if(evnt.mouseButton.button == Mouse::Right)
+                {
+                    oldPos = Mouse::getPosition(window);
+                    Vector2f pos;
+                    pos.x = static_cast<float>(oldPos.x);
+                    pos.y = static_cast<float>(oldPos.y);
+                    for(size_t i = 0; i < nodes.size(); ++i)
+                        if(isInside(pos, nodes[i]))
+                        {
+                            if(nodes[i]->nodeType == 1 || nodes[i]->nodeType == 5)
+                                break;
+                            actWritting = i;
+                            nodes[actWritting]->setTextString(buffer);
+                            break;
+                        }
                 }
                 else if(evnt.mouseButton.button == Mouse::Middle)
                 {

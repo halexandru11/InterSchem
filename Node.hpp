@@ -39,6 +39,7 @@ public:
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
         height = text.getGlobalBounds().height + 2*m_padding;
+        m_shape = setShape();
     }
 
     sf::ConvexShape getShape() {
