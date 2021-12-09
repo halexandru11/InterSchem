@@ -246,8 +246,7 @@ int main()
     nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
-    Line line = Line(nodes[0]->coordOut, nodes[1]->coordIn);
-//    Line line = Line(nodes[0], nodes[1]);
+    Line line = Line(*nodes[0], *nodes[1]);
 
     bool hold = false;
     Vector2i oldPos;
@@ -264,7 +263,10 @@ int main()
             }
             else if(evnt.type == Event::MouseButtonPressed)
             {
-                if(evnt.mouseButton.button == Mouse::Left)
+                if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
+
+                }
+                else if(evnt.mouseButton.button == Mouse::Left)
                 {
                     hold = true;
                     oldPos = Mouse::getPosition(window);
@@ -363,8 +365,6 @@ int main()
 //            window.draw(nodes[index]->hitbox); /// DEBUG
         }
 
-        line.update(nodes[0]->coordOut, nodes[1]->coordIn);
-//        line.update();
         window.draw(&line.getLine()[0], line.getLine().size(), sf::Lines);
         window.draw(buttonStart);
         window.draw(buttonAssign);
