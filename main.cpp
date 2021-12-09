@@ -247,6 +247,7 @@ int main()
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
     Line line = Line(nodes[0]->coordOut, nodes[1]->coordIn);
+//    Line line = Line(nodes[0], nodes[1]);
 
     bool hold = false;
     Vector2i oldPos;
@@ -361,6 +362,9 @@ int main()
             window.draw(circle);
 //            window.draw(nodes[index]->hitbox); /// DEBUG
         }
+
+        line.update(nodes[0]->coordOut, nodes[1]->coordIn);
+//        line.update();
         window.draw(&line.getLine()[0], line.getLine().size(), sf::Lines);
         window.draw(buttonStart);
         window.draw(buttonAssign);

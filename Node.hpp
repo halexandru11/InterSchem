@@ -78,7 +78,7 @@ private:
 
         switch(nodeType) {
         case Constants::StartNode:
-            return StartNodeShape();
+            return startNodeShape();
         case Constants::AssignNode:
             return assignNodeShape();
         case Constants::ConditionalNode:
@@ -92,7 +92,7 @@ private:
         }
     }
 
-    sf::ConvexShape StartNodeShape() {
+    sf::ConvexShape startNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
 
