@@ -11,6 +11,11 @@
 typedef double datatype;
 datatype variabile[60];
 
+void initializare()
+{
+    for(int i = 0; i <= 50; ++i)
+        variabile[i] = INT_MAX;
+}
 
 datatype logpow(datatype a, datatype b)
 {

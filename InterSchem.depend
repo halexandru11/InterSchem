@@ -445,7 +445,7 @@
 	<string>
 	"Constants.hpp"
 
-1639067088 source:c:\users\petrisor\documents\github\interschem\main.cpp
+1639067404 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
@@ -883,7 +883,7 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1639065073 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+1639067625 c:\users\petrisor\documents\github\interschem\evaluare.hpp
 	<math.h>
 	<cstring>
 	"Constants.hpp"

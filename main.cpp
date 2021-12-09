@@ -283,10 +283,12 @@ int main()
 
     /** TEST EXPRESIE
     */
+    initializare();
     char expresiDeTest[500];
+    strcpy(expresiDeTest, "(cos(pi)");
     strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) >= 700");
+    cout << setprecision(5) << fixed;
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
-    printf ("%f\n", Evalueaza_Expresie(expresiDeTest));
 
 
 
