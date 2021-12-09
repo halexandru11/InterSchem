@@ -445,7 +445,7 @@
 	<string>
 	"Constants.hpp"
 
-1639067404 source:c:\users\petrisor\documents\github\interschem\main.cpp
+1639084956 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<iostream>
 	<vector>
@@ -458,6 +458,7 @@
 	"Line.hpp"
 	"Node.hpp"
 	"Evaluare.hpp"
+	"ui.hpp"
 
 1639066940 c:\users\petrisor\documents\github\interschem\constants.hpp
 
@@ -883,8 +884,20 @@
 	<SFML/Graphics.hpp>
 	<vector>
 
-1639067625 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+1639083860 c:\users\petrisor\documents\github\interschem\evaluare.hpp
 	<math.h>
+	<iostream>
 	<cstring>
 	"Constants.hpp"
+
+1639084988 c:\users\petrisor\documents\github\interschem\buttons.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639085011 c:\users\petrisor\documents\github\interschem\ui.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+	"Buttons.hpp"
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <math.h>
+#include <iostream>
 #include <cstring>
 #define eps 0.000001
 #define PI 3.14159265
@@ -75,9 +76,12 @@ datatype expo(char *&p);
 datatype functii(char *&p);
 datatype equalities(char *&p);
 datatype andor(char *&p);
+datatype andor2(char *&p);
 
 datatype expresie(char *&p)
 {
+
+    //std:: cout << "Expresie" << ' ' << *p << '\n';
     datatype r=termen(p);
     while(*p=='+' || *p=='-')
         if(*p=='+')
@@ -104,12 +108,91 @@ datatype Evalueaza_Expresie(char s[])
             q[nq - 1] = s[i] - 'A' + 'a';
     }
     char *w = q;
-    return expresie(w);
+    return andor(w);
+}
+
+
+datatype equalities(char *&p)
+{
+    datatype r;
+    r = expresie(p);
+    //std:: cout << *p << '\n';
+    //std:: cout << "EQUALITIES" << ' ' << *p << '\n';
+    if(*p == '=' && *(p + 1) == '=')
+    {
+        p += 2;
+        datatype r2 = expresie(p);
+        //std::cout << r << ' ' << r2 << ' ' << ( (abs(r - r2) - eps) < 0)<<  '\n';
+        return ( (abs(r - r2) - eps) < 0);
+    }
+    if(*p == '!' && *(p + 1) == '=')
+    {
+        p += 2;
+        datatype r2 =  expresie(p);
+        return (r - r2 != 0);
+    }
+    if(*p == '<' && *(p + 1) == '=')
+    {
+        p += 2;
+        datatype r2 =  expresie(p);
+        return (r - r2 <= 0);
+    }
+    if(*p == '>' && *(p + 1) == '=')
+    {
+        p += 2;
+        datatype r2 =  expresie(p);
+        return (r - r2 >= 0);
+    }
+    if(*p == '<' )
+    {
+        p ++;
+        datatype r2 =  expresie(p);
+        return (r - r2 < 0);
+    }
+    if(*p == '>' )
+    {
+        p ++;
+        datatype r2 =  expresie(p);
+        return (r - r2 > 0);
+    }
+    return r;
+}
+
+datatype andor(char *&p)
+{
+    ///std:: cout << "andor" << ' ' << *p << '\n';
+    datatype r;
+    r = andor2(p);
+    while (*p == '|' && *(p + 1) == '|')
+    {
+        p += 2;
+        datatype r2 = andor2(p);
+        return (r != 0 || r2 != 0);
+    }
+    return r;
+}
+
+
+
+datatype andor2(char *&p)
+{
+    ///std:: cout << "andor2" << ' ' << *p << '\n';
+    datatype r;
+    r = equalities(p);
+
+    while(*p == '&' && *(p + 1) == '&')
+    {
+        p += 2;
+        datatype r2 = equalities(p);
+        return (r != 0 && r2 != 0);
+    }
+    return r;
 }
 
 
 datatype termen(char *&p)
 {
+    ///std:: cout << "termen" << ' ' << *p << '\n';
     datatype r=factor(p);
     while(*p=='*' || *p=='/')
         if(*p=='*')
@@ -131,6 +214,7 @@ datatype termen(char *&p)
 }
 datatype factor(char *&p)
 {
+    ///std:: cout << "factor" << ' ' << *p << '\n';
     datatype r = functii(p);
     while(*p == '^')
     {
@@ -167,6 +251,7 @@ bool isRad(char *p)
 
 datatype functii(char *&p)
 {
+    ///std:: cout << "functii" << ' ' << *p << '\n';
     datatype r;
     char op = 'z';
     if(isLog(p) || isCos(p) || isSin(p) || isRad(p))
@@ -174,7 +259,7 @@ datatype functii(char *&p)
         op = *p;
         p += 3;
     }
-    r = equalities(p);
+    r = expo(p);
     if(op == 'l')
     {
         if(r <= 0)
@@ -201,73 +286,15 @@ datatype functii(char *&p)
     {
         r = cos(r);
     }
+    //std:: cout << "LA FINALUL COS " << *p << '\n';
     return r;
 }
 
-datatype equalities(char *&p)
-{
-    datatype r;
-    r = andor(p);
-    //cout << *p << '\n';
-    if(*p == '=' && *(p + 1) == '=')
-    {
-        p += 2;
-        datatype r2 = andor(p);
-        return (r == r2);
-    }
-    if(*p == '!' && *(p + 1) == '=')
-    {
-        p += 2;
-        datatype r2 =  andor(p);
-        return (r != r2);
-    }
-    if(*p == '<' && *(p + 1) == '=')
-    {
-        p += 2;
-        datatype r2 =  andor(p);
-        return (r <= r2);
-    }
-    if(*p == '>' && *(p + 1) == '=')
-    {
-        p += 2;
-        datatype r2 =  andor(p);
-        return (r >= r2);
-    }
-    if(*p == '<' )
-    {
-        p ++;
-        datatype r2 =  andor(p);
-        return (r < r2);
-    }
-    if(*p == '>' )
-    {
-        p ++;
-        datatype r2 =  andor(p);
-        return (r > r2);
-    }
-    return r;
-}
 
-datatype andor(char *&p)
-{
-    datatype r;
-    r = expo(p);
-    if(*p == '&' && *(p + 1) == '&')
-    {
-        p += 2;
-        datatype r2 = expo(p);
-        return (r > 0 && r2 > 0);
-    }
-    if(*p == '|' && *(p + 1) == '|')
-    {
-        p += 2;
-        datatype r2 = expo(p);
-        return (r > 0 || r2 > 0);
-    }
-    return r;
-}
 datatype expo(char *&p)
 {
+
+    ///std:: cout << "expo" << ' ' << *p << '\n';
     datatype r;
     if(*p=='(')
     {

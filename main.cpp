@@ -79,6 +79,7 @@ int main() {
 #include "Line.hpp"
 #include "Node.hpp"
 #include "Evaluare.hpp"
+#include "ui.hpp"
 
 using namespace sf;
 using namespace std;
@@ -184,87 +185,12 @@ void adauga_nod(vector <Node*> &D, int type)
 int main()
 {
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
-
-    RectangleShape workbench(Vector2f(900.0f,720.0f));
-    workbench.setFillColor(Color(59,71,57,255));
-    workbench.setOrigin(0.0f, 0.0f);
-    workbench.setPosition(125.0f, 0.0f);
-
-
-    RectangleShape buttonStart(Vector2f(125.0f,50.0f));
-    buttonStart.setFillColor(Color::Blue);
-    buttonStart.setOrigin(62.5f, 25.0f);
-    buttonStart.setPosition(62.5f, 75.0f);
-
-
-    RectangleShape buttonAssign(Vector2f(125.0f,50.0f));
-    buttonAssign.setFillColor(Color::Blue);
-    buttonAssign.setOrigin(62.5f, 25.0f);
-    buttonAssign.setPosition(62.5f, 150.0f);
-
-
-    RectangleShape buttonCond(Vector2f(125.0f,50.0f));
-    buttonCond.setFillColor(Color::Blue);
-    buttonCond.setOrigin(62.5f, 25.0f);
-    buttonCond.setPosition(62.5f, 225.0f);
-
-    RectangleShape buttonRead(Vector2f(125.0f,50.0f));
-    buttonRead.setFillColor(Color::Blue);
-    buttonRead.setOrigin(62.5f, 25.0f);
-    buttonRead.setPosition(62.5f, 300.0f);
-
-    RectangleShape buttonOut(Vector2f(125.0f,50.0f));
-    buttonOut.setFillColor(Color::Blue);
-    buttonOut.setOrigin(62.5f, 25.0f);
-    buttonOut.setPosition(62.5f, 374.0f);
-
-    RectangleShape buttonEnd(Vector2f(125.0f,50.0f));
-    buttonEnd.setFillColor(Color::Blue);
-    buttonEnd.setOrigin(62.5f, 25.0f);
-    buttonEnd.setPosition(62.5f, 450.0f);
-
-
-
+    initializareButoane(font);
     vector<Node*> nodes;
     nodes.clear();
-    /*
-    */
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
-    vector <Text> ButtonText;
-    Text text;
-    text.setFont(font);
-    text.setCharacterSize(17);
-    text.setFillColor(Color::White);
-
-    text.setPosition(10.0f, 63.0f);
-    text.setString("Nod Start");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 138.0f);
-    text.setString("Nod Assign");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 213.0f);
-    text.setString("Nod Cond");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 288.0f);
-    text.setString("Nod Read");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 363.0f);
-    text.setString("Nod Output");
-    ButtonText.push_back(text);
 
 
-    text.setPosition(10.0f, 438.0f);
-    text.setString("Nod Stop");
-    ButtonText.push_back(text);
-
-
-    CircleShape circle = CircleShape(3, 14);
-    circle.setFillColor(Color::Cyan);
-    circle.setOrigin(circle.getRadius(), circle.getRadius());
 
 //    sf::Vector2f coordA = sf::Vector2f{300, 300};
 //    sf::Vector2f coordB = sf::Vector2f{500, 500};
@@ -273,7 +199,7 @@ int main()
     nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
-    Line line = Line(nodes[0]->coordOut, nodes[1]->coordIn);
+
 
     bool hold = false;
     Vector2i oldPos;
@@ -285,8 +211,7 @@ int main()
     */
     initializare();
     char expresiDeTest[500];
-    strcpy(expresiDeTest, "(cos(pi)");
-    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) >= 700");
+    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) < 700 && cos(pi) < 0");
     cout << setprecision(5) << fixed;
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
 
@@ -316,7 +241,6 @@ int main()
                             target = i;
                             break;
                         }
-
                     if(isInsideButton(pos, buttonStart))
                         adauga_nod(nodes,1);
                     if(isInsideButton(pos, buttonAssign))
@@ -337,15 +261,6 @@ int main()
                     pos.x = static_cast<float>(oldPos.x);
                     pos.y = static_cast<float>(oldPos.y);
                     bool deletee = 0;
-                    /*
-                    for(int i = 0; i < D.size(); ++i)
-                        if(isInside(pos, D[i]))
-                        {
-                            swap(D[i], D[D.size()-1]);
-                            deletee = 1;
-                            break;
-                        }
-                    */
                     for(size_t i = 0; i < nodes.size(); ++i)
                     {
                         if(isInside(pos,nodes[i]))
@@ -366,18 +281,6 @@ int main()
                     }
                 }
             }
-            /*
-            else if(hold && evnt.type == Event::MouseMoved)
-            {
-                cout << "M AM MUTAT\n";
-                if(D[target].getFillColor() == Color::Red)
-                    cout << "RED" << '\n';
-                else if(D[target].getFillColor() == Color::Green)
-                    cout << "GREEN" << '\n';
-                Vector2i pozitieMouse = Mouse::getPosition(window);
-                D[target].setPosition(static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y));
-            }
-            */
             else if(evnt.type == Event::MouseButtonReleased)
             {
                 target = -1;
@@ -390,32 +293,7 @@ int main()
             nodes[target]->setNodeCoordonates(sf :: Vector2f{static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y)});
         }
         window.clear();
-        window.draw(workbench);
-        for(size_t index = 0; index < nodes.size(); ++index) {
-            window.draw(nodes[index]->getShape());
-            window.draw(nodes[index]->text);
-
-            circle.setPosition(nodes[index]->coordIn);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordInRec);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOut);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOutTrue);
-            window.draw(circle);
-            circle.setPosition(nodes[index]->coordOutFalse);
-            window.draw(circle);
-//            window.draw(nodes[index]->hitbox); /// DEBUG
-        }
-        window.draw(&line.getLine()[0], line.getLine().size(), sf::Lines);
-        window.draw(buttonStart);
-        window.draw(buttonAssign);
-        window.draw(buttonCond);
-        window.draw(buttonOut);
-        window.draw(buttonEnd);
-        window.draw(buttonRead);
-        for(size_t i = 0; i < ButtonText.size(); ++i)
-            window.draw(ButtonText[i]);
+        DeseneazaPeEcran(window,nodes);
         window.display();
     }
 
