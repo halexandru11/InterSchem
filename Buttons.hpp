@@ -87,7 +87,7 @@ void initializareButoane(Font &font)
     text.setString("Nod Stop");
     ButtonText.push_back(text);
 
-    cout << ButtonText.size()<< '\n';
+    ///cout << ButtonText.size()<< '\n';
 }
 
 void afisareButoane(RenderWindow &window)
@@ -101,4 +101,27 @@ void afisareButoane(RenderWindow &window)
         window.draw(buttonRead);
         for(int i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
+}
+
+bool isInsideButton(Vector2f MousePos, RectangleShape q)
+{
+    Vector2f qOrigin = q.getPosition();
+    Vector2f qSize = q.getSize();
+    Vector2f susStanga = qOrigin;
+    Vector2f josDreapta = qOrigin;
+    susStanga.x -= qSize.x / 2;
+    susStanga.y -= qSize.y / 2;
+    josDreapta.x += qSize.x / 2;
+    josDreapta.y += qSize.y / 2;
+    cout << MousePos.x << ' ' << MousePos.y << '\n';
+    cout << susStanga.x << ' ' << susStanga.y << '\n';
+    cout << josDreapta.x << ' ' << josDreapta.y << '\n';
+    cout << "\n\n";
+    if(josDreapta.x >= MousePos.x && MousePos.x >= susStanga.x &&
+        josDreapta.y >= MousePos.y && MousePos.y >= susStanga.y)
+        {
+            cout << "GOOD\n";
+            return 1;
+        }
+    return 0;
 }

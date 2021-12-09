@@ -1,187 +1,16 @@
-#if 0
-
-#include <SFML/Graphics.hpp>
-
-#include <iostream>
-#include <vector>
-
-#include "Constants.hpp"
-#include "Node.hpp"
-
-int main() {
-    sf::RenderWindow window(sf::VideoMode(Constants::Width, Constants::Height), "InterSchem", sf::Style::Close);
-    window.setVerticalSyncEnabled(true);
-
-    sf::Font font;
-    if (!font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf")) {
-        std::cout << "Could not load the font\n";
-        exit(1);
-    }
-
-    std::vector<Node*> nodes;
-    nodes.clear();
-    nodes.push_back(new Node(Constants::StartNode, font));
-    nodes.push_back(new Node(Constants::AssignNode, font));
-    nodes.push_back(new Node(Constants::ConditionalNode, font));
-    nodes.push_back(new Node(Constants::OutputNode, font));
-    nodes.push_back(new Node(Constants::StopNode, font));
-
-    nodes[0]->setNodeCoordonates(sf::Vector2f{80,  50});
-    nodes[1]->setNodeCoordonates(sf::Vector2f{80, 100});
-    nodes[2]->setNodeCoordonates(sf::Vector2f{80, 150});
-    nodes[3]->setNodeCoordonates(sf::Vector2f{80, 200});
-    nodes[4]->setNodeCoordonates(sf::Vector2f{80, 250});
-
-    nodes[0]->setTextString("Start");
-    nodes[1]->setTextString("Assign");
-    nodes[2]->setTextString("If");
-    nodes[3]->setTextString("Output");
-    nodes[4]->setTextString("Stop");
-
-    while (window.isOpen()) {
-
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            switch (event.type) {
-                case sf::Event::Closed:  // window closed
-                    window.close();
-                    break;
-                case sf::Event::TextEntered: // key pressed
-                    std::cout << char(event.text.unicode);
-                    break;
-
-                // we don't process other types of events
-                default:
-                    break;
-            }
-        }
-
-        window.clear(sf::Color(255, 128, 0, 100));
-
-        for(std::size_t index = 0; index < nodes.size(); ++index) {
-            window.draw(nodes[index]->getShape());
-            window.draw(nodes[index]->text);
-//            window.draw(nodes[index]->hitbox);  // Pentru debug
-        }
-        window.display();
-    }
-
-    return 0;
-}
-
-#else
-
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
-#include <stdio.h>
 
 #include "Constants.hpp"
 #include "Line.hpp"
 #include "Node.hpp"
 #include "Evaluare.hpp"
 #include "ui.hpp"
+#include "functiiAuxiliare.hpp"
 
 using namespace sf;
 using namespace std;
-sf::Font font;
-bool isStartNode, isStopNode;
-bool isInsideButton(Vector2f MousePos, RectangleShape q)
-{
-    Vector2f qOrigin = q.getPosition();
-    Vector2f qSize = q.getSize();
-    Vector2f susStanga = qOrigin;
-    Vector2f josDreapta = qOrigin;
-    susStanga.x -= qSize.x / 2;
-    susStanga.y -= qSize.y / 2;
-    josDreapta.x += qSize.x / 2;
-    josDreapta.y += qSize.y / 2;
-    cout << MousePos.x << ' ' << MousePos.y << '\n';
-    cout << susStanga.x << ' ' << susStanga.y << '\n';
-    cout << josDreapta.x << ' ' << josDreapta.y << '\n';
-    cout << "\n\n";
-    if(josDreapta.x >= MousePos.x && MousePos.x >= susStanga.x &&
-        josDreapta.y >= MousePos.y && MousePos.y >= susStanga.y)
-        {
-            cout << "GOOD\n";
-            return 1;
-        }
-    return 0;
-}
-/*
-*/
-bool isInside(Vector2f MousePos, Node *q)
-{
-    Vector2f qOrigin = q->getNodeCoordonates();
-    Vector2f qSize = q->hitbox.getSize();
-    Vector2f susStanga = qOrigin;
-    Vector2f josDreapta = qOrigin;
-    susStanga.x -= qSize.x / 2;
-    susStanga.y -= qSize.y / 2;
-    josDreapta.x += qSize.x / 2;
-    josDreapta.y += qSize.y / 2;
-    cout << MousePos.x << ' ' << MousePos.y << '\n';
-    cout << susStanga.x << ' ' << susStanga.y << '\n';
-    cout << josDreapta.x << ' ' << josDreapta.y << '\n';
-    cout << "\n\n";
-    if(josDreapta.x >= MousePos.x && MousePos.x >= susStanga.x &&
-        josDreapta.y >= MousePos.y && MousePos.y >= susStanga.y)
-        {
-            cout << "GOOD\n";
-            return 1;
-        }
-    return 0;
-}
-void adauga_nod_old(vector <RectangleShape> &D)
-{
-    RectangleShape patrat2(Vector2f(100.0f,100.0f));
-    patrat2.setFillColor(Color::Green);
-    patrat2.setOrigin(50.0f, 50.0f);
-    patrat2.setPosition(200.0f, 200.f);
-    D.push_back(patrat2);
-}
-void adauga_nod(vector <Node*> &D, int type)
-{
-    if(type == 1)
-    {
-        if(isStartNode)
-            return;
-        D.push_back(new Node(Constants::StartNode, font));
-        D[D.size() - 1]->setTextString("Start");
-        isStartNode = 1;
-    }
-    if(type == 2)
-    {
-        D.push_back(new Node(Constants::AssignNode, font));
-        D[D.size() - 1]->setTextString("Assign");
-    }
-    if(type == 3)
-    {
-        D.push_back(new Node(Constants::ConditionalNode, font));
-        D[D.size() - 1]->setTextString("Conditional");
-    }
-    if(type == 4)
-    {
-        D.push_back(new Node(Constants::OutputNode, font));
-        D[D.size() - 1]->setTextString("Output");
-    }
-    if(type == 5)
-    {
-        if(isStopNode)
-            return;
-        D.push_back(new Node(Constants::StopNode, font));
-        D[D.size() - 1]->setTextString("Stop");
-        isStopNode = 1;
-    }
 
-    if(type == 6)
-    {
-        D.push_back(new Node(Constants::ReadNode, font));
-        D[D.size() - 1]->setTextString("Read");
-    }
-
-    D[D.size() - 1]->setNodeCoordonates(sf::Vector2f{1000, 200});
-
-}
 int main()
 {
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
@@ -199,14 +28,6 @@ int main()
     nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
-
-
-    bool hold = false;
-    Vector2i oldPos;
-    int target = -1;
-    int emptyRectangle = -1;
-
-
     /** TEST EXPRESIE
     */
     initializare();
@@ -215,7 +36,10 @@ int main()
     cout << setprecision(5) << fixed;
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
 
-
+    bool hold = false;
+    Vector2i oldPos;
+    int target = -1;
+    int emptyRectangle = -1;
 
     while (window.isOpen())
     {
@@ -300,5 +124,3 @@ int main()
 
     return 0;
 }
-
-#endif
