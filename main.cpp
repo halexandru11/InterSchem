@@ -73,6 +73,7 @@ int main() {
 
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
+#include <stdio.h>
 
 #include "Constants.hpp"
 #include "Line.hpp"
@@ -159,7 +160,7 @@ void adauga_nod(vector <Node*> &D, int type)
     }
     if(type == 4)
     {
-        D.push_back(new Node(Constants::ConditionalNode, font));
+        D.push_back(new Node(Constants::OutputNode, font));
         D[D.size() - 1]->setTextString("Output");
     }
     if(type == 5)
@@ -170,6 +171,13 @@ void adauga_nod(vector <Node*> &D, int type)
         D[D.size() - 1]->setTextString("Stop");
         isStopNode = 1;
     }
+
+    if(type == 6)
+    {
+        D.push_back(new Node(Constants::ReadNode, font));
+        D[D.size() - 1]->setTextString("Read");
+    }
+
     D[D.size() - 1]->setNodeCoordonates(sf::Vector2f{1000, 200});
 
 }
@@ -200,15 +208,22 @@ int main()
     buttonCond.setOrigin(62.5f, 25.0f);
     buttonCond.setPosition(62.5f, 225.0f);
 
+    RectangleShape buttonRead(Vector2f(125.0f,50.0f));
+    buttonRead.setFillColor(Color::Blue);
+    buttonRead.setOrigin(62.5f, 25.0f);
+    buttonRead.setPosition(62.5f, 300.0f);
+
     RectangleShape buttonOut(Vector2f(125.0f,50.0f));
     buttonOut.setFillColor(Color::Blue);
     buttonOut.setOrigin(62.5f, 25.0f);
-    buttonOut.setPosition(62.5f, 300.0f);
+    buttonOut.setPosition(62.5f, 374.0f);
 
     RectangleShape buttonEnd(Vector2f(125.0f,50.0f));
     buttonEnd.setFillColor(Color::Blue);
     buttonEnd.setOrigin(62.5f, 25.0f);
-    buttonEnd.setPosition(62.5f, 375.0f);
+    buttonEnd.setPosition(62.5f, 450.0f);
+
+
 
     vector<Node*> nodes;
     nodes.clear();
@@ -233,15 +248,19 @@ int main()
     text.setString("Nod Cond");
     ButtonText.push_back(text);
 
-
     text.setPosition(10.0f, 288.0f);
+    text.setString("Nod Read");
+    ButtonText.push_back(text);
+
+    text.setPosition(10.0f, 363.0f);
     text.setString("Nod Output");
     ButtonText.push_back(text);
 
 
-    text.setPosition(10.0f, 363.0f);
+    text.setPosition(10.0f, 438.0f);
     text.setString("Nod Stop");
     ButtonText.push_back(text);
+
 
     CircleShape circle = CircleShape(3, 14);
     circle.setFillColor(Color::Cyan);
@@ -267,6 +286,7 @@ int main()
     char expresiDeTest[500];
     strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) >= 700");
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
+    printf ("%f\n", Evalueaza_Expresie(expresiDeTest));
 
 
 
@@ -305,6 +325,8 @@ int main()
                         adauga_nod(nodes,4);
                     if(isInsideButton(pos, buttonEnd))
                         adauga_nod(nodes,5);
+                    if(isInsideButton(pos, buttonRead))
+                        adauga_nod(nodes,6);
                 }
                 else if(evnt.mouseButton.button == Mouse::Middle)
                 {
@@ -389,6 +411,7 @@ int main()
         window.draw(buttonCond);
         window.draw(buttonOut);
         window.draw(buttonEnd);
+        window.draw(buttonRead);
         for(size_t i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
         window.display();

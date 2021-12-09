@@ -10,6 +10,7 @@ public:
         AssignNode,
         ConditionalNode,
         OutputNode,
-        StopNode
+        StopNode,
+        ReadNode
     };
 };

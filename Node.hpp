@@ -91,6 +91,8 @@ private:
             return stopNodeShape();
         case Constants::OutputNode:
             return outputNodeShape();
+        case Constants::ReadNode:
+            return readNodeShape();
         default:
             return sf::ConvexShape(0);
         }
@@ -145,6 +147,18 @@ private:
     }
 
     sf::ConvexShape outputNodeShape() {
+        sf::ConvexShape convexShape;
+        convexShape.setPointCount(4);
+
+        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2, -height/2});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2, -height/2});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{-width/2,  height/2});
+
+        return convexShape;
+    }
+
+    sf::ConvexShape readNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
 
