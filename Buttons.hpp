@@ -3,9 +3,11 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include "Constants.hpp"
+#include "Node.hpp"
 using namespace sf;
 using namespace std;
 
+Node * StartSchema;
 vector <Text> ButtonText;
 RectangleShape workbench(Vector2f(900.0f,720.0f));
 RectangleShape buttonStart(Vector2f(125.0f,50.0f));
@@ -21,6 +23,8 @@ RectangleShape buttonRead(Vector2f(125.0f,50.0f));
 RectangleShape buttonOut(Vector2f(125.0f,50.0f));
 
 RectangleShape buttonEnd(Vector2f(125.0f,50.0f));
+
+RectangleShape buttonRun(Vector2f(125.0f,50.0f));
 
 void initializareButoane(Font &font)
 {
@@ -57,6 +61,11 @@ void initializareButoane(Font &font)
     buttonEnd.setOrigin(62.5f, 25.0f);
     buttonEnd.setPosition(62.5f, 450.0f);
 
+
+    buttonRun.setFillColor(Color::Red);
+    buttonRun.setOrigin(62.5f, 25.0f);
+    buttonRun.setPosition(62.5f, 650.0f);
+
     Text text;
     text.setFont(font);
     text.setCharacterSize(17);
@@ -87,6 +96,10 @@ void initializareButoane(Font &font)
     text.setString("Nod Stop");
     ButtonText.push_back(text);
 
+
+    text.setPosition(10.0f, 638.0f);
+    text.setString("RUN");
+    ButtonText.push_back(text);
     ///cout << ButtonText.size()<< '\n';
 }
 
@@ -99,6 +112,7 @@ void afisareButoane(RenderWindow &window)
         window.draw(buttonOut);
         window.draw(buttonEnd);
         window.draw(buttonRead);
+        window.draw(buttonRun);
         for(int i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
 }
@@ -113,10 +127,10 @@ bool isInsideButton(Vector2f MousePos, RectangleShape q)
     susStanga.y -= qSize.y / 2;
     josDreapta.x += qSize.x / 2;
     josDreapta.y += qSize.y / 2;
-    ///cout << MousePos.x << ' ' << MousePos.y << '\n';
-    ///cout << susStanga.x << ' ' << susStanga.y << '\n';
-    ///cout << josDreapta.x << ' ' << josDreapta.y << '\n';
-    ///cout << "\n\n";
+    //cout << MousePos.x << ' ' << MousePos.y << '\n';
+    //cout << susStanga.x << ' ' << susStanga.y << '\n';
+    //cout << josDreapta.x << ' ' << josDreapta.y << '\n';
+    //cout << "\n\n";
     if(josDreapta.x >= MousePos.x && MousePos.x >= susStanga.x &&
         josDreapta.y >= MousePos.y && MousePos.y >= susStanga.y)
         {

@@ -4,7 +4,7 @@
 #include "Constants.hpp"
 #include "Line.hpp"
 #include "Node.hpp"
-#include "Evaluare.hpp"
+#include "EvaluareSchema.hpp"
 #include "ui.hpp"
 #include "functiiAuxiliare.hpp"
 #include "inputText.hpp"
@@ -25,8 +25,9 @@ int main()
 //    sf::Vector2f coordA = sf::Vector2f{300, 300};
 //    sf::Vector2f coordB = sf::Vector2f{500, 500};
     adauga_nod(nodes, Constants::StartNode);
-    adauga_nod(nodes, Constants::ConditionalNode);
+    adauga_nod(nodes, Constants::OutputNode);
     nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
+    nodes[0]->urm = nodes[1];
     nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
 //    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
@@ -90,6 +91,9 @@ int main()
                         adauga_nod(nodes,5);
                     if(isInsideButton(pos, buttonRead))
                         adauga_nod(nodes,6);
+
+                    if(isInsideButton(pos, buttonRun))
+                        RunSchema(StartSchema);
                 }
                 else if(evnt.mouseButton.button == Mouse::Right)
                 {
@@ -126,7 +130,10 @@ int main()
                     if(deletee)
                     {
                         if(strcmp(nodes[ nodes.size() - 1 ]->content, "Start") == 0)
+                        {
+                           StartSchema = nullptr;
                            isStartNode = false;
+                        }
                         if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0)
                            isStopNode = false;
                         delete nodes.back();
