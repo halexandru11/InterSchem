@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstring>
 
 #include "Constants.hpp"
 
@@ -46,11 +47,13 @@ public:
 
     void setTextString(std::string textString) {
         text.setString(textString);
-
-
+        for(int i = 0; i < textString.size(); ++i)
+            content[i] = textString[i];
+        content[textString.size()] = NULL;
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
         height = text.getGlobalBounds().height + 2*m_padding;
+        m_shape = setShape();
     }
 
     sf::ConvexShape getShape() {
@@ -73,6 +76,7 @@ public:
     Node* urm;
     Node* urmTrue;
     Node* urmFalse;
+    char content[500];
 
 private:
     sf::ConvexShape setShape() {
@@ -97,6 +101,8 @@ private:
             return stopNodeShape();
         case Constants::OutputNode:
             return outputNodeShape();
+        case Constants::ReadNode:
+            return readNodeShape();
         default:
             return sf::ConvexShape(0);
         }
@@ -151,6 +157,18 @@ private:
     }
 
     sf::ConvexShape outputNodeShape() {
+        sf::ConvexShape convexShape;
+        convexShape.setPointCount(4);
+
+        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2, -height/2});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2, -height/2});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{-width/2,  height/2});
+
+        return convexShape;
+    }
+
+    sf::ConvexShape readNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
 
