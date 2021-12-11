@@ -51,6 +51,7 @@ void adauga_nod(vector <Node*> &D, int type)
         D.push_back(new Node(Constants::StartNode, font));
         D[D.size() - 1]->setTextString("Start");
         isStartNode = 1;
+        StartSchema = D[D.size() - 1];
     }
     if(type == 2)
     {

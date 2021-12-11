@@ -445,20 +445,20 @@
 	<cstring>
 	"Constants.hpp"
 
-1639088278 source:c:\users\petrisor\documents\github\interschem\main.cpp
+1639253566 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 	"Line.hpp"
 	"Node.hpp"
-	"Evaluare.hpp"
+	"EvaluareSchema.hpp"
 	"ui.hpp"
 	"functiiAuxiliare.hpp"
 	"inputText.hpp"
 
-1639066940 c:\users\petrisor\documents\github\interschem\constants.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\constants.hpp
 
-1639088523 c:\users\petrisor\documents\github\interschem\node.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\node.hpp
 	<string>
 	<cstring>
 	"Constants.hpp"
@@ -900,33 +900,35 @@
 	<vector>
 	"Node.hpp"
 
-1639063148 c:\users\petrisor\documents\github\interschem\line.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\line.hpp
 	<SFML/Graphics.hpp>
 	<vector>
+	"Node.hpp"
 
-1639086786 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+1639252844 c:\users\petrisor\documents\github\interschem\evaluare.hpp
 	<math.h>
 	<iostream>
 	<cstring>
 	"Constants.hpp"
 
-1639088192 c:\users\petrisor\documents\github\interschem\buttons.hpp
+1639253334 c:\users\petrisor\documents\github\interschem\buttons.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
+	"Node.hpp"
 
-1639085011 c:\users\petrisor\documents\github\interschem\ui.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\ui.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
-	"Constants.hpp"
 	"Buttons.hpp"
+	"Constants.hpp"
 
-1639088163 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
+1639253316 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 
-1639088464 c:\users\petrisor\documents\github\interschem\inputtext.hpp
+1639248468 c:\users\petrisor\documents\github\interschem\inputtext.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Node.hpp"
@@ -956,5 +958,12 @@
 1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\inputtext.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
+	"Node.hpp"
+
+1639253616 c:\users\petrisor\documents\github\interschem\evaluareschema.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+	"Evaluare.hpp"
 	"Node.hpp"
 

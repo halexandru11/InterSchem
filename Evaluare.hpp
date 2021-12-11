@@ -5,12 +5,12 @@
 #include <cstring>
 #define eps 0.000001
 #define PI 3.14159265
-
-
 #include "Constants.hpp"
 using namespace std;
 typedef double datatype;
 datatype variabile[60];
+map <string, int>  variabileCod;
+int nrVariabile = 0;
 
 
 datatype logpow(datatype a, datatype b)
@@ -47,13 +47,19 @@ datatype numar(char *&p)
 
     if('a' <= *p && *p <= 'z')
     {
-        if(variabile[*p - 'a'] == INT_MAX)
+
+        string numeVariabila;
+        while('a' <= *p && *p <= 'z')
         {
-            perror("VARIABILA NEDECLARATA");
+            numeVariabila.push_back(*p);
+            p++;
+        }
+        if(variabileCod.find(numeVariabila) == variabileCod.end())
+        {
+            cerr << "VARIABILA NEDECLARATA";
             exit(1);
         }
-        datatype r = variabile[*p - 'a'];
-        p++;
+        datatype r = variabile[variabileCod[numeVariabila]];
         return r;
     }
 
@@ -72,7 +78,6 @@ datatype functii(char *&p);
 datatype equalities(char *&p);
 datatype andor(char *&p);
 datatype andor2(char *&p);
-
 datatype expresie(char *&p)
 {
 
@@ -259,7 +264,7 @@ datatype functii(char *&p)
     {
         if(r <= 0)
         {
-            perror("LOG INVALID");
+            cerr << "LOG INVALID";
             exit(1);
         }
         r = log(r);
@@ -268,7 +273,7 @@ datatype functii(char *&p)
     {
         if(r <= 0)
         {
-            perror("RAD INVALID");
+            cerr << "RAD INVALID";
             exit(1);
         }
         r = sqrt(r);
@@ -321,7 +326,7 @@ datatype to_nr(char q[])
         {
             if(point != 0 )
             {
-                perror("VALOARE INTRODUSA GRESIT - .");
+                cerr << "VALOARE INTRODUSA GRESIT - .";
                 exit(1);
             }
             point = i;
@@ -329,7 +334,7 @@ datatype to_nr(char q[])
         else if(!isdigit(q[i]))
         {
             //cout << q[i] << '\n';
-            perror("VALOARE INTRODUSA GRESIT");
+            cerr << "VALOARE INTRODUSA GRESIT - .";
             exit(1);
         }
         else if(point)
@@ -345,13 +350,31 @@ datatype to_nr(char q[])
     return r;
 }
 
+
+void adaugaVariabila(string s, datatype val)
+{
+    variabileCod[ s ] = nrVariabile++;
+    variabile[ variabileCod[ s ] ] = val;
+}
+
+void atribuieVariabila(string s, datatype val)
+{
+    if(variabileCod.find(s) == variabileCod.end())
+    {
+        throw("VARIABILA NEDECLARATA");
+        exit(1);
+    }
+    variabile[ variabileCod[ s ] ] = val;
+}
 void initializare()
 {
     for(int i = 0; i <= 50; ++i)
         variabile[i] = INT_MAX;
-
     char expresiDeTest[500];
-    strcpy(expresiDeTest, "(    (       30*(-1)+ 9 /r A d( 9 ))) ^(32/(15 +1)) > 700 && cos(pi) < 0");
+    adaugaVariabila("abracadabra",30);
+    strcpy(expresiDeTest, "(    (       abracadabra*(-1)+ 9 /r A d( 9 ))) ^((abracadabra + 2)/(15 +1))");
     cout << setprecision(5) << fixed;
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
+    /*
+    */
 }
