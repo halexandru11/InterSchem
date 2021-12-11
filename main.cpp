@@ -38,6 +38,8 @@ int main()
     Vector2i oldPos;
     int target = -1;
     int emptyRectangle = -1;
+    bool lineStarted = false;
+    vector<Line> lines; lines.clear();
 
     while (window.isOpen())
     {
@@ -56,7 +58,12 @@ int main()
             else if(evnt.type == Event::MouseButtonPressed)
             {
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
-
+//                    for(auto node : nodes) {
+//                        if(isInside(, node)) {
+//                            lines.push_back(Lin
+//                            break;
+//                        }
+//                    }
                 }
                 else if(evnt.mouseButton.button == Mouse::Left)
                 {
