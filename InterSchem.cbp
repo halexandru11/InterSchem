@@ -49,8 +49,13 @@
 		<Linker>
 			<Add directory="E:/My programs/CodeBlocks/SFML/SFML-2.5.1/lib" />
 		</Linker>
+		<Unit filename="Buttons.hpp" />
 		<Unit filename="Constants.hpp" />
+		<Unit filename="Evaluare.hpp" />
+		<Unit filename="Line.hpp" />
 		<Unit filename="Node.hpp" />
+		<Unit filename="functiiAuxiliare.hpp" />
+		<Unit filename="inputText.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="openal32.dll" />
 		<Unit filename="sfml-audio-2.dll" />
@@ -63,6 +68,7 @@
 		<Unit filename="sfml-system-d-2.dll" />
 		<Unit filename="sfml-window-2.dll" />
 		<Unit filename="sfml-window-d-2.dll" />
+		<Unit filename="ui.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
