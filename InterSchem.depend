@@ -1,17 +1,16 @@
 # depslib dependency file v1.0
 205 <<<<<<< HEAD
 
-1638996182 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
-	<SFML/Graphics.hpp>
-	<iostream>
-	<vector>
-	"Constants.hpp"
-	"Node.hpp"
+1639246042 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 	"Line.hpp"
 	"Node.hpp"
+	"Evaluare.hpp"
+	"ui.hpp"
+	"functiiAuxiliare.hpp"
+	"inputText.hpp"
 
 1638992217 ter
 	<SFML/Graphics.hpp>
@@ -437,29 +436,31 @@
 
 1638549573 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.h
 
-1638877062 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.hpp
+1639246098 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.hpp
 
 1638877062 D
 
-1638996182 c:\users\alexh\desktop\c++\graphicssfml\interschem\node.hpp
+1639246113 c:\users\alexh\desktop\c++\graphicssfml\interschem\node.hpp
 	<string>
+	<cstring>
 	"Constants.hpp"
 
-1638986180 source:c:\users\petrisor\documents\github\interschem\main.cpp
-	<SFML/Graphics.hpp>
-	<iostream>
-	<vector>
-	"Constants.hpp"
-	"Node.hpp"
+1639088278 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
+	"Line.hpp"
 	"Node.hpp"
+	"Evaluare.hpp"
+	"ui.hpp"
+	"functiiAuxiliare.hpp"
+	"inputText.hpp"
 
-1638986049 c:\users\petrisor\documents\github\interschem\constants.hpp
+1639066940 c:\users\petrisor\documents\github\interschem\constants.hpp
 
-1638986049 c:\users\petrisor\documents\github\interschem\node.hpp
+1639088523 c:\users\petrisor\documents\github\interschem\node.hpp
 	<string>
+	<cstring>
 	"Constants.hpp"
 
 1525812018 c:\sfml\include\sfml\graphics.hpp
@@ -871,7 +872,89 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1638996182 c:\users\alexh\desktop\c++\graphicssfml\interschem\line.hpp
+1639079641 c:\users\alexh\desktop\c++\graphicssfml\interschem\line.hpp
 	<SFML/Graphics.hpp>
 	<vector>
+	"Node.hpp"
+
+1639079421 source:c:\users\alexh\desktop\c++\graphicssfml\interschem2\main.cpp
+	<SFML/Graphics.hpp>
+	<iostream>
+	<vector>
+	"Constants.hpp"
+	"Node.hpp"
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+	"Line.hpp"
+	"Node.hpp"
+
+1639078363 c:\users\alexh\desktop\c++\graphicssfml\interschem2\constants.hpp
+
+1639078952 c:\users\alexh\desktop\c++\graphicssfml\interschem2\node.hpp
+	<string>
+	"Constants.hpp"
+
+1639079641 c:\users\alexh\desktop\c++\graphicssfml\interschem2\line.hpp
+	<SFML/Graphics.hpp>
+	<vector>
+	"Node.hpp"
+
+1639063148 c:\users\petrisor\documents\github\interschem\line.hpp
+	<SFML/Graphics.hpp>
+	<vector>
+
+1639086786 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+	<math.h>
+	<iostream>
+	<cstring>
+	"Constants.hpp"
+
+1639088192 c:\users\petrisor\documents\github\interschem\buttons.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639085011 c:\users\petrisor\documents\github\interschem\ui.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+	"Buttons.hpp"
+
+1639088163 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639088464 c:\users\petrisor\documents\github\interschem\inputtext.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Node.hpp"
+
+1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\evaluare.hpp
+	<math.h>
+	<iostream>
+	<cstring>
+	"Constants.hpp"
+
+1639246034 c:\users\alexh\desktop\c++\graphicssfml\interschem\ui.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Buttons.hpp"
+	"Constants.hpp"
+
+1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\buttons.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639246120 c:\users\alexh\desktop\c++\graphicssfml\interschem\functiiauxiliare.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Constants.hpp"
+
+1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\inputtext.hpp
+	<SFML/Graphics.hpp>
+	<bits/stdc++.h>
+	"Node.hpp"
 

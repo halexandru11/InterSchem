@@ -10,6 +10,16 @@ public:
         AssignNode,
         ConditionalNode,
         OutputNode,
-        StopNode
+        StopNode,
+        ReadNode
+    };
+
+    enum CoordType {
+        CoordIn = 1,
+        CoordInRec,
+        CoordOut,
+        CoordOutTrue,
+        CoordOutFalse,
+        CoordNode
     };
 };
