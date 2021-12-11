@@ -39,7 +39,7 @@ public:
             return m_coordOutTrue;
         case Constants::CoordOutFalse:
             return m_coordOutFalse;
-        case Constants::NodeCoord:
+        case Constants::CoordNode:
             return m_coord;
         }
         return sf::Vector2f{-1, -1};

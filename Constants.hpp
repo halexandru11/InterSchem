@@ -20,6 +20,6 @@ public:
         CoordOut,
         CoordOutTrue,
         CoordOutFalse,
-        NodeCoord
+        CoordNode
     };
 };

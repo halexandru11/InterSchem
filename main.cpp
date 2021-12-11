@@ -136,7 +136,7 @@ int main()
         if(hold && target != -1)
         {
             Vector2i pozitieMouse = Mouse::getPosition(window);
-            nodes[target]->setNodeCoordonates(sf :: Vector2f{static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y)});
+            nodes[target]->setNodeCoordonates(sf::Vector2f{static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y)});
         }
         window.clear();
         DeseneazaPeEcran(window,nodes);

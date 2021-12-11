@@ -14,7 +14,7 @@ bool isStartNode, isStopNode;
 
 bool isInside(Vector2f MousePos, Node *q)
 {
-    Vector2f qOrigin = q->getNodeCoordonates(Constants::NodeCoord);
+    Vector2f qOrigin = q->getNodeCoordonates(Constants::CoordNode);
     Vector2f qSize = q->hitbox.getSize();
     Vector2f susStanga = qOrigin;
     Vector2f josDreapta = qOrigin;
