@@ -17,25 +17,40 @@ public:
         connected = true;
     }
 
-    Line(Node& parent, sf::Vector2f mousePos, Constants::CoordType parentCoordType) {
+    Line(Node& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {
         m_parent = &parent;
         m_parentCoordType = parentCoordType;
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
+        sf::Vector2f mousePos = sf::Vector2f{sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
         m_coordChild = mousePos;
         connected = false;
     }
 
-    std::vector<sf::Vertex> getLine() {
+    std::vector<sf::Vertex> getLine(sf::RenderWindow& window) {
 //        if(m_coordParent == sf::Vector2f{-1, -1} or m_coordChild == sf::Vector2f{-1, -1}) {
 //            throw std::invalid_argument("You did not set the coordinates for this line");
 //        }
 
-        setLine();
+        setLine(window);
         return m_line;
     }
 
+    void connectToNode(Node& node, Constants::CoordType nodeCoordType) {
+        connected = true;
+        m_child = &node;
+        m_childCoordType = nodeCoordType;
+        m_coordChild = m_child->getNodeCoordonates(m_childCoordType);
+        m_parent->urm = m_child;
+    }
+
+    void print() {
+        std::cout << m_parent->getNodeCoordonates(m_parentCoordType).x << " " << m_parent->getNodeCoordonates(m_parentCoordType).y << "; ";
+        std::cout << m_child->getNodeCoordonates(m_childCoordType).x << " " << m_child->getNodeCoordonates(m_childCoordType).y << "\n";
+    }
+
 private:
-    void setLine(sf::Vector2f mousePos = sf::Vector2f{0, 0}) {
+    void setLine(sf::RenderWindow& window) {
+        sf::Vector2f mousePos = sf::Vector2f{sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
         m_coordChild = (connected ? m_child->getNodeCoordonates(m_childCoordType) : mousePos);
         float midY = (m_coordParent.y + m_coordChild.y) / 2;

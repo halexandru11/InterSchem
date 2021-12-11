@@ -9,9 +9,9 @@ using namespace std;
 
 void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 {
-    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
-//    Line line = Line(*nodes[0], Mouse::getPosition(), Constants::CoordOut);
-    window.draw(&line.getLine()[0], line.getLine().size(), sf::Lines);
+//    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
+//    Line line = Line(*nodes[0], Constants::CoordOut, window);
+//    window.draw(&line.getLine(window)[0], line.getLine(window).size(), sf::Lines);
     for(size_t index = 0; index < nodes.size(); ++index) {
             window.draw(nodes[index]->getShape());
             window.draw(nodes[index]->text);

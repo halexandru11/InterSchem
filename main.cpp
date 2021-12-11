@@ -40,6 +40,7 @@ int main()
     int emptyRectangle = -1;
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
+    int lineNodeFirst = -1;
 
     while (window.isOpen())
     {
@@ -58,12 +59,29 @@ int main()
             else if(evnt.type == Event::MouseButtonPressed)
             {
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
-//                    for(auto node : nodes) {
-//                        if(isInside(, node)) {
-//                            lines.push_back(Lin
-//                            break;
-//                        }
-//                    }
+                    Vector2f mousePos{Mouse::getPosition(window).x, Mouse::getPosition(window).y};
+                    if(lineStarted == false) {
+                        for(size_t i = 0; i < nodes.size(); ++i) {
+                            if(isInside(mousePos, nodes[i])) {
+                                lineNodeFirst = i;
+                                lines.push_back(Line(*nodes[i], Constants::CoordOut, window));
+                                lineNodeFirst = true;
+//                                lines.push_back(Line(*nodes[lineNodeFirst], *nodes[i], Constants::CoordOut, Constants::CoordIn));
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        for(size_t i = 0; i < lines.size(); ++i) {
+                            if(isInside(mousePos, nodes[i])) {
+                                if(i != lineNodeFirst) {
+                                    lines[i].connectToNode(*nodes[i], Constants::CoordIn);
+                                    break;
+                                }
+                            }
+                        }
+                        lineStarted = false;
+                    }
                 }
                 else if(evnt.mouseButton.button == Mouse::Left)
                 {
@@ -147,6 +165,9 @@ int main()
         }
         window.clear();
         DeseneazaPeEcran(window,nodes);
+        for(Line l : lines) {
+            window.draw(&l.getLine(window)[0], l.getLine(window).size(), Lines);
+        }
         window.display();
     }
 
