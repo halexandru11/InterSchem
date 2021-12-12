@@ -76,12 +76,51 @@ private:
         float midY = (m_coordParent.y + m_coordChild.y) / 2;
 
         m_line.clear();
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, m_coordParent.y}));
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, midY}));
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, midY}));
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, midY}));
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, midY}));
-        m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, m_coordChild.y}));
+
+        if(m_coordParent.y < m_coordChild.y) {
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, m_coordParent.y}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, midY}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, midY}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  midY}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  midY}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  m_coordChild.y}));
+        }
+        else {
+            float margin = (m_child ? 10 : 0);
+            float parentWidth = m_parent->width/2 + 10;
+            float childWidth = (m_child ? m_child->width : 0) / 2 + margin;
+            if(m_coordParent.x > m_coordChild.x) {
+                parentWidth *= -1;
+            }
+            else {
+                childWidth *= -1;
+            }
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, m_coordParent.y}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, m_coordParent.y+10}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x, m_coordParent.y+10}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x+parentWidth, m_coordParent.y+10}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x+parentWidth, m_coordParent.y+10}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x+parentWidth, midY}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordParent.x+parentWidth, midY}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x+childWidth, midY}));
+
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x+childWidth, midY}));
+            m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x+childWidth, m_coordChild.y-margin}));
+
+            if(m_child != NULL) {
+                m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x+childWidth, m_coordChild.y-margin}));
+                m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, m_coordChild.y-margin}));
+
+                m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, m_coordChild.y-margin}));
+                m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, m_coordChild.y}));
+            }
+        }
     }
 
 private:

@@ -16,11 +16,9 @@ int main()
 {
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
     initializareButoane(font);
-    vector<Node*> nodes;
-    nodes.clear();
+    vector<Node*> nodes; nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
-//    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
     /** TEST EXPRESIE
     */
     initializare();
@@ -197,10 +195,7 @@ int main()
             nodes[target]->setNodeCoordonates(sf::Vector2f{static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y)});
         }
         window.clear();
-        DeseneazaPeEcran(window,nodes);
-        for(Line l : lines) {
-            window.draw(&l.getLine(window)[0], l.getLine(window).size(), Lines);
-        }
+        DeseneazaPeEcran(window,nodes, lines);
         window.display();
     }
 
