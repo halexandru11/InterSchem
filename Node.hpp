@@ -73,9 +73,9 @@ public:
     float width = 100;
     sf::RectangleShape hitbox;
     sf::Text text;
-    Node* urm;
-    Node* urmTrue;
-    Node* urmFalse;
+    Node* urm = NULL;
+    Node* urmTrue = NULL;
+    Node* urmFalse = NULL;
     char content[500];
 
 private:
