@@ -24,10 +24,10 @@ int main()
 
 //    sf::Vector2f coordA = sf::Vector2f{300, 300};
 //    sf::Vector2f coordB = sf::Vector2f{500, 500};
-    adauga_nod(nodes, Constants::StartNode);
-    adauga_nod(nodes, Constants::ConditionalNode);
-    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
-    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
+//    adauga_nod(nodes, Constants::StartNode);
+//    adauga_nod(nodes, Constants::ConditionalNode);
+//    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
+//    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
 
 //    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
     /** TEST EXPRESIE
@@ -40,7 +40,7 @@ int main()
     int emptyRectangle = -1;
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
-    int lineNodeFirst = -1;
+    int lineParentNode = -1;
 
     while (window.isOpen())
     {
@@ -61,26 +61,30 @@ int main()
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
                     Vector2f mousePos{Mouse::getPosition(window).x, Mouse::getPosition(window).y};
                     if(lineStarted == false) {
-                        for(size_t i = 0; i < nodes.size(); ++i) {
+                        for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
-                                lineNodeFirst = i;
+                                lineParentNode = i;
                                 lines.push_back(Line(*nodes[i], Constants::CoordOut, window));
-                                lineNodeFirst = true;
-//                                lines.push_back(Line(*nodes[lineNodeFirst], *nodes[i], Constants::CoordOut, Constants::CoordIn));
+                                lineStarted = true;
                                 break;
                             }
                         }
                     }
                     else {
-                        for(size_t i = 0; i < lines.size(); ++i) {
+                        for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
-                                if(i != lineNodeFirst) {
-                                    lines[i].connectToNode(*nodes[i], Constants::CoordIn);
+                                if(i != lineParentNode) {
+                                    lines.back().connectToNode(*nodes[i], Constants::CoordIn);
+                                    lineStarted = false;
                                     break;
                                 }
                             }
                         }
+                        if(lineStarted) {
+                            lines.pop_back();
+                        }
                         lineStarted = false;
+                        lineParentNode = -1;
                     }
                 }
                 else if(evnt.mouseButton.button == Mouse::Left)
