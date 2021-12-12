@@ -20,23 +20,6 @@ int main()
     nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
-
-
-//    sf::Vector2f coordA = sf::Vector2f{300, 300};
-//    sf::Vector2f coordB = sf::Vector2f{500, 500};
-<<<<<<< HEAD
-//    adauga_nod(nodes, Constants::StartNode);
-//    adauga_nod(nodes, Constants::ConditionalNode);
-//    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
-//    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
-=======
-    adauga_nod(nodes, Constants::StartNode);
-    adauga_nod(nodes, Constants::OutputNode);
-    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
-    nodes[0]->urm = nodes[1];
-    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
->>>>>>> master
-
 //    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
     /** TEST EXPRESIE
     */
