@@ -20,16 +20,6 @@ int main()
     nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
-
-
-//    sf::Vector2f coordA = sf::Vector2f{300, 300};
-//    sf::Vector2f coordB = sf::Vector2f{500, 500};
-    adauga_nod(nodes, Constants::StartNode);
-    adauga_nod(nodes, Constants::OutputNode);
-    nodes[0]->setNodeCoordonates(sf::Vector2f{300, 300});
-    nodes[0]->urm = nodes[1];
-    nodes[1]->setNodeCoordonates(sf::Vector2f{500, 500});
-
 //    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
     /** TEST EXPRESIE
     */
@@ -41,6 +31,7 @@ int main()
     int emptyRectangle = -1;
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
+    int lineParentNode = -1;
 
     while (window.isOpen())
     {
@@ -59,12 +50,33 @@ int main()
             else if(evnt.type == Event::MouseButtonPressed)
             {
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
-//                    for(auto node : nodes) {
-//                        if(isInside(, node)) {
-//                            lines.push_back(Lin
-//                            break;
-//                        }
-//                    }
+                    Vector2f mousePos{Mouse::getPosition(window).x, Mouse::getPosition(window).y};
+                    if(lineStarted == false) {
+                        for(int i = 0; i < nodes.size(); ++i) {
+                            if(isInside(mousePos, nodes[i])) {
+                                lineParentNode = i;
+                                lines.push_back(Line(*nodes[i], Constants::CoordOut, window));
+                                lineStarted = true;
+                                break;
+                            }
+                        }
+                    }
+                    else {
+                        for(int i = 0; i < nodes.size(); ++i) {
+                            if(isInside(mousePos, nodes[i])) {
+                                if(i != lineParentNode) {
+                                    lines.back().connectToNode(*nodes[i], Constants::CoordIn);
+                                    lineStarted = false;
+                                    break;
+                                }
+                            }
+                        }
+                        if(lineStarted) {
+                            lines.pop_back();
+                        }
+                        lineStarted = false;
+                        lineParentNode = -1;
+                    }
                 }
                 else if(evnt.mouseButton.button == Mouse::Left)
                 {
@@ -154,6 +166,9 @@ int main()
         }
         window.clear();
         DeseneazaPeEcran(window,nodes);
+        for(Line l : lines) {
+            window.draw(&l.getLine(window)[0], l.getLine(window).size(), Lines);
+        }
         window.display();
     }
 

@@ -45,9 +45,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="E:/My programs/CodeBlocks/SFML/SFML-2.5.1/include" />
+			<Add directory="C:/SFML/include" />
 		</Compiler>
 		<Linker>
 			<Add directory="E:/My programs/CodeBlocks/SFML/SFML-2.5.1/lib" />
+			<Add directory="C:/SFML/lib" />
 		</Linker>
 		<Unit filename="Buttons.hpp" />
 		<Unit filename="Constants.hpp" />
