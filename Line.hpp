@@ -17,8 +17,8 @@ public:
         m_connected = true;
     }
 
-    Line(Node& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {
-        m_parent = &parent;
+    Line(Node*& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {
+        m_parent = *&parent;
         m_parentCoordType = parentCoordType;
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
         sf::Vector2f mousePos = sf::Vector2f{sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
@@ -31,16 +31,38 @@ public:
         return m_line;
     }
 
-    void connectToNode(Node& node, Constants::CoordType nodeCoordType) {
+    void connectToNode(Node*& node, Constants::CoordType nodeCoordType) {
         m_connected = true;
-        m_child = &node;
+        m_child = *&node;
         m_childCoordType = nodeCoordType;
-        m_parent->urm = m_child;
+        switch(m_parentCoordType) {
+        case Constants::CoordOut:
+            m_parent->urm = m_child;
+            break;
+        case Constants::CoordOutTrue:
+            m_parent->urmTrue = m_child;
+            break;
+        case Constants::CoordOutFalse:
+            m_parent->urmFalse = m_child;
+            break;
+        }
     }
 
     void print() {
+        if(m_connected) {
+            std::cout << (m_parent == NULL ? "no " : "   ") << "parent | ";
+            std::cout << (m_child == NULL ? "no " : "   ") << "child\n";
+        }
 //        std::cout << m_parent->getNodeCoordonates(m_parentCoordType).x << " " << m_parent->getNodeCoordonates(m_parentCoordType).y << "; ";
 //        std::cout << m_child->getNodeCoordonates(m_childCoordType).x << " " << m_child->getNodeCoordonates(m_childCoordType).y << "\n";
+    }
+
+    Node* getParent() {
+        return m_parent;
+    }
+
+    Node* getChild() {
+        return m_child;
     }
 
 private:

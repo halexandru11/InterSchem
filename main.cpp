@@ -55,8 +55,26 @@ int main()
                         for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
                                 lineParentNode = i;
-                                lines.push_back(Line(*nodes[i], Constants::CoordOut, window));
-                                lineStarted = true;
+                                if(nodes[i]->nodeType != Constants::ConditionalNode) {
+                                    if(nodes[i]->urm == NULL) {
+                                        lines.push_back(Line(nodes[i], Constants::CoordOut, window));
+                                        lineStarted = true;
+                                    }
+                                }
+                                else {
+                                    if(Mouse::getPosition(window).x < nodes[i]->getNodeCoordonates(Constants::CoordNode).x) {
+                                        if(nodes[i]->urmTrue == NULL) {
+                                            lines.push_back(Line(nodes[i], Constants::CoordOutTrue, window));
+                                            lineStarted = true;
+                                        }
+                                    }
+                                    else {
+                                        if(nodes[i]->urmFalse == NULL) {
+                                            lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
+                                            lineStarted = true;
+                                        }
+                                    }
+                                }
                                 break;
                             }
                         }
@@ -65,7 +83,7 @@ int main()
                         for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
                                 if(i != lineParentNode) {
-                                    lines.back().connectToNode(*nodes[i], Constants::CoordIn);
+                                    lines.back().connectToNode(nodes[i], Constants::CoordIn);
                                     lineStarted = false;
                                     break;
                                 }
@@ -148,6 +166,20 @@ int main()
                         }
                         if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0)
                            isStopNode = false;
+                        for(int index = 0; index < lines.size(); ++index) {
+                            Node* parent = lines[index].getParent();
+                            Node* child = lines[index].getChild();
+                            if(parent == nodes.back()) {
+                                child->urm = child->urmTrue = child->urmFalse = NULL;
+                            }
+                            if(child == nodes.back()) {
+                                parent->urm = parent->urmTrue = parent->urmFalse = NULL;
+                            }
+                            if(parent == nodes.back() or child == nodes.back()) {
+                                lines.erase(lines.begin() + index);
+                                --index;
+                            }
+                        }
                         delete nodes.back();
                         nodes.pop_back();
                     }
