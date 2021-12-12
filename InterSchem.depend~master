@@ -1,9 +1,7 @@
 # depslib dependency file v1.0
 205 <<<<<<< HEAD
 
-205 <<< Updated upstream
-
-1639318936 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
+1639246042 source:c:\users\alexh\desktop\c++\graphicssfml\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
@@ -13,28 +11,6 @@
 	"ui.hpp"
 	"functiiAuxiliare.hpp"
 	"inputText.hpp"
-
-1639259992 shed changes
-	<SFML/Graphics.hpp>
-	<bits/stdc++.h>
-	"Constants.hpp"
-	"Line.hpp"
-	"Node.hpp"
-	"EvaluareSchema.hpp"
-	"ui.hpp"
-	"functiiAuxiliare.hpp"
-	"inputText.hpp"
-	<SFML/Graphics.hpp>
-	<vector>
-	"Node.hpp"
-	<SFML/Graphics.hpp>
-	<bits/stdc++.h>
-	"Buttons.hpp"
-	"Constants.hpp"
-	<SFML/Graphics.hpp>
-	<bits/stdc++.h>
-	"Constants.hpp"
-	"Node.hpp"
 
 1638992217 ter
 	<SFML/Graphics.hpp>
@@ -460,7 +436,7 @@
 
 1638549573 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.h
 
-1639252850 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.hpp
+1639246098 c:\users\alexh\desktop\c++\graphicssfml\interschem\constants.hpp
 
 1638877062 D
 
@@ -469,20 +445,20 @@
 	<cstring>
 	"Constants.hpp"
 
-1639088278 source:c:\users\petrisor\documents\github\interschem\main.cpp
+1639253566 source:c:\users\petrisor\documents\github\interschem\main.cpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 	"Line.hpp"
 	"Node.hpp"
-	"Evaluare.hpp"
+	"EvaluareSchema.hpp"
 	"ui.hpp"
 	"functiiAuxiliare.hpp"
 	"inputText.hpp"
 
-1639066940 c:\users\petrisor\documents\github\interschem\constants.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\constants.hpp
 
-1639088523 c:\users\petrisor\documents\github\interschem\node.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\node.hpp
 	<string>
 	<cstring>
 	"Constants.hpp"
@@ -896,9 +872,7 @@
 	<SFML/Graphics/Drawable.hpp>
 	<SFML/Window/GlResource.hpp>
 
-1639245737 ated upstream
-
-1639321749 c:\users\alexh\desktop\c++\graphicssfml\interschem\line.hpp
+1639079641 c:\users\alexh\desktop\c++\graphicssfml\interschem\line.hpp
 	<SFML/Graphics.hpp>
 	<vector>
 	"Node.hpp"
@@ -926,55 +900,57 @@
 	<vector>
 	"Node.hpp"
 
-1639063148 c:\users\petrisor\documents\github\interschem\line.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\line.hpp
 	<SFML/Graphics.hpp>
 	<vector>
+	"Node.hpp"
 
-1639086786 c:\users\petrisor\documents\github\interschem\evaluare.hpp
+1639252844 c:\users\petrisor\documents\github\interschem\evaluare.hpp
 	<math.h>
 	<iostream>
 	<cstring>
 	"Constants.hpp"
 
-1639088192 c:\users\petrisor\documents\github\interschem\buttons.hpp
+1639253334 c:\users\petrisor\documents\github\interschem\buttons.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
+	"Node.hpp"
 
-1639085011 c:\users\petrisor\documents\github\interschem\ui.hpp
+1639248477 c:\users\petrisor\documents\github\interschem\ui.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
-	"Constants.hpp"
 	"Buttons.hpp"
+	"Constants.hpp"
 
-1639088163 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
+1639253316 c:\users\petrisor\documents\github\interschem\functiiauxiliare.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 
-1639088464 c:\users\petrisor\documents\github\interschem\inputtext.hpp
+1639248468 c:\users\petrisor\documents\github\interschem\inputtext.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Node.hpp"
 
-1639260039 c:\users\alexh\desktop\c++\graphicssfml\interschem\evaluare.hpp
+1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\evaluare.hpp
 	<math.h>
 	<iostream>
 	<cstring>
 	"Constants.hpp"
 
-1639260039 c:\users\alexh\desktop\c++\graphicssfml\interschem\ui.hpp
+1639246034 c:\users\alexh\desktop\c++\graphicssfml\interschem\ui.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Buttons.hpp"
 	"Constants.hpp"
 
-1639260039 c:\users\alexh\desktop\c++\graphicssfml\interschem\buttons.hpp
+1639245737 c:\users\alexh\desktop\c++\graphicssfml\interschem\buttons.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
 
-1639260039 c:\users\alexh\desktop\c++\graphicssfml\interschem\functiiauxiliare.hpp
+1639246120 c:\users\alexh\desktop\c++\graphicssfml\interschem\functiiauxiliare.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
@@ -985,13 +961,6 @@
 	"Node.hpp"
 
 1639253616 c:\users\petrisor\documents\github\interschem\evaluareschema.hpp
-	<SFML/Graphics.hpp>
-	<bits/stdc++.h>
-	"Constants.hpp"
-	"Evaluare.hpp"
-	"Node.hpp"
-
-1639259992 c:\users\alexh\desktop\c++\graphicssfml\interschem\evaluareschema.hpp
 	<SFML/Graphics.hpp>
 	<bits/stdc++.h>
 	"Constants.hpp"
