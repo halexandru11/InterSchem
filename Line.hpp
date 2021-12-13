@@ -48,15 +48,6 @@ public:
         }
     }
 
-    void print() {
-        if(m_connected) {
-            std::cout << (m_parent == NULL ? "no " : "   ") << "parent | ";
-            std::cout << (m_child == NULL ? "no " : "   ") << "child\n";
-        }
-//        std::cout << m_parent->getNodeCoordonates(m_parentCoordType).x << " " << m_parent->getNodeCoordonates(m_parentCoordType).y << "; ";
-//        std::cout << m_child->getNodeCoordonates(m_childCoordType).x << " " << m_child->getNodeCoordonates(m_childCoordType).y << "\n";
-    }
-
     Node* getParent() {
         return m_parent;
     }

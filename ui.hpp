@@ -14,8 +14,6 @@ void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 
             circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordIn));
             window.draw(circle);
-            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordInRec));
-            window.draw(circle);
             circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOut));
             window.draw(circle);
             circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutTrue));
