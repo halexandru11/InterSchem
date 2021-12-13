@@ -39,6 +39,4 @@ void DeseneazaPeEcran(RenderWindow &window, const vector<Node*>& nodes, const ve
     afisareButoane(window);
     afiseazaNoduri(window, nodes);
     afiseazaLinii(window, lines);
-    if(isPOPup)
-        afiseazaPopup(window);
 }

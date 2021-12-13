@@ -6,12 +6,15 @@
 #include "Evaluare.hpp"
 #include "Node.hpp"
 #include "pop_ups.hpp"
+#define caracter E.text.unicode
+
 
 using namespace std;
 using namespace sf;
 
 Node* RunStartNode(Node* p)
 {
+    initializare();
     return p->urm;
 }
 Node* RunReadNode(Node* p)
@@ -23,9 +26,37 @@ Node* RunReadNode(Node* p)
         variabilaNoua.push_back(s[i]);
     datatype valoare = -1.234;
 
+    //cout << "DESCHID FEREASTRA\n";
+    RenderWindow fereastra_citire(VideoMode(1000, 150), "Citire", Style::Close | Style::Titlebar);
+    isPOPup = true;
+    string taskk = "Introduceti valoarea variabilei " + variabilaNoua + " :";
+    setPopupText(taskk);
+    while(fereastra_citire.isOpen())
+    {
+        Event E;
+        while(fereastra_citire.pollEvent(E))
+        {
+            if(E.type == Event::Closed)
+            {
+                fereastra_citire.close();
+            }
+            else if(E.type == Event::TextEntered)
+            {
+                getInputPop(E);
+                if(caracter == 13)
+                {
+                    valoare = to_nr(inputPopUp.getString());
+                    setPopupInputText("");
+                    fereastra_citire.close();
+                }
+            }
+        }
+        fereastra_citire.clear();
+        afiseazaPopup(fereastra_citire,1);
+        fereastra_citire.display();
+    }
+    isPOPup = false;
 
-
-    string q =
 
     adaugaVariabila(variabilaNoua, valoare);
     return p->urm;
@@ -100,6 +131,8 @@ Node* RunNode(Node *p)
         return RunIfNode(p);
     if(p->nodeType == 4)
         return RunPrintNode(p);
+    if(p->nodeType == 6)
+        return RunReadNode(p);
     return nullptr;
 }
 
