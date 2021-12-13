@@ -14,13 +14,14 @@ RectangleShape popUpBG(Vector2f(1000.0f,150.0f));;
 Text popupText;
 Text inputPopUp;
 string bufferp;
+
 void setPopupText(string s)
 {
     popupText.setString(s);
     float h = popupText.getGlobalBounds().height;
     float w = popupText.getGlobalBounds().width;
     popupText.setOrigin(w / 2, h / 2);
-    popupText.setPosition( Vector2f(Constants::Width / 2.0f, Constants::Height / 2.0f - 50.0f)  );
+    popupText.setPosition( Vector2f(1000.0f / 2.0f, 150.0f / 2.0f - 50.0f)  );
 
 }
 
@@ -30,7 +31,7 @@ void setPopupInputText(string s)
     float h = inputPopUp.getGlobalBounds().height;
     float w = inputPopUp.getGlobalBounds().width;
     inputPopUp.setOrigin(w / 2, h / 2);
-    inputPopUp.setPosition( Vector2f(Constants::Width / 2.0f, Constants::Height / 2.0f - 20.0f)  );
+    inputPopUp.setPosition( Vector2f(1000.0f / 2.0f, 150.0f / 2.0f )  );
 
 }
 
@@ -45,12 +46,11 @@ void popupSetup()
     inputPopUp.setFillColor(Color::Black);
 
     popUpBG.setOrigin(Vector2f(500.0f,75.0f));
-    popUpBG.setPosition(Vector2f(Constants::Width / 2.0f , Constants::Height / 2.0f ));
+    popUpBG.setPosition(Vector2f(1000.0f/ 2.0f , 150.0f / 2.0f ));
 }
 
 void afiseazaPopup(RenderWindow &window, int tip)
 {
-    setPopupText("Introduceti valoarea variabilei x:aaaaaaaaaaaaaaaaaaaaaa");
     window.draw(popUpBG);
     window.draw(popupText);
     window.draw(inputPopUp);
@@ -79,4 +79,5 @@ inline void getInputPop(Event &evnt)
         bufferp.push_back(caracter);
         setPopupInputText(bufferp);
     }
+    //cout << bufferp << '\n';
 }

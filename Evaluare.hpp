@@ -310,6 +310,7 @@ datatype expo(char *&p)
 
 datatype to_nr(string q)
 {
+    cout << q;
     datatype r = 0;
     datatype offset = 0.1;
     int semn = 1;
@@ -356,7 +357,7 @@ void adaugaVariabila(string s, datatype val)
 {
     variabileCod[ s ] = nrVariabile++;
     variabile[ variabileCod[ s ] ] = val;
-    cout << "AM DECLARAT " << s << (variabileCod.find(s) == variabileCod.end() ) << '\n';
+    //cout << "AM DECLARAT " << s << (variabileCod.find(s) == variabileCod.end() ) << '\n';
 }
 
 void atribuieVariabila(string s, datatype val)
@@ -369,13 +370,15 @@ void atribuieVariabila(string s, datatype val)
 }
 void initializare()
 {
+    nrVariabile = 0;
+    variabileCod.clear();
     for(int i = 0; i <= 50; ++i)
         variabile[i] = INT_MAX;
     char expresiDeTest[500];
+    /*
     adaugaVariabila("abracadabra",30);
     strcpy(expresiDeTest, "(    (       abracadabra*(-1)+ 9 /r A d( 9 ))) ^((abracadabra + 2)/(15 +1))");
     cout << setprecision(5) << fixed;
     cout << Evalueaza_Expresie(expresiDeTest) << '\n';
-    /*
     */
 }
