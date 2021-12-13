@@ -43,7 +43,7 @@ void adauga_nod_old(vector <RectangleShape> &D)
 }
 void adauga_nod(vector <Node*> &D, int type)
 {
-    if(type == 1)
+    if(type == Constants::StartNode)
     {
         if(isStartNode)
             return;
@@ -52,22 +52,22 @@ void adauga_nod(vector <Node*> &D, int type)
         isStartNode = 1;
         StartSchema = D[D.size() - 1];
     }
-    if(type == 2)
+    if(type == Constants::AssignNode)
     {
         D.push_back(new Node(Constants::AssignNode, font));
         D[D.size() - 1]->setTextString("Assign");
     }
-    if(type == 3)
+    if(type == Constants::ConditionalNode)
     {
         D.push_back(new Node(Constants::ConditionalNode, font));
         D[D.size() - 1]->setTextString("Conditional");
     }
-    if(type == 4)
+    if(type == Constants::OutputNode)
     {
         D.push_back(new Node(Constants::OutputNode, font));
         D[D.size() - 1]->setTextString("Output");
     }
-    if(type == 5)
+    if(type == Constants::StopNode)
     {
         if(isStopNode)
             return;
@@ -75,13 +75,57 @@ void adauga_nod(vector <Node*> &D, int type)
         D[D.size() - 1]->setTextString("Stop");
         isStopNode = 1;
     }
-
-    if(type == 6)
+    if(type == Constants::ReadNode)
     {
         D.push_back(new Node(Constants::ReadNode, font));
         D[D.size() - 1]->setTextString("Read");
     }
 
     D[D.size() - 1]->setNodeCoordonates(sf::Vector2f{1000, 200});
+}
 
+void stergeToateLiniile(vector<Line>& lines, Node*& node) {
+    for(int index = 0; index < lines.size(); ++index) {
+        Node* parent = lines[index].getParent();
+        Node* child = lines[index].getChild();
+        if(child == node) {
+            if(parent->urm == child) {
+                parent->urm = NULL;
+            }
+            if(parent->urmTrue == child) {
+                parent->urmTrue = NULL;
+            }
+            if(parent->urmFalse == child) {
+                parent->urmFalse = NULL;
+            }
+        }
+        if(parent == node or child == node) {
+            lines.erase(lines.begin() + index);
+            --index;
+        }
+    }
+}
+
+void stergeLinie(vector<Line>& lines, Node*& node, Constants::CoordType coordType) {
+    for(int index = 0; index < lines.size(); ++index) {
+        Node* parent = lines[index].getParent();
+        Node* child = lines[index].getChild();
+        if(node == parent) {
+            if(node->urm == child and coordType == Constants::CoordOut) {
+                node->urm = NULL;
+                lines.erase(lines.begin() + index);
+                --index;
+            }
+            if(node->urmTrue == child and coordType == Constants::CoordOutTrue) {
+                node->urmTrue = NULL;
+                lines.erase(lines.begin() + index);
+                --index;
+            }
+            if(node->urmFalse == child and coordType == Constants::CoordOutFalse) {
+                node->urmFalse = NULL;
+                lines.erase(lines.begin() + index);
+                --index;
+            }
+        }
+    }
 }
