@@ -5,6 +5,7 @@
 #include "Constants.hpp"
 #include "Evaluare.hpp"
 #include "Node.hpp"
+#include "pop_ups.hpp"
 
 using namespace std;
 using namespace sf;
@@ -21,7 +22,11 @@ Node* RunReadNode(Node* p)
     for(int i = 0; i < strlen(s) ; ++i)
         variabilaNoua.push_back(s[i]);
     datatype valoare = -1.234;
-    cin >> valoare; // MOMENTAN
+
+
+
+    string q =
+
     adaugaVariabila(variabilaNoua, valoare);
     return p->urm;
 }
@@ -32,7 +37,14 @@ Node* RunAssignNode(Node*p)
     string variabila;
     char *w;
     strcpy(s, p->content);
-    w = s;
+    char q[strlen(s) + 50];
+    int nq = 0;
+    for(int i = 0; i < strlen(s); ++i)
+    {
+        if(s[i] == ' ') continue;
+        q[nq++] = s[i];
+    }
+    w = q;
     while(*w != '=' && *w != NULL)
     {
         variabila.push_back(*w);

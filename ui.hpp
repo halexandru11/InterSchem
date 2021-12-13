@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 #include "Buttons.hpp"
 #include "Constants.hpp"
+#include "pop_ups.hpp"
 using namespace sf;
 using namespace std;
 
@@ -34,4 +35,6 @@ void DeseneazaPeEcran(RenderWindow &window, vector<Node*> nodes)
 {
     afisareButoane(window);
     afiseazaNoduri(window, nodes);
+    if(isPOPup)
+        afiseazaPopup(window);
 }

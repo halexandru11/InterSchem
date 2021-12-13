@@ -4,6 +4,7 @@
 #include <bits/stdc++.h>
 #include "Constants.hpp"
 #include "Node.hpp"
+#include "pop_ups.hpp"
 using namespace sf;
 using namespace std;
 
@@ -28,7 +29,7 @@ RectangleShape buttonRun(Vector2f(125.0f,50.0f));
 
 void initializareButoane(Font &font)
 {
-
+    popupSetup();
     circle.setFillColor(Color::Cyan);
     circle.setOrigin(circle.getRadius(), circle.getRadius());
 

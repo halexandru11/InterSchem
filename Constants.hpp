@@ -23,3 +23,5 @@ public:
         CoordNode
     };
 };
+
+sf::Font font;

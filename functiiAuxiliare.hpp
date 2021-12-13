@@ -9,7 +9,6 @@ using namespace std;
 #define eps 0.000001
 #define PI 3.14159265
 
-sf::Font font;
 bool isStartNode, isStopNode;
 
 bool isInside(Vector2f MousePos, Node *q)
