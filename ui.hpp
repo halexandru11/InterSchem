@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include "Buttons.hpp"
+#include "Constants.hpp"
+#include "pop_ups.hpp"
 using namespace sf;
 using namespace std;
 
@@ -37,4 +39,6 @@ void DeseneazaPeEcran(RenderWindow &window, const vector<Node*>& nodes, const ve
     afisareButoane(window);
     afiseazaNoduri(window, nodes);
     afiseazaLinii(window, lines);
+    if(isPOPup)
+        afiseazaPopup(window);
 }

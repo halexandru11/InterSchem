@@ -46,6 +46,9 @@ int main()
             {
                 if(actWritting != -1)
                     getInput(evnt,nodes);
+                if(isPOPup)
+                    getInputPop(evnt);
+
             }
             else if(evnt.type == Event::MouseButtonPressed)
             {

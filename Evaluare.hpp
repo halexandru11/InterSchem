@@ -56,6 +56,7 @@ datatype numar(char *&p)
         }
         if(variabileCod.find(numeVariabila) == variabileCod.end())
         {
+            cout << numeVariabila << '\n';
             cerr << "VARIABILA NEDECLARATA";
             exit(1);
         }
@@ -307,7 +308,7 @@ datatype expo(char *&p)
 }
 
 
-datatype to_nr(char q[])
+datatype to_nr(string q)
 {
     datatype r = 0;
     datatype offset = 0.1;
@@ -320,7 +321,7 @@ datatype to_nr(char q[])
         semn = -1;
     }
     if(q[i] == '+') i++;
-    while(i < strlen(q))
+    while(i < q.size())
     {
         if(q[i] == '.')
         {
@@ -355,14 +356,14 @@ void adaugaVariabila(string s, datatype val)
 {
     variabileCod[ s ] = nrVariabile++;
     variabile[ variabileCod[ s ] ] = val;
+    cout << "AM DECLARAT " << s << (variabileCod.find(s) == variabileCod.end() ) << '\n';
 }
 
 void atribuieVariabila(string s, datatype val)
 {
     if(variabileCod.find(s) == variabileCod.end())
     {
-        throw("VARIABILA NEDECLARATA");
-        exit(1);
+        adaugaVariabila(s,val);
     }
     variabile[ variabileCod[ s ] ] = val;
 }
