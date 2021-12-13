@@ -14,13 +14,13 @@ using namespace std;
 
 int main()
 {
+    sf::ContextSettings settings = ContextSettings();
+    settings.antialiasingLevel = 10;
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
     initializareButoane(font);
-    vector<Node*> nodes;
-    nodes.clear();
+    vector<Node*> nodes; nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
-//    Line line = Line(*nodes[0], *nodes[1], Constants::CoordOut, Constants::CoordIn);
     /** TEST EXPRESIE
     */
     initializare();
@@ -59,25 +59,25 @@ int main()
                             if(isInside(mousePos, nodes[i])) {
                                 lineParentNode = i;
                                 if(nodes[i]->nodeType != Constants::ConditionalNode) {
-                                    if(nodes[i]->urm == NULL) {
-                                        lines.push_back(Line(nodes[i], Constants::CoordOut, window));
-                                        lineStarted = true;
-                                    }
+                                    stergeLinie(lines, nodes[i], Constants::CoordOut);
+                                    lines.push_back(Line(nodes[i], Constants::CoordOut, window));
                                 }
                                 else {
                                     if(Mouse::getPosition(window).x < nodes[i]->getNodeCoordonates(Constants::CoordNode).x) {
-                                        if(nodes[i]->urmTrue == NULL) {
-                                            lines.push_back(Line(nodes[i], Constants::CoordOutTrue, window));
-                                            lineStarted = true;
-                                        }
+                                        stergeLinie(lines, nodes[i], Constants::CoordOutTrue);
+                                        lines.push_back(Line(nodes[i], Constants::CoordOutTrue, window));
                                     }
                                     else {
-                                        if(nodes[i]->urmFalse == NULL) {
-                                            lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
-                                            lineStarted = true;
-                                        }
+                                        stergeLinie(lines, nodes[i], Constants::CoordOutFalse);
+                                        lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
                                     }
                                 }
+//                                        if(nodes[i]->urmFalse != NULL) {
+////                                            cout << "3 ";
+//                                            stergeLinie(lines, nodes[i], true, Constants::CoordOutFalse);
+//                                        }
+//                                        lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
+                                lineStarted = true;
                                 break;
                             }
                         }
@@ -112,18 +112,19 @@ int main()
                             target = i;
                             break;
                         }
+
                     if(isInsideButton(pos, buttonStart))
-                        adauga_nod(nodes,1);
+                        adauga_nod(nodes, Constants::StartNode);
                     if(isInsideButton(pos, buttonAssign))
-                        adauga_nod(nodes,2);
+                        adauga_nod(nodes, Constants::AssignNode);
                     if(isInsideButton(pos, buttonCond))
-                        adauga_nod(nodes,3);
+                        adauga_nod(nodes, Constants::ConditionalNode);
                     if(isInsideButton(pos, buttonOut))
-                        adauga_nod(nodes,4);
+                        adauga_nod(nodes, Constants::OutputNode);
                     if(isInsideButton(pos, buttonEnd))
-                        adauga_nod(nodes,5);
+                        adauga_nod(nodes, Constants::StopNode);
                     if(isInsideButton(pos, buttonRead))
-                        adauga_nod(nodes,6);
+                        adauga_nod(nodes, Constants::ReadNode);
 
                     if(isInsideButton(pos, buttonRun))
                         RunSchema(StartSchema);
@@ -169,20 +170,8 @@ int main()
                         }
                         if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0)
                            isStopNode = false;
-                        for(int index = 0; index < lines.size(); ++index) {
-                            Node* parent = lines[index].getParent();
-                            Node* child = lines[index].getChild();
-                            if(parent == nodes.back()) {
-                                child->urm = child->urmTrue = child->urmFalse = NULL;
-                            }
-                            if(child == nodes.back()) {
-                                parent->urm = parent->urmTrue = parent->urmFalse = NULL;
-                            }
-                            if(parent == nodes.back() or child == nodes.back()) {
-                                lines.erase(lines.begin() + index);
-                                --index;
-                            }
-                        }
+
+                        stergeToateLiniile(lines, nodes.back());
                         delete nodes.back();
                         nodes.pop_back();
                     }
@@ -197,14 +186,51 @@ int main()
         if(hold && target != -1)
         {
             Vector2i pozitieMouse = Mouse::getPosition(window);
-            nodes[target]->setNodeCoordonates(sf::Vector2f{static_cast<float>(pozitieMouse.x), static_cast<float>(pozitieMouse.y)});
+            Vector2f coordMe = Vector2f{float(Mouse::getPosition(window).x), float(Mouse::getPosition(window).y)};
+            for(size_t i = 0; i < nodes.size(); ++i) {
+                if(i != target) {
+                    if(nodes[target]->collides(nodes[i])) {
+                        Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                        if(coordMe.x > coordOther.x) {
+                            coordMe.x = max(coordMe.x, coordOther.x + (nodes[i]->width + nodes[target]->width)/2);
+                        }
+                        else {
+                            coordMe.x = min(coordMe.x, coordOther.x - (nodes[i]->width + nodes[target]->width)/2);
+                        }
+                    }
+                }
+            }
+            nodes[target]->setNodeCoordonates(coordMe);
         }
         window.clear();
-        DeseneazaPeEcran(window,nodes);
-        for(Line l : lines) {
-            window.draw(&l.getLine(window)[0], l.getLine(window).size(), Lines);
-        }
+        DeseneazaPeEcran(window,nodes, lines);
         window.display();
+
+//        for(Node* node : nodes) {
+//            cout << int(node->nodeType) << ": ";
+//            if(node->nodeType == Constants::ConditionalNode) {
+//                if(node->urmTrue) {
+//                    cout << int(node->urmTrue->nodeType) << " ";
+//                }
+//                else {
+//                    cout << "NULL ";
+//                }
+//                if(node->urmFalse) {
+//                    cout << int(node->urmFalse->nodeType) << "\n";
+//                }
+//                else {
+//                    cout << "NULL\n";
+//                }
+//            }
+//            else {
+//                if(node->urm) {
+//                    cout << int(node->urm->nodeType) << "\n";
+//                }
+//                else {
+//                    cout << "NULL\n";
+//                }
+//            }
+//        }
     }
 
     return 0;
