@@ -54,12 +54,14 @@
 		<Unit filename="Buttons.hpp" />
 		<Unit filename="Constants.hpp" />
 		<Unit filename="Evaluare.hpp" />
+		<Unit filename="EvaluareSchema.hpp" />
 		<Unit filename="Line.hpp" />
 		<Unit filename="Node.hpp" />
 		<Unit filename="functiiAuxiliare.hpp" />
 		<Unit filename="inputText.hpp" />
 		<Unit filename="main.cpp" />
 		<Unit filename="openal32.dll" />
+		<Unit filename="pop_ups.hpp" />
 		<Unit filename="sfml-audio-2.dll" />
 		<Unit filename="sfml-audio-d-2.dll" />
 		<Unit filename="sfml-graphics-2.dll" />
@@ -73,6 +75,9 @@
 		<Unit filename="ui.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
+			<code_completion />
+			<envvars />
+			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>
