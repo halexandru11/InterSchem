@@ -11,7 +11,7 @@
 
 using namespace sf;
 using namespace std;
-
+int cnt;
 int main()
 {
     sf::ContextSettings settings = ContextSettings();
@@ -71,11 +71,6 @@ int main()
                                         lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
                                     }
                                 }
-//                                        if(nodes[i]->urmFalse != NULL) {
-////                                            cout << "3 ";
-//                                            stergeLinie(lines, nodes[i], true, Constants::CoordOutFalse);
-//                                        }
-//                                        lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
                                 lineStarted = true;
                                 break;
                             }
@@ -185,17 +180,30 @@ int main()
         if(hold && target != -1)
         {
             Vector2i pozitieMouse = Mouse::getPosition(window);
-            Vector2f coordMe = Vector2f{float(Mouse::getPosition(window).x), float(Mouse::getPosition(window).y)};
+            Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
             for(size_t i = 0; i < nodes.size(); ++i) {
-                if(i != target) {
-                    if(nodes[target]->collides(nodes[i])) {
-                        Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
-                        if(coordMe.x > coordOther.x) {
-                            coordMe.x = max(coordMe.x, coordOther.x + (nodes[i]->width + nodes[target]->width)/2);
-                        }
-                        else {
-                            coordMe.x = min(coordMe.x, coordOther.x - (nodes[i]->width + nodes[target]->width)/2);
-                        }
+                if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
+                    Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                    Vector2f var = coordMe;
+                    Vector2f delta{nodes[i]->width + nodes[target]->width, nodes[i]->height + nodes[target]->height};
+                    if(coordMe.x > coordOther.x) {
+                        var.x = max(coordMe.x, coordOther.x + delta.x/2);
+                    }
+                    else {
+                        var.x = min(coordMe.x, coordOther.x - delta.x/2);
+                    }
+                    if(coordMe.y > coordOther.y) {
+                        var.y = max(coordMe.y, coordOther.y + delta.y/2);
+                    }
+                    else {
+                        var.y = min(coordMe.y, coordOther.y - delta.y/2);
+                    }
+
+                    if(fabs(var.x - coordMe.x) * delta.y < fabs(var.y - coordMe.y) * delta.x) {
+                        coordMe.x = var.x;
+                    }
+                    else {
+                        coordMe.y = var.y;
                     }
                 }
             }
@@ -204,32 +212,6 @@ int main()
         window.clear();
         DeseneazaPeEcran(window,nodes, lines);
         window.display();
-
-//        for(Node* node : nodes) {
-//            cout << int(node->nodeType) << ": ";
-//            if(node->nodeType == Constants::ConditionalNode) {
-//                if(node->urmTrue) {
-//                    cout << int(node->urmTrue->nodeType) << " ";
-//                }
-//                else {
-//                    cout << "NULL ";
-//                }
-//                if(node->urmFalse) {
-//                    cout << int(node->urmFalse->nodeType) << "\n";
-//                }
-//                else {
-//                    cout << "NULL\n";
-//                }
-//            }
-//            else {
-//                if(node->urm) {
-//                    cout << int(node->urm->nodeType) << "\n";
-//                }
-//                else {
-//                    cout << "NULL\n";
-//                }
-//            }
-//        }
     }
 
     return 0;
