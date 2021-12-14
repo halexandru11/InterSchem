@@ -32,6 +32,8 @@ int main()
     vector<Line> lines; lines.clear();
     int lineParentNode = -1;
 
+    //cout << to_nr_pointer("2");
+    cout << '\n' <<  Evalueaza_Expresie("-12") << '\n';
     while (window.isOpen())
     {
         Event evnt;

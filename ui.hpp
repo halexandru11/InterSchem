@@ -8,6 +8,7 @@
 using namespace sf;
 using namespace std;
 
+
 void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 {
     for(size_t index = 0; index < nodes.size(); ++index) {

@@ -13,6 +13,7 @@ vector <Text> ButtonText;
 RectangleShape workbench(Vector2f(900.0f,720.0f));
 RectangleShape buttonStart(Vector2f(125.0f,50.0f));
 
+Text OutputText;
 CircleShape circle = CircleShape(3, 14);
 RectangleShape buttonAssign(Vector2f(125.0f,50.0f));
 
@@ -27,8 +28,20 @@ RectangleShape buttonEnd(Vector2f(125.0f,50.0f));
 
 RectangleShape buttonRun(Vector2f(125.0f,50.0f));
 
+RectangleShape buttonImport(Vector2f(125.0f,50.0f));
+
+RectangleShape buttonExport(Vector2f(125.0f,50.0f));
+
 void initializareButoane(Font &font)
 {
+
+    OutputText.setFont(font);
+    OutputText.setCharacterSize(17);
+    OutputText.setFillColor(Color::White);
+    OutputText.setPosition(Vector2f(1040.0f,30.0f));
+    OutputText.setString("Output:\n");
+
+
     popupSetup();
     circle.setFillColor(Color::Cyan);
     circle.setOrigin(circle.getRadius(), circle.getRadius());
@@ -56,7 +69,7 @@ void initializareButoane(Font &font)
 
     buttonOut.setFillColor(Color::Blue);
     buttonOut.setOrigin(62.5f, 25.0f);
-    buttonOut.setPosition(62.5f, 374.0f);
+    buttonOut.setPosition(62.5f, 375.0f);
 
     buttonEnd.setFillColor(Color::Blue);
     buttonEnd.setOrigin(62.5f, 25.0f);
@@ -65,7 +78,16 @@ void initializareButoane(Font &font)
 
     buttonRun.setFillColor(Color::Red);
     buttonRun.setOrigin(62.5f, 25.0f);
-    buttonRun.setPosition(62.5f, 650.0f);
+    buttonRun.setPosition(62.5f, 525.0f);
+
+    buttonExport.setFillColor(Color::Red);
+    buttonExport.setOrigin(62.5f, 25.0f);
+    buttonExport.setPosition(62.5f, 600.0f);
+
+    buttonImport.setFillColor(Color::Red);
+    buttonImport.setOrigin(62.5f, 25.0f);
+    buttonImport.setPosition(62.5f, 675.0f);
+
 
     Text text;
     text.setFont(font);
@@ -98,8 +120,16 @@ void initializareButoane(Font &font)
     ButtonText.push_back(text);
 
 
-    text.setPosition(10.0f, 638.0f);
+    text.setPosition(10.0f, 513.0f);
     text.setString("RUN");
+    ButtonText.push_back(text);
+
+    text.setPosition(10.0f, 588.0f);
+    text.setString("Export");
+    ButtonText.push_back(text);
+
+    text.setPosition(10.0f, 663.0f);
+    text.setString("Import");
     ButtonText.push_back(text);
     ///cout << ButtonText.size()<< '\n';
 }
@@ -114,6 +144,9 @@ void afisareButoane(RenderWindow &window)
         window.draw(buttonEnd);
         window.draw(buttonRead);
         window.draw(buttonRun);
+        window.draw(OutputText);
+        window.draw(buttonExport);
+        window.draw(buttonImport);
         for(int i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
 }

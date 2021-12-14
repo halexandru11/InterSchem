@@ -5,6 +5,7 @@
 #include "Constants.hpp"
 #include "Evaluare.hpp"
 #include "Node.hpp"
+#include "Buttons.hpp"
 #include "pop_ups.hpp"
 #define caracter E.text.unicode
 
@@ -12,8 +13,12 @@
 using namespace std;
 using namespace sf;
 
+string OutputContent;
+
+
 Node* RunStartNode(Node* p)
 {
+    OutputContent = "Output:\n";
     initializare();
     return p->urm;
 }
@@ -111,13 +116,23 @@ Node* RunPrintNode(Node*p)
         int i = 1;
         while(s[i] !=  '\"')
         {
-            cout << s[i];
+            OutputContent += s[i];
             i++;
         }
+        OutputContent += '\n';
+        OutputText.setString(OutputContent);
     }
     else
-        cout << "OUTPUT: " << Evalueaza_Expresie(s);
-    cout << '\n';
+    {
+        datatype rezz = Evalueaza_Expresie(s);
+        long long q =  rezz;
+        cout << rezz << ' ' <<  q << '\n';
+        if(abs(abs(rezz) - 1.0000 * abs(q) )< eps)
+            OutputContent += to_string(q) + '\n';
+        else
+            OutputContent += to_string(rezz) + '\n';
+        OutputText.setString(OutputContent);
+    }
     return p->urm;
 }
 
