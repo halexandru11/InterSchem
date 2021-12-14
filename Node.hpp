@@ -68,27 +68,45 @@ public:
         if(other == NULL) {
             return false;
         }
-        float meLeft = m_coord.x - width/2;
-        float meTop = m_coord.y - height/2;
+//        sf::Vector2f meTL = m_coord - sf::Vector2f{width/2, height/2};
+//        sf::Vector2f meBR = m_coord + sf::Vector2f{width/2, height/2};
 
-        float otherWidth = other->hitbox.getGlobalBounds().width;
-        float otherHeight = other->hitbox.getGlobalBounds().height;
-        float otherLeft = other->hitbox.getGlobalBounds().left;
-        float otherTop = other->hitbox.getGlobalBounds().top;
 
-        std::vector<sf::Vector2f> otherCoords; otherCoords.clear();
-        otherCoords.push_back(sf::Vector2f{otherLeft, otherTop});
-        otherCoords.push_back(sf::Vector2f{otherLeft+otherWidth, otherTop});
-        otherCoords.push_back(sf::Vector2f{otherLeft+otherWidth, otherTop+otherHeight});
-        otherCoords.push_back(sf::Vector2f{otherLeft, otherTop+otherHeight});
+        sf::Vector2f meTL = hitbox.getPosition();
+        sf::Vector2f meBR = meTL + hitbox.getSize();
 
-        for(const sf::Vector2f& c : otherCoords) {
-            if(meLeft < c.x and c.x < meLeft+width and
-               meTop < c.y and c.y < meTop+height) {
-                return true;
-            }
-        }
-        return false;
+        sf::Vector2f otherTL = other->hitbox.getPosition();
+        sf::Vector2f otherBR = otherTL + other->hitbox.getSize();
+
+//        std::cout << meTL.x << " " << meBR.x << "\n";
+
+        return (meTL.x < otherBR.x) * (otherTL.x < meBR.x) * (meTL.y < otherBR.y) * (otherTL.y < meBR.y);
+
+//        // one is on the left side of the other
+//        if(meTL.x > otherBR.x or otherTL.x > meBR.x) {
+//            return false;
+//        }
+//        // one is above the other
+//        if(meTL.y > otherBR.y or otherTL.y > meBR.y) {
+//            return false;
+//        }
+//
+//        return true;
+
+//        float otherWidth = other->hitbox.getGlobalBounds().width;
+//        float otherHeight = other->hitbox.getGlobalBounds().height;
+//        float otherLeft = other->hitbox.getGlobalBounds().left;
+//        float otherTop = other->hitbox.getGlobalBounds().top;
+//
+//        float leftx = std::max(meLeft, otherLeft);
+//        float rightx = std::min(meLeft+width, otherLeft+otherWidth);
+//        float topx = std::min(meTop, otherLeft);
+//        float bottomx = std::max(meTop+height, otherTop+otherHeight);
+//
+//        float meWidth = rightx - leftx;
+//        float meHeight = bottomx - topx;
+//
+//        return meWidth > 0 and meHeight > 0;
     }
 
 public:

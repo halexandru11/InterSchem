@@ -22,7 +22,7 @@ void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
             window.draw(circle);
             circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutFalse));
             window.draw(circle);
-//            window.draw(nodes[index]->hitbox); /// DEBUG
+            window.draw(nodes[index]->hitbox); /// DEBUG
         }
 }
 

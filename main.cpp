@@ -11,7 +11,7 @@
 
 using namespace sf;
 using namespace std;
-
+int cnt;
 int main()
 {
     sf::ContextSettings settings = ContextSettings();
@@ -69,11 +69,6 @@ int main()
                                         lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
                                     }
                                 }
-//                                        if(nodes[i]->urmFalse != NULL) {
-////                                            cout << "3 ";
-//                                            stergeLinie(lines, nodes[i], true, Constants::CoordOutFalse);
-//                                        }
-//                                        lines.push_back(Line(nodes[i], Constants::CoordOutFalse, window));
                                 lineStarted = true;
                                 break;
                             }
@@ -183,20 +178,21 @@ int main()
         if(hold && target != -1)
         {
             Vector2i pozitieMouse = Mouse::getPosition(window);
-            Vector2f coordMe = Vector2f{float(Mouse::getPosition(window).x), float(Mouse::getPosition(window).y)};
+            Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
+            /// VERIFICA COLIZIUNI
             for(size_t i = 0; i < nodes.size(); ++i) {
-                if(i != target) {
-                    if(nodes[target]->collides(nodes[i])) {
-                        Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
-                        if(coordMe.x > coordOther.x) {
-                            coordMe.x = max(coordMe.x, coordOther.x + (nodes[i]->width + nodes[target]->width)/2);
-                        }
-                        else {
-                            coordMe.x = min(coordMe.x, coordOther.x - (nodes[i]->width + nodes[target]->width)/2);
-                        }
+                if(i != target and nodes[i]->collides(nodes[target])) {
+                    cout << "Collides " << (cnt++) << "\n";
+                    Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                    if(coordMe.x > coordOther.x) {
+                        coordMe.x = max(coordMe.x, coordOther.x + (nodes[i]->width + nodes[target]->width)/2);
+                    }
+                    else {
+                        coordMe.x = min(coordMe.x, coordOther.x - (nodes[i]->width + nodes[target]->width)/2);
                     }
                 }
             }
+            /// SFARSIT VERIFICA COLOZIUNI
             nodes[target]->setNodeCoordonates(coordMe);
         }
         window.clear();
