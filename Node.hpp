@@ -20,10 +20,7 @@ public:
         m_coord = coord;
         m_shape = setShape();
 
-        m_coordIn        = m_coord + sf::Vector2f{       0, -height/2};
-        m_coordOut       = m_coord + sf::Vector2f{       0,  height/2};
-        m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
-        m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
+        setCoordonates();
     }
 
     sf::Vector2f getNodeCoordonates(Constants::CoordType coordType) {
@@ -50,6 +47,16 @@ public:
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
         height = text.getGlobalBounds().height + 2*m_padding;
+        width = std::max(width, 30.0f);
+        height = std::max(height, 30.0f);
+        if(nodeType == Constants::ConditionalNode) {
+            height *= 1.5f;
+            width = std::max(width, 40.0f);
+            if(width > 100) {
+                height += (width - 100) * 0.2;
+            }
+        }
+        setCoordonates();
         m_shape = setShape();
     }
 
@@ -68,27 +75,30 @@ public:
         if(other == NULL) {
             return false;
         }
-        float meLeft = m_coord.x - width/2;
-        float meTop = m_coord.y - height/2;
 
-        float otherWidth = other->hitbox.getGlobalBounds().width;
-        float otherHeight = other->hitbox.getGlobalBounds().height;
-        float otherLeft = other->hitbox.getGlobalBounds().left;
-        float otherTop = other->hitbox.getGlobalBounds().top;
+        sf::Vector2f meTL = hitbox.getPosition();
+        sf::Vector2f meBR = meTL + hitbox.getSize();
 
-        std::vector<sf::Vector2f> otherCoords; otherCoords.clear();
-        otherCoords.push_back(sf::Vector2f{otherLeft, otherTop});
-        otherCoords.push_back(sf::Vector2f{otherLeft+otherWidth, otherTop});
-        otherCoords.push_back(sf::Vector2f{otherLeft+otherWidth, otherTop+otherHeight});
-        otherCoords.push_back(sf::Vector2f{otherLeft, otherTop+otherHeight});
+        sf::Vector2f otherTL = other->hitbox.getPosition();
+        sf::Vector2f otherBR = otherTL + other->hitbox.getSize();
 
-        for(const sf::Vector2f& c : otherCoords) {
-            if(meLeft < c.x and c.x < meLeft+width and
-               meTop < c.y and c.y < meTop+height) {
-                return true;
-            }
+        return (meTL.x < otherBR.x) * (otherTL.x < meBR.x) * (meTL.y < otherBR.y) * (otherTL.y < meBR.y);
+    }
+
+    bool collides(sf::Vector2i mousePosition, sf::Vector2f hitboxSize) {
+        sf::Vector2f meTL = hitbox.getPosition();
+        sf::Vector2f meBR = meTL + hitbox.getSize();
+
+        sf::Vector2f otherTL = sf::Vector2f{mousePosition.x, mousePosition.y} - hitboxSize*0.5f;
+        sf::Vector2f otherBR = sf::Vector2f{mousePosition.x, mousePosition.y} + hitboxSize*0.5f;
+
+        if(meTL.x > otherBR.x or otherTL.x > meBR.x) {
+            return false;
         }
-        return false;
+        if(meTL.y > otherBR.y or otherTL.y > meBR.y) {
+            return false;
+        }
+        return true;
     }
 
 public:
@@ -103,6 +113,21 @@ public:
     char content[500];
 
 private:
+    void setCoordonates() {
+        if(nodeType == Constants::ConditionalNode) {
+            m_coordIn        = m_coord + sf::Vector2f{       0, -2*height/3};
+            m_coordOut       = m_coord + sf::Vector2f{       0,    height/3};
+            m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,    height/3};
+            m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,    height/3};
+        }
+        else {
+            m_coordIn        = m_coord + sf::Vector2f{       0, -height/2};
+            m_coordOut       = m_coord + sf::Vector2f{       0,  height/2};
+            m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
+            m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
+        }
+    }
+
     sf::ConvexShape setShape() {
         hitbox = sf::RectangleShape(sf::Vector2f{width-1, height-1});
         hitbox.setPosition(m_coord - sf::Vector2f{width/2, height/2});
@@ -161,21 +186,25 @@ private:
     }
 
     sf::ConvexShape conditionalNodeShape() {
-        hitbox.setSize(sf::Vector2f{width, 3*height/2});
-        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height});
+        hitbox.setSize(sf::Vector2f{width, height});
+        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height-20});
 
         sf::ConvexShape convexShape;
         convexShape.setPointCount(6);
         convexShape.setOutlineThickness(2);
         convexShape.setOutlineColor(sf::Color::Red);
 
-        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height});
-        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height});
-        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2-10});
-        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,  height/2});
-        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2,  height/2});
-        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2,  height/2-10});
-        height *= 3/2;
+        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height+20});  // -2*height/3});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height+20});  // -2*height/3});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  0});  //    height/3-10});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,  20});  //    height/3});
+        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2,  20});  //    height/3});
+        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2,  0});  //    height/3-10});
+
+        m_coordIn        = m_coord + sf::Vector2f{       0, -height+20};
+        m_coordOut       = m_coord + sf::Vector2f{       0,  20};
+        m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  20};
+        m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  20};
 
         return convexShape;
     }
