@@ -179,51 +179,37 @@ int main()
         {
             Vector2i pozitieMouse = Mouse::getPosition(window);
             Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
-            /// VERIFICA COLIZIUNI
             for(size_t i = 0; i < nodes.size(); ++i) {
-                if(i != target and nodes[i]->collides(nodes[target])) {
-                    cout << "Collides " << (cnt++) << "\n";
+                if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
                     Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                    Vector2f var = coordMe;
+                    Vector2f delta{nodes[i]->width + nodes[target]->width, nodes[i]->height + nodes[target]->height};
                     if(coordMe.x > coordOther.x) {
-                        coordMe.x = max(coordMe.x, coordOther.x + (nodes[i]->width + nodes[target]->width)/2);
+                        var.x = max(coordMe.x, coordOther.x + delta.x/2);
                     }
                     else {
-                        coordMe.x = min(coordMe.x, coordOther.x - (nodes[i]->width + nodes[target]->width)/2);
+                        var.x = min(coordMe.x, coordOther.x - delta.x/2);
+                    }
+                    if(coordMe.y > coordOther.y) {
+                        var.y = max(coordMe.y, coordOther.y + delta.y/2);
+                    }
+                    else {
+                        var.y = min(coordMe.y, coordOther.y - delta.y/2);
+                    }
+
+                    if(fabs(var.x - coordMe.x) * delta.y < fabs(var.y - coordMe.y) * delta.x) {
+                        coordMe.x = var.x;
+                    }
+                    else {
+                        coordMe.y = var.y;
                     }
                 }
             }
-            /// SFARSIT VERIFICA COLOZIUNI
             nodes[target]->setNodeCoordonates(coordMe);
         }
         window.clear();
         DeseneazaPeEcran(window,nodes, lines);
         window.display();
-
-//        for(Node* node : nodes) {
-//            cout << int(node->nodeType) << ": ";
-//            if(node->nodeType == Constants::ConditionalNode) {
-//                if(node->urmTrue) {
-//                    cout << int(node->urmTrue->nodeType) << " ";
-//                }
-//                else {
-//                    cout << "NULL ";
-//                }
-//                if(node->urmFalse) {
-//                    cout << int(node->urmFalse->nodeType) << "\n";
-//                }
-//                else {
-//                    cout << "NULL\n";
-//                }
-//            }
-//            else {
-//                if(node->urm) {
-//                    cout << int(node->urm->nodeType) << "\n";
-//                }
-//                else {
-//                    cout << "NULL\n";
-//                }
-//            }
-//        }
     }
 
     return 0;
