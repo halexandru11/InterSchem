@@ -37,6 +37,48 @@ datatype logpow(datatype a, datatype b)
 }
 
 
+datatype to_nr_pointer(char *q)
+{
+    //cout << q;
+    datatype r = 0;
+    datatype offset = 0.1;
+    int semn = 1;
+    int i = 0;
+    int point = 0;
+
+    while(*q != NULL && strchr("-+=^()*/", *q) == NULL && !isalpha(*q))
+    {
+        if(*q == '.')
+        {
+            if(point != 0 )
+            {
+                cerr << "VALOARE INTRODUSA GRESIT - .";
+                exit(1);
+            }
+            point = 1;
+        }
+        else if(!isdigit(*q))
+        {
+            //cout << *q << '\n';
+            cerr << "VALOARE INTRODUSA GRESIT - . AICI?";
+            exit(1);
+        }
+        else if(point)
+        {
+            r = r + offset * (*q - '0');
+            offset /= 10;
+        }
+        else
+            r = r * 10 + (*q - '0');
+        q++;
+    }
+    r *= semn;
+    return r;
+}
+
+
+
+
 datatype numar(char *&p)
 {
     if(*p == 'p' && *(p + 1) == 'i')
@@ -65,11 +107,13 @@ datatype numar(char *&p)
     }
 
     datatype nr=0;
+    /*
     while(*p>='0' && *p<='9')
     {
         nr=nr*10 + *p-'0';
         p++;
-    }
+    }*/
+    nr = to_nr_pointer(p);
     return nr;
 }
 datatype termen(char *&p);
@@ -108,7 +152,9 @@ datatype Evalueaza_Expresie(char s[])
         if('A' <= s[i] && s[i] <= 'Z')
             q[nq - 1] = s[i] - 'A' + 'a';
     }
+    q[nq] = NULL;
     char *w = q;
+    //cout << "start " << w << '\n';
     return andor(w);
 }
 
