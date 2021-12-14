@@ -116,7 +116,7 @@ Node* RunPrintNode(Node*p)
         }
     }
     else
-        cout << Evalueaza_Expresie(s);
+        cout << "OUTPUT: " << Evalueaza_Expresie(s);
     cout << '\n';
     return p->urm;
 }
