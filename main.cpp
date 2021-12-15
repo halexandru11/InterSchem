@@ -122,6 +122,9 @@ int main()
                         RunSchema(StartSchema);
 
 
+                    if(isInsideButton(pos, buttonClear))
+                        ClearScreen(nodes,lines);
+
                     if(isInsideButton(pos, buttonExport))
                         ExportToFile(nodes);
                     if(isInsideButton(pos, buttonImport))

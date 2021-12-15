@@ -49,7 +49,7 @@ void popupSetup()
     popUpBG.setPosition(Vector2f(1000.0f/ 2.0f , 150.0f / 2.0f ));
 }
 
-void afiseazaPopup(RenderWindow &window, int tip)
+void afiseazaPopup(RenderWindow &window)
 {
     window.draw(popUpBG);
     window.draw(popupText);

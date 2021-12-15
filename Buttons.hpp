@@ -31,6 +31,7 @@ RectangleShape buttonRun(Vector2f(125.0f,50.0f));
 RectangleShape buttonImport(Vector2f(125.0f,50.0f));
 
 RectangleShape buttonExport(Vector2f(125.0f,50.0f));
+RectangleShape buttonClear(Vector2f(125.0f,30.0f));
 
 void initializareButoane(Font &font)
 {
@@ -50,6 +51,10 @@ void initializareButoane(Font &font)
     workbench.setFillColor(Color(59,71,57,255));
     workbench.setOrigin(0.0f, 0.0f);
     workbench.setPosition(125.0f, 0.0f);
+
+    buttonClear.setFillColor(Color::Red);
+    buttonClear.setOrigin(62.5f, 15.0f);
+    buttonClear.setPosition(62.5f, 15.0f);
 
     buttonStart.setFillColor(Color::Blue);
     buttonStart.setOrigin(62.5f, 25.0f);
@@ -93,6 +98,10 @@ void initializareButoane(Font &font)
     text.setFont(font);
     text.setCharacterSize(17);
     text.setFillColor(Color::White);
+
+    text.setPosition(35.0f, 7.0f);
+    text.setString("Clear");
+    ButtonText.push_back(text);
 
     text.setPosition(10.0f, 63.0f);
     text.setString("Nod Start");
@@ -147,6 +156,7 @@ void afisareButoane(RenderWindow &window)
         window.draw(OutputText);
         window.draw(buttonExport);
         window.draw(buttonImport);
+        window.draw(buttonClear);
         for(int i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
 }
