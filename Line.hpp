@@ -1,6 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <future>
 #include <vector>
 
 #include "Node.hpp"
@@ -109,6 +110,26 @@ private:
                 m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x, m_coordChild.y}));
             }
         }
+
+        setLineColor();
+    }
+
+    void setLineColor() {
+        int sz = int(m_line.size());
+        sf::Time frameTime = m_clock.restart();
+        m_time += frameTime;
+        while(m_time.asSeconds() > sz/2+1) {
+            m_time -= sf::seconds(sz/2+1);
+        }
+        int index = std::max(2*int(m_time.asSeconds())-1, 0);
+        index = std::min(index, sz-1);
+        for(size_t i = 0; i < sz; ++i) {
+            m_line[i].color = sf::Color::Magenta;
+        }
+        m_line[index].color = sf::Color::Cyan;
+        if(index % 2 and index != sz-1) {
+            m_line[index+1].color = sf::Color::Cyan;
+        }
     }
 
 private:
@@ -119,4 +140,6 @@ private:
     Node* m_parent = NULL;
     Node* m_child = NULL;
     bool m_connected = false;
+    sf::Time m_time;
+    sf::Clock m_clock;
 };

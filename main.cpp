@@ -15,6 +15,7 @@ using namespace std;
 int cnt;
 int main()
 {
+    sf::Clock clock;
     sf::ContextSettings settings = ContextSettings();
     settings.antialiasingLevel = 10;
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
@@ -34,6 +35,9 @@ int main()
     int lineParentNode = -1;
     while (window.isOpen())
     {
+        if(clock.getElapsedTime().asSeconds() > 4) {
+            clock.restart();
+        }
         Event evnt;
         while (window.pollEvent(evnt))
         {

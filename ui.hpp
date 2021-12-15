@@ -15,14 +15,14 @@ void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
             window.draw(nodes[index]->getShape());
             window.draw(nodes[index]->text);
 
-            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordIn));
-            window.draw(circle);
-            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOut));
-            window.draw(circle);
-            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutTrue));
-            window.draw(circle);
-            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutFalse));
-            window.draw(circle);
+//            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordIn));
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOut));
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutTrue));
+//            window.draw(circle);
+//            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordOutFalse));
+//            window.draw(circle);
 //            window.draw(nodes[index]->hitbox); /// DEBUG
         }
 }
@@ -30,7 +30,8 @@ void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 void afiseazaLinii(RenderWindow &window, const vector<Line>& lines)
 {
     for(Line line : lines) {
-        window.draw(&line.getLine(window)[0], line.getLine(window).size(), Lines);
+        auto shape = line.getLine(window);
+        window.draw(&shape[0], shape.size(), Lines);
     }
 }
 
