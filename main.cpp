@@ -8,6 +8,7 @@
 #include "ui.hpp"
 #include "functiiAuxiliare.hpp"
 #include "inputText.hpp"
+#include "import_export.hpp"
 
 using namespace sf;
 using namespace std;
@@ -31,9 +32,6 @@ int main()
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
     int lineParentNode = -1;
-
-    //cout << to_nr_pointer("2");
-    cout << '\n' <<  Evalueaza_Expresie("-12") << '\n';
     while (window.isOpen())
     {
         Event evnt;
@@ -122,6 +120,12 @@ int main()
 
                     if(isInsideButton(pos, buttonRun))
                         RunSchema(StartSchema);
+
+
+                    if(isInsideButton(pos, buttonExport))
+                        ExportToFile(nodes);
+                    if(isInsideButton(pos, buttonImport))
+                        ImportFromFile(nodes,lines);
                 }
                 else if(evnt.mouseButton.button == Mouse::Right)
                 {
@@ -213,6 +217,5 @@ int main()
         DeseneazaPeEcran(window,nodes, lines);
         window.display();
     }
-
     return 0;
 }
