@@ -7,7 +7,7 @@
 
 class Line {
 public:
-    Line(Node& parent, Node& child, Constants::CoordType parentCoordType, Constants::CoordType childCoordType) {
+    Line(Node& parent, Node& child, Constants::CoordType parentCoordType, Constants::CoordType childCoordType, Node* childAdress) {
         m_parent = &parent;
         m_child = &child;
         m_parentCoordType = parentCoordType;
@@ -15,6 +15,7 @@ public:
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
         m_coordChild = m_child->getNodeCoordonates(m_childCoordType);
         m_connected = true;
+        connectToNode(childAdress, childCoordType);
     }
 
     Line(Node*& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {

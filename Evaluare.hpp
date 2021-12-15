@@ -401,9 +401,13 @@ datatype to_nr(string q)
 
 void adaugaVariabila(string s, datatype val)
 {
+    for(int i = 0; i < s.size(); ++i)
+        if('A' <= s[i] && s[i] <= 'Z')
+            s[i] = s[i] - 'A' + 'a';
+
     variabileCod[ s ] = nrVariabile++;
     variabile[ variabileCod[ s ] ] = val;
-    //cout << "AM DECLARAT " << s << (variabileCod.find(s) == variabileCod.end() ) << '\n';
+    cout << "AM DECLARAT " << s << (variabileCod.find(s) == variabileCod.end() ) << '\n';
 }
 
 void atribuieVariabila(string s, datatype val)

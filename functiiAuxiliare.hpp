@@ -129,3 +129,12 @@ void stergeLinie(vector<Line>& lines, Node*& node, Constants::CoordType coordTyp
         }
     }
 }
+
+void ClearScreen(vector <Node*> &v, vector<Line>& lines)
+{
+    lines.clear();
+    v.clear();
+    isStartNode = false;
+    isStopNode = false;
+    StartSchema = NULL;
+}
