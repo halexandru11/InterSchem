@@ -57,7 +57,7 @@ Node* RunReadNode(Node* p)
             }
         }
         fereastra_citire.clear();
-        afiseazaPopup(fereastra_citire,1);
+        afiseazaPopup(fereastra_citire);
         fereastra_citire.display();
     }
     isPOPup = false;

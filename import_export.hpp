@@ -7,6 +7,7 @@
 #include "Line.hpp"
 #define Dad v[i]
 #define Kid v[a]
+#define caracter E.text.unicode
 string filePath = "output.txt";
 
 void PrintNode(Node* p, ofstream &g)
@@ -53,6 +54,37 @@ void PrintEdges(vector <Node*> v, ofstream &g)
 
 void ExportToFile(vector <Node*> v)
 {
+    RenderWindow fereastra_citire(VideoMode(1000, 150), "Export", Style::Close | Style::Titlebar);
+    isPOPup = true;
+    filePath = "";
+    string taskk = "Introduceti numele fisierului + extenisa(optional si Path-ul acestuia):";
+    setPopupText(taskk);
+    while(fereastra_citire.isOpen())
+    {
+        Event E;
+        while(fereastra_citire.pollEvent(E))
+        {
+            if(E.type == Event::Closed)
+            {
+                fereastra_citire.close();
+            }
+            else if(E.type == Event::TextEntered)
+            {
+                getInputPop(E);
+                if(caracter == 13)
+                {
+                    filePath = inputPopUp.getString();
+                    setPopupInputText("");
+                    fereastra_citire.close();
+                }
+            }
+        }
+        fereastra_citire.clear();
+        afiseazaPopup(fereastra_citire);
+        fereastra_citire.display();
+    }
+    isPOPup = false;
+
     ofstream g(filePath);
     g << v.size() << '\n';
     for(int i = 0; i < v.size(); ++i)
@@ -108,7 +140,7 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
     {
         int a;
         f >> a ;
-        cout << a  << ' ';
+//        cout << a  << ' ';
         /*
 
         */
@@ -119,7 +151,7 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
         }
 
         f >> a ;
-        cout << a  << ' ';
+//        cout << a  << ' ';
         if(a != -1)
         {
 //        cout << v[i]->content << ' ' << v[a]->content << '\n';
@@ -127,18 +159,51 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
         }
 
         f >> a ;
-        cout << a  << ' ';
+//        cout << a  << ' ';
         if(a != -1)
         {
 //        cout << v[i]->content << ' ' << v[a]->content << '\n';
             linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOutFalse, Constants::CoordType:: CoordIn,Kid));
         }
-        cout << '\n';
+//        cout << '\n';
     }
 }
 
+
+
 void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
 {
+    RenderWindow fereastra_citire(VideoMode(1000, 150), "Import", Style::Close | Style::Titlebar);
+    isPOPup = true;
+    filePath = "";
+    string taskk = "Introduceti numele fisierului + extenisa(optional si Path-ul acestuia):";
+    setPopupText(taskk);
+    while(fereastra_citire.isOpen())
+    {
+        Event E;
+        while(fereastra_citire.pollEvent(E))
+        {
+            if(E.type == Event::Closed)
+            {
+                fereastra_citire.close();
+            }
+            else if(E.type == Event::TextEntered)
+            {
+                getInputPop(E);
+                if(caracter == 13)
+                {
+                    filePath = inputPopUp.getString();
+                    setPopupInputText("");
+                    fereastra_citire.close();
+                }
+            }
+        }
+        fereastra_citire.clear();
+        afiseazaPopup(fereastra_citire);
+        fereastra_citire.display();
+    }
+    isPOPup = false;
+
     ifstream f(filePath);
     ClearScreen(v, linii);
     int lg;
@@ -146,4 +211,6 @@ void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
     for(int i = 0; i < lg; ++i)
         EnterNode(f,v);
     setLines(f,v,linii);
+
+    f.close();
 }
