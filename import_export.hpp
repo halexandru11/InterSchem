@@ -115,7 +115,7 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
         if(a != -1)
         {
 //        cout << v[i]->content << ' ' << v[a]->content << '\n';
-            linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOut, Constants::CoordType:: CoordIn,Kid));
+            linii.push_back(Line(*Dad, *Kid, Constants::CoordType::CoordOut, Kid));
         }
 
         f >> a ;
@@ -123,7 +123,7 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
         if(a != -1)
         {
 //        cout << v[i]->content << ' ' << v[a]->content << '\n';
-            linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOutTrue, Constants::CoordType:: CoordIn,Kid));
+            linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOutTrue,Kid));
         }
 
         f >> a ;
@@ -131,7 +131,7 @@ void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
         if(a != -1)
         {
 //        cout << v[i]->content << ' ' << v[a]->content << '\n';
-            linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOutFalse, Constants::CoordType:: CoordIn,Kid));
+            linii.push_back(Line(*Dad,*Kid,Constants::CoordType::CoordOutFalse,Kid));
         }
         cout << '\n';
     }

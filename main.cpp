@@ -78,7 +78,7 @@ int main()
                         for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
                                 if(i != lineParentNode) {
-                                    lines.back().connectToNode(nodes[i], Constants::CoordIn);
+                                    lines.back().connectToNode(nodes[i]);
                                     lineStarted = false;
                                     break;
                                 }

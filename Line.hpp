@@ -7,15 +7,12 @@
 
 class Line {
 public:
-    Line(Node& parent, Node& child, Constants::CoordType parentCoordType, Constants::CoordType childCoordType, Node* childAdress) {
+    Line(Node& parent, Node& child, Constants::CoordType parentCoordType, Node* childAdress) {
         m_parent = &parent;
         m_child = &child;
         m_parentCoordType = parentCoordType;
-        m_childCoordType = childCoordType;
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
-        m_coordChild = m_child->getNodeCoordonates(m_childCoordType);
-        m_connected = true;
-        connectToNode(childAdress, childCoordType);
+        connectToNode(childAdress);
     }
 
     Line(Node*& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {
@@ -32,10 +29,9 @@ public:
         return m_line;
     }
 
-    void connectToNode(Node*& node, Constants::CoordType nodeCoordType) {
+    void connectToNode(Node*& node) {
         m_connected = true;
         m_child = *&node;
-        m_childCoordType = nodeCoordType;
         switch(m_parentCoordType) {
         case Constants::CoordOut:
             m_parent->urm = m_child;
@@ -64,7 +60,7 @@ private:
         }
         sf::Vector2f mousePos = sf::Vector2f{sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
-        m_coordChild = (m_connected ? m_child->getNodeCoordonates(m_childCoordType) : mousePos);
+        m_coordChild = (m_connected ? m_child->getNodeCoordonates(Constants::CoordIn) : mousePos);
         float midY = (m_coordParent.y + m_coordChild.y) / 2;
 
         m_line.clear();
@@ -120,7 +116,6 @@ private:
     sf::Vector2f m_coordChild = sf::Vector2f{-1, -1};
     std::vector<sf::Vertex> m_line;
     Constants::CoordType m_parentCoordType;
-    Constants::CoordType m_childCoordType;
     Node* m_parent = NULL;
     Node* m_child = NULL;
     bool m_connected = false;
