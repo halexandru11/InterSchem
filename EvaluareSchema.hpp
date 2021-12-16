@@ -138,6 +138,7 @@ Node* RunPrintNode(Node*p)
 
 Node* RunNode(Node *p)
 {
+    p->setNodeColor(Color::Yellow);
     if(p->nodeType == 1)
         return RunStartNode(p);
     if(p->nodeType == 2)
@@ -151,8 +152,19 @@ Node* RunNode(Node *p)
     return nullptr;
 }
 
+void clearSchema(Node* p) {
+    if(p->getNodeColor() == sf::Color::White) {
+        return;
+    }
+    p->setNodeColor(Color::White);
+    if(p->urm) clearSchema(p->urm);
+    if(p->urmTrue) clearSchema(p->urmTrue);
+    if(p->urmFalse) clearSchema(p->urmFalse);
+}
+
 void RunSchema(Node *p)
 {
+    clearSchema(p);
     while(p != NULL)
     {
         ///colorez nodul curent cumva

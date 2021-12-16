@@ -89,6 +89,15 @@ public:
         return true;
     }
 
+    void setNodeColor(sf::Color color) {
+        m_color = color;
+        m_shape.setFillColor(m_color);
+    }
+
+    sf::Color getNodeColor() {
+        return m_color;
+    }
+
 public:
     Constants::NodeType nodeType;
     float height = 30;
@@ -102,10 +111,10 @@ public:
 
 private:
     void setCoordonates() {
-        m_coordIn        = m_coord + sf::Vector2f{       0, -height/2};
-        m_coordOut       = m_coord + sf::Vector2f{       0,  height/2};
-        m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
-        m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
+        m_coordIn       = m_coord + sf::Vector2f{       0, -height/2};
+        m_coordOut      = m_coord + sf::Vector2f{       0,  height/2};
+        m_coordOutTrue  = m_coord + sf::Vector2f{-width/2,  height/2};
+        m_coordOutFalse = m_coord + sf::Vector2f{ width/2,  height/2};
 
         float textH = text.getGlobalBounds().height;
         float textW = text.getGlobalBounds().width;
@@ -135,6 +144,7 @@ private:
         default:
             m_shape = sf::ConvexShape(0);
         }
+        m_shape.setFillColor(m_color);
         setHitbox();
     }
 
@@ -251,6 +261,7 @@ private:
     sf::Vector2f m_coordOutTrue;
     sf::Vector2f m_coordOutFalse;
     sf::ConvexShape m_shape;
+    sf::Color m_color = sf::Color::White;
     bool m_shapeAssigned = false;
     int m_padding = 10;
 };
