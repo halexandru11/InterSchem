@@ -162,12 +162,17 @@ void clearSchema(Node* p) {
     if(p->urmFalse) clearSchema(p->urmFalse);
 }
 
+
 void RunSchema(Node *p)
 {
     clearSchema(p);
+    Clock myclock;
+    float waitForSeconds = 2.f;
     while(p != NULL)
     {
         ///colorez nodul curent cumva
+//        myclock.restart();
+//        while(myclock.getElapsedTime().asSeconds() < waitForSeconds);
         cout << p->nodeType << '\n';
         p = RunNode(p);
         /// + delay de cateva secunde + modificare delay
