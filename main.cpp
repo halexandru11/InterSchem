@@ -12,7 +12,7 @@
 
 using namespace sf;
 using namespace std;
-int cnt;
+
 int main()
 {
     sf::Clock clock;
@@ -29,7 +29,6 @@ int main()
     bool hold = false;
     Vector2i oldPos;
     int target = -1;
-    int emptyRectangle = -1;
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
     int lineParentNode = -1;
@@ -123,8 +122,7 @@ int main()
                         adauga_nod(nodes, Constants::ReadNode);
 
                     if(isInsideButton(pos, buttonRun))
-                        RunSchema(StartSchema);
-
+                        RunSchema(StartSchema, window, nodes, lines);
 
                     if(isInsideButton(pos, buttonClear))
                         ClearScreen(nodes,lines);
@@ -220,8 +218,8 @@ int main()
             }
             nodes[target]->setNodeCoordonates(coordMe);
         }
-        window.clear();
-        DeseneazaPeEcran(window,nodes, lines);
+        window.clear(Color(57, 77, 0));
+        DeseneazaPeEcran(window, nodes, lines);
         window.display();
     }
     return 0;

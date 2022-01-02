@@ -1,41 +1,72 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <bits/stdc++.h>
-#include "Constants.hpp"
-#include "Node.hpp"
 #include "pop_ups.hpp"
+
 using namespace sf;
 using namespace std;
 
-Node * StartSchema;
-vector <Text> ButtonText;
-RectangleShape workbench(Vector2f(900.0f,720.0f));
-RectangleShape buttonStart(Vector2f(125.0f,50.0f));
+struct Button {
+public:
+    Button(Vector2f size) {
+        shape.setSize(size);
+        text.setFont(font);
+        text.setCharacterSize(17);
+        text.setFillColor(Color::White);
+    }
 
+    void init(Vector2f size = Vector2f(0, 0),
+              Vector2f pos = Vector2f(0, 0),
+              Vector2f textPos = Vector2f(0, 0),
+              string textString = "",
+              unsigned int textSize = 17,
+              float outlineThiskness = -2,
+              Color backgroundColor = Color::Blue,
+              Color outlineColor = Color::White,
+              Color textColor = Color::White) {
+        shape.setSize(size);
+        shape.setPosition(pos);
+        shape.setFillColor(backgroundColor);
+        shape.setOutlineColor(outlineColor);
+        shape.setOutlineThickness(outlineThiskness);
+        text.setString(textString);
+        text.setCharacterSize(textSize);
+        text.setFillColor(textColor);
+        setTextPosition(pos);
+    }
+
+    void draw(RenderWindow& window) {
+        window.draw(shape);
+        window.draw(text);
+    }
+public:
+    RectangleShape shape;
+    Text text;
+
+private:
+    void setTextPosition(Vector2f pos) {
+        pos += Vector2f(10, shape.getLocalBounds().height/2 - 10);
+        text.setPosition(pos);
+    }
+};
+
+Node* StartSchema;
 Text OutputText;
-CircleShape circle = CircleShape(3, 14);
-RectangleShape buttonAssign(Vector2f(125.0f,50.0f));
 
+RectangleShape workbench    (Vector2f(900.0f,720.0f));
 
-RectangleShape buttonCond(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonRead(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonOut(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonEnd(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonRun(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonImport(Vector2f(125.0f,50.0f));
-
-RectangleShape buttonExport(Vector2f(125.0f,50.0f));
-RectangleShape buttonClear(Vector2f(125.0f,30.0f));
+Button buttonStart  (Vector2f(125.0f, 50.0f));
+Button buttonAssign (Vector2f(125.0f, 50.0f));
+Button buttonCond   (Vector2f(125.0f, 50.0f));
+Button buttonRead   (Vector2f(125.0f, 50.0f));
+Button buttonOut    (Vector2f(125.0f, 50.0f));
+Button buttonEnd    (Vector2f(125.0f, 50.0f));
+Button buttonRun    (Vector2f(125.0f, 50.0f));
+Button buttonImport (Vector2f(125.0f, 50.0f));
+Button buttonExport (Vector2f(125.0f, 50.0f));
+Button buttonClear  (Vector2f(125.0f, 30.0f));
 
 void initializareButoane(Font &font)
 {
-
     OutputText.setFont(font);
     OutputText.setCharacterSize(17);
     OutputText.setFillColor(Color::White);
@@ -44,142 +75,94 @@ void initializareButoane(Font &font)
 
 
     popupSetup();
-    circle.setFillColor(Color::Cyan);
-    circle.setOrigin(circle.getRadius(), circle.getRadius());
 
-
-    workbench.setFillColor(Color(59,71,57,255));
+//    workbench.setFillColor(Color(59,71,57,255));
+    workbench.setFillColor(Color(90,120,50));
     workbench.setOrigin(0.0f, 0.0f);
     workbench.setPosition(125.0f, 0.0f);
 
-    buttonClear.setFillColor(Color::Red);
-    buttonClear.setOrigin(62.5f, 15.0f);
-    buttonClear.setPosition(62.5f, 15.0f);
+    buttonClear.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0.0f, 0.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "CLEAR", 17, -2,
+                    Color(87, 80, 15));
 
-    buttonStart.setFillColor(Color::Blue);
-    buttonStart.setOrigin(62.5f, 25.0f);
-    buttonStart.setPosition(62.5f, 75.0f);
+    buttonRun.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 55.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "RUN", 17, -2,
+                    Color(87, 80, 15));
 
-    buttonAssign.setFillColor(Color::Blue);
-    buttonAssign.setOrigin(62.5f, 25.0f);
-    buttonAssign.setPosition(62.5f, 150.0f);
+    buttonImport.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 110.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "IMPORT", 17, -2,
+                    Color(87, 80, 15));
 
-    buttonCond.setFillColor(Color::Blue);
-    buttonCond.setOrigin(62.5f, 25.0f);
-    buttonCond.setPosition(62.5f, 225.0f);
+    buttonExport.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 165.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "EXPORT", 17, -2,
+                    Color(87, 80, 15));
 
-    buttonRead.setFillColor(Color::Blue);
-    buttonRead.setOrigin(62.5f, 25.0f);
-    buttonRead.setPosition(62.5f, 300.0f);
+    buttonStart.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 250.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Start Nod", 17, -2,
+                    Color(158, 157, 36));
 
-    buttonOut.setFillColor(Color::Blue);
-    buttonOut.setOrigin(62.5f, 25.0f);
-    buttonOut.setPosition(62.5f, 375.0f);
+    buttonAssign.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 305.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Assign Nod", 17, -2,
+                    Color(158, 157, 36));
 
-    buttonEnd.setFillColor(Color::Blue);
-    buttonEnd.setOrigin(62.5f, 25.0f);
-    buttonEnd.setPosition(62.5f, 450.0f);
+    buttonCond.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 360.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Cond Nod", 17, -2,
+                    Color(158, 157, 36));
 
+    buttonRead.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 415.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Read Nod", 17, -2,
+                    Color(158, 157, 36));
 
-    buttonRun.setFillColor(Color::Red);
-    buttonRun.setOrigin(62.5f, 25.0f);
-    buttonRun.setPosition(62.5f, 525.0f);
+    buttonOut.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 470.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Output Nod", 17, -2,
+                    Color(158, 157, 36));
 
-    buttonExport.setFillColor(Color::Red);
-    buttonExport.setOrigin(62.5f, 25.0f);
-    buttonExport.setPosition(62.5f, 600.0f);
+    buttonEnd.init(Vector2f(125.0f, 50.0f),
+                    Vector2f(0, 525.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Stop Nod", 17, -2,
+                    Color(158, 157, 36));
 
-    buttonImport.setFillColor(Color::Red);
-    buttonImport.setOrigin(62.5f, 25.0f);
-    buttonImport.setPosition(62.5f, 675.0f);
-
-
-    Text text;
-    text.setFont(font);
-    text.setCharacterSize(17);
-    text.setFillColor(Color::White);
-
-    text.setPosition(35.0f, 7.0f);
-    text.setString("Clear");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 63.0f);
-    text.setString("Nod Start");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 138.0f);
-    text.setString("Nod Assign");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 213.0f);
-    text.setString("Nod Cond");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 288.0f);
-    text.setString("Nod Read");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 363.0f);
-    text.setString("Nod Output");
-    ButtonText.push_back(text);
-
-
-    text.setPosition(10.0f, 438.0f);
-    text.setString("Nod Stop");
-    ButtonText.push_back(text);
-
-
-    text.setPosition(10.0f, 513.0f);
-    text.setString("RUN");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 588.0f);
-    text.setString("Export");
-    ButtonText.push_back(text);
-
-    text.setPosition(10.0f, 663.0f);
-    text.setString("Import");
-    ButtonText.push_back(text);
-    ///cout << ButtonText.size()<< '\n';
 }
 
 void afisareButoane(RenderWindow &window)
 {
-        window.draw(workbench);
-        window.draw(buttonStart);
-        window.draw(buttonAssign);
-        window.draw(buttonCond);
-        window.draw(buttonOut);
-        window.draw(buttonEnd);
-        window.draw(buttonRead);
-        window.draw(buttonRun);
-        window.draw(OutputText);
-        window.draw(buttonExport);
-        window.draw(buttonImport);
-        window.draw(buttonClear);
-        for(int i = 0; i < ButtonText.size(); ++i)
-            window.draw(ButtonText[i]);
+    window.draw(workbench);
+    window.draw(OutputText);
+    buttonClear.draw(window);
+    buttonStart.draw(window);
+    buttonAssign.draw(window);
+    buttonCond.draw(window);
+    buttonRead.draw(window);
+    buttonOut.draw(window);
+    buttonEnd.draw(window);
+    buttonRun.draw(window);
+    buttonExport.draw(window);
+    buttonImport.draw(window);
 }
 
-bool isInsideButton(Vector2f MousePos, RectangleShape q)
+bool isInsideButton(Vector2f MousePos, Button q)
 {
-    Vector2f qOrigin = q.getPosition();
-    Vector2f qSize = q.getSize();
-    Vector2f susStanga = qOrigin;
-    Vector2f josDreapta = qOrigin;
-    susStanga.x -= qSize.x / 2;
-    susStanga.y -= qSize.y / 2;
-    josDreapta.x += qSize.x / 2;
-    josDreapta.y += qSize.y / 2;
-    //cout << MousePos.x << ' ' << MousePos.y << '\n';
-    //cout << susStanga.x << ' ' << susStanga.y << '\n';
-    //cout << josDreapta.x << ' ' << josDreapta.y << '\n';
-    //cout << "\n\n";
-    if(josDreapta.x >= MousePos.x && MousePos.x >= susStanga.x &&
-        josDreapta.y >= MousePos.y && MousePos.y >= susStanga.y)
-        {
-            //cout << "GOOD\n";
-            return 1;
-        }
-    return 0;
+    return q.shape.getGlobalBounds().left < MousePos.x
+       and MousePos.x < q.shape.getGlobalBounds().left + q.shape.getGlobalBounds().width
+       and q.shape.getGlobalBounds().top < MousePos.y
+       and MousePos.y < q.shape.getGlobalBounds().top + q.shape.getGlobalBounds().height;
 }

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <bits/stdc++.h>
-#include "Node.hpp"
 #define caracter evnt.text.unicode
 using namespace sf;
 using namespace std;

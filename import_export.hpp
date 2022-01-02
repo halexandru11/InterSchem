@@ -1,10 +1,5 @@
 #pragma once
 
-#include <bits/stdc++.h>
-#include "Constants.hpp"
-#include "Node.hpp"
-#include "functiiAuxiliare.hpp"
-#include "Line.hpp"
 #define Dad v[i]
 #define Kid v[a]
 #define caracter E.text.unicode

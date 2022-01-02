@@ -1,13 +1,9 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <bits/stdc++.h>
 #include "Buttons.hpp"
-#include "Constants.hpp"
-#include "pop_ups.hpp"
+
 using namespace sf;
 using namespace std;
-
 
 void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 {
@@ -34,7 +30,6 @@ void afiseazaLinii(RenderWindow &window, const vector<Line>& lines)
         window.draw(&shape[0], shape.size(), Lines);
     }
 }
-
 
 void DeseneazaPeEcran(RenderWindow &window, const vector<Node*>& nodes, const vector<Line>& lines)
 {

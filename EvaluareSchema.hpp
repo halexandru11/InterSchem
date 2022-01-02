@@ -1,12 +1,9 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
-#include <bits/stdc++.h>
-#include "Constants.hpp"
 #include "Evaluare.hpp"
-#include "Node.hpp"
-#include "Buttons.hpp"
-#include "pop_ups.hpp"
+#include "ui.hpp"
+#include "functiiAuxiliare.hpp"
+
 #define caracter E.text.unicode
 
 
@@ -14,7 +11,6 @@ using namespace std;
 using namespace sf;
 
 string OutputContent;
-
 
 Node* RunStartNode(Node* p)
 {
@@ -138,43 +134,86 @@ Node* RunPrintNode(Node*p)
 
 Node* RunNode(Node *p)
 {
-    p->setNodeColor(Color::Yellow);
-    if(p->nodeType == 1)
+    if(p->nodeType == Constants::StartNode)
         return RunStartNode(p);
-    if(p->nodeType == 2)
+    if(p->nodeType == Constants::AssignNode)
         return RunAssignNode(p);
-    if(p->nodeType == 3)
+    if(p->nodeType == Constants::ConditionalNode)
         return RunIfNode(p);
-    if(p->nodeType == 4)
+    if(p->nodeType == Constants::OutputNode)
         return RunPrintNode(p);
-    if(p->nodeType == 6)
+    if(p->nodeType == Constants::ReadNode)
         return RunReadNode(p);
     return nullptr;
 }
 
 void clearSchema(Node* p) {
-    if(p->getNodeColor() == sf::Color::White) {
+    if(p->isActive() == false) {
         return;
     }
-    p->setNodeColor(Color::White);
+    p->resetNode();
     if(p->urm) clearSchema(p->urm);
     if(p->urmTrue) clearSchema(p->urmTrue);
     if(p->urmFalse) clearSchema(p->urmFalse);
 }
 
+int delay = 500;
 
-void RunSchema(Node *p)
+void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
     clearSchema(p);
     Clock myclock;
-    float waitForSeconds = 2.f;
+    Time mytime;
     while(p != NULL)
     {
+        p->activateNode();
+        window.clear();
+        DeseneazaPeEcran(window, nodes, lines);
+        window.display();
+        if(p->nodeType == Constants::StopNode) {
+            mytime = microseconds(0);
+            while(mytime.asMilliseconds() < delay) {
+                mytime += myclock.restart();
+            }
+            p->deactivateNode();
+            window.clear();
+            DeseneazaPeEcran(window, nodes, lines);
+            window.display();
+            return;
+        }
         ///colorez nodul curent cumva
-//        myclock.restart();
-//        while(myclock.getElapsedTime().asSeconds() < waitForSeconds);
-        cout << p->nodeType << '\n';
-        p = RunNode(p);
+        Node* child = RunNode(p);
+        Line line(p, Constants::CoordOut, window);
+        if(child == p->urm) {
+            line = Line(*p, *child, Constants::CoordOut, child);
+        }
+        else if(child == p->urmTrue) {
+            line = Line(*p, *child, Constants::CoordOutTrue, child);
+        }
+        else if(child == p->urmFalse) {
+            line = Line(*p, *child, Constants::CoordOutFalse, child);
+        }
+
+        for(size_t times = 0; times < line.getLine(window).size() / 2; ++times) {
+            mytime = microseconds(0);
+            while(mytime.asMilliseconds() < delay) {
+                mytime += myclock.restart();
+            }
+            p->deactivateNode();
+            if(child != NULL)
+                line.updateLineColor();
+            window.clear();
+            DeseneazaPeEcran(window, nodes, lines);
+            if(child != NULL)
+                window.draw(&line.getLine(window)[0], line.getLine(window).size(), Lines);
+            window.display();
+        }
+        mytime = microseconds(0);
+        while(mytime.asMilliseconds() < delay) {
+            mytime += myclock.restart();
+        }
+        p = child;
+//        cout << p->nodeType << '\n';
         /// + delay de cateva secunde + modificare delay
     }
 }

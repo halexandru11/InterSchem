@@ -1,7 +1,5 @@
 #pragma once
 
-#include <bits/stdc++.h>
-#include "Constants.hpp"
 #define caracter evnt.text.unicode
 
 using namespace std;
