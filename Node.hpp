@@ -142,6 +142,7 @@ public:
     float width = 100;
     int vizT = 0;
     int vizF = 0;
+    bool viz = false;
     sf::RectangleShape hitbox;
     sf::Text text;
     Node* urm = NULL;
