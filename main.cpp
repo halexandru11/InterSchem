@@ -106,6 +106,19 @@ int main()
                             target = i;
                             break;
                         }
+//                            Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+                    if(isInsideButton(pos, buttonDelay200)) {
+                        delay = 200;
+                    }
+                    else if(isInsideButton(pos, buttonDelay600)) {
+                        delay = 600;
+                    }
+                    else if(isInsideButton(pos, buttonDelay1200)) {
+                        delay = 1200;
+                    }
+                    else if(isInsideButton(pos, buttonDelay1800)) {
+                        delay = 1800;
+                    }
 
                     if(isInsideButton(pos, buttonStart))
                         adauga_nod(nodes, Constants::StartNode);

@@ -124,6 +124,19 @@ public:
         return m_isActive;
     }
 
+    void draw(sf::RenderWindow& window) {
+        window.draw(m_shape);
+        window.draw(text);
+        if(nodeType == Constants::ConditionalNode) {
+            sf::Text caz("T", font, 17);
+            caz.setPosition(m_coordOutTrue + sf::Vector2f(-15, -20));
+            window.draw(caz);
+            caz.setString("F");
+            caz.setPosition(m_coordOutFalse + sf::Vector2f(5, -20));
+            window.draw(caz);
+        }
+    }
+
 public:
     Constants::NodeType nodeType;
     float height = 30;
@@ -302,5 +315,4 @@ private:
     int m_padding = 10;
 };
 
-int q;
 std::vector<Node*> nodes;

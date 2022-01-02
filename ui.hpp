@@ -8,8 +8,7 @@ using namespace std;
 void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 {
     for(size_t index = 0; index < nodes.size(); ++index) {
-            window.draw(nodes[index]->getShape());
-            window.draw(nodes[index]->text);
+            nodes[index]->draw(window);
 
 //            circle.setPosition(nodes[index]->getNodeCoordonates(Constants::CoordIn));
 //            window.draw(circle);

@@ -167,26 +167,6 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     Clock myclock;
     Time mytime;
     while(p != NULL) {
-        Event evnt;
-        while (window.pollEvent(evnt)) {
-            if(evnt.type == Event::MouseButtonPressed) {
-                if(evnt.mouseButton.button == Mouse::Left) {
-                    Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
-                    if(isInsideButton(pos, buttonDelay200)) {
-                        delay = 200;
-                    }
-                    else if(isInsideButton(pos, buttonDelay600)) {
-                        delay = 600;
-                    }
-                    else if(isInsideButton(pos, buttonDelay1200)) {
-                        delay = 1200;
-                    }
-                    else if(isInsideButton(pos, buttonDelay1800)) {
-                        delay = 1800;
-                    }
-                }
-            }
-        }
         p->activateNode();
         window.clear();
         DeseneazaPeEcran(window, nodes, lines);
@@ -218,6 +198,13 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         for(size_t times = 0; times < line.getLine(window).size() / 2; ++times) {
             mytime = microseconds(0);
             while(mytime.asMilliseconds() < delay) {
+                Event evnt;
+                while (window.pollEvent(evnt)) {
+                    if(evnt.type == Event::MouseButtonPressed) {
+                        if(evnt.mouseButton.button == Mouse::Left) {
+                        }
+                    }
+                }
                 mytime += myclock.restart();
             }
             p->deactivateNode();
