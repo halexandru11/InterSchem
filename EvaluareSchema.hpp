@@ -184,6 +184,16 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         }
         ///colorez nodul curent cumva
         Node* child = RunNode(p);
+
+        OutputVariabile = "Variabile:\n";
+        for(auto it : variabileCod)
+        {
+            OutputVariabile += it.first + " = ";
+            cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
+            OutputVariabile += to_string(variabile[it.second]) + "\n";
+        }
+        VariabileText.setString(OutputVariabile);
+
         Line line(p, Constants::CoordOut, window);
         if(child == p->urm) {
             line = Line(*p, *child, Constants::CoordOut, child);
@@ -224,13 +234,6 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
 //        cout << p->nodeType << '\n';
         /// + delay de cateva secunde + modificare delay
     }
-    OutputVariabile = "Variabile:\n";
-    for(auto it : variabileCod)
-    {
-        OutputVariabile += it.first + " = ";
-        cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
-        OutputVariabile += to_string(variabile[it.second]) + "\n";
-    }
-    VariabileText.setString(OutputVariabile);
+
     p = dublura;
 }
