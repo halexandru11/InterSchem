@@ -34,6 +34,10 @@ public:
         setTextPosition(pos);
     }
 
+    void setBgColor(Color color) {
+        shape.setFillColor(color);
+    }
+
     void draw(RenderWindow& window) {
         window.draw(shape);
         window.draw(text);
@@ -53,30 +57,41 @@ Node* StartSchema;
 Text OutputText;
 Text VariabileText;
 Text CodText;
-RectangleShape workbench    (Vector2f(900.0f,720.0f));
+Text delayText("Delay:", font, 17);
 
-Button buttonStart  (Vector2f(125.0f, 50.0f));
-Button buttonAssign (Vector2f(125.0f, 50.0f));
-Button buttonCond   (Vector2f(125.0f, 50.0f));
-Button buttonRead   (Vector2f(125.0f, 50.0f));
-Button buttonOut    (Vector2f(125.0f, 50.0f));
-Button buttonEnd    (Vector2f(125.0f, 50.0f));
-Button buttonRun    (Vector2f(125.0f, 50.0f));
-Button buttonImport (Vector2f(125.0f, 50.0f));
-Button buttonExport (Vector2f(125.0f, 50.0f));
-Button buttonClear  (Vector2f(125.0f, 30.0f));
+RectangleShape workbench    (Vector2f(900.0f,720.0f));
+Button buttonClear     (Vector2f(125.0f, 50.0f));
+Button buttonRun       (Vector2f(125.0f, 50.0f));
+Button buttonImport    (Vector2f(125.0f, 50.0f));
+Button buttonExport    (Vector2f(125.0f, 50.0f));
+Button buttonStart     (Vector2f(125.0f, 50.0f));
+Button buttonAssign    (Vector2f(125.0f, 50.0f));
+Button buttonCond      (Vector2f(125.0f, 50.0f));
+Button buttonRead      (Vector2f(125.0f, 50.0f));
+Button buttonOut       (Vector2f(125.0f, 50.0f));
+Button buttonEnd       (Vector2f(125.0f, 50.0f));
+Button buttonDelay200  (Vector2f(62.5f, 50.0f));
+Button buttonDelay600  (Vector2f(62.5f, 50.0f));
+Button buttonDelay1200 (Vector2f(62.5f, 50.0f));
+Button buttonDelay1800  (Vector2f(62.5f, 50.0f));
+
+Button buttonOutPut    (Vector2f(300, 300));
+Button buttonVariabile (Vector2f(300, 300));
+Button buttonCode      (Vector2f(300, 300));
 
 void initializareButoane(Font &font)
 {
     OutputText.setFont(font);
     OutputText.setCharacterSize(17);
     OutputText.setFillColor(Color::White);
-    OutputText.setPosition(Vector2f(1040.0f,30.0f));
-    CodText = OutputText;
+    OutputText.setPosition(Vector2f(1040.0f,50.0f));
     OutputText.setString("Output:\n");
-    VariabileText.setString("Variabile:\n");
-    CodText.setString("Cod:\n");
 
+    VariabileText = OutputText;
+    VariabileText.setString("Variabile:\n");
+
+    CodText = OutputText;
+    CodText.setString("Cod:\n");
 
     popupSetup();
 
@@ -145,21 +160,72 @@ void initializareButoane(Font &font)
                     "Stop Nod", 17, -2,
                     Color(158, 157, 36));
 
+    delayText.setPosition(Vector2f(5.0f, 590.0f));
+
+    buttonDelay200.init(Vector2f(60.0f, 40.0f),
+                    Vector2f(0, 615.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "200", 17, -2,
+                    Color(158, 157, 36));
+
+    buttonDelay600.init(Vector2f(60.0f, 40.0f),
+                    Vector2f(65.0f, 615.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "600", 17, -2,
+                    Color(158, 157, 36));
+
+    buttonDelay1200.init(Vector2f(60.0f, 40.0f),
+                    Vector2f(0, 660.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "1200", 17, -2,
+                    Color(158, 157, 36));
+
+    buttonDelay1800.init(Vector2f(60.0f, 40.0f),
+                    Vector2f(65.0f, 660.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "1800", 17, -2,
+                    Color(158, 157, 36));
+
+    buttonOutPut.init(Vector2f(90.0f, 40.0f),
+                    Vector2f(1025.0f, 0.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "OUTPUT", 17, -2,
+                    Color(163, 184, 81));
+
+    buttonVariabile.init(Vector2f(100.0f, 40.0f),
+                    Vector2f(1120.0f, 0.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "VARIABILE", 17, -2,
+                    Color(44, 61, 27));
+
+    buttonCode.init(Vector2f(70.0f, 40.0f),
+                    Vector2f(1225.0f, 0.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "CODE", 17, -2,
+                    Color(44, 61, 27));
 }
 
 void afisareButoane(RenderWindow &window)
 {
     window.draw(workbench);
+    window.draw(delayText);
     buttonClear.draw(window);
+    buttonRun.draw(window);
+    buttonImport.draw(window);
+    buttonExport.draw(window);
     buttonStart.draw(window);
     buttonAssign.draw(window);
     buttonCond.draw(window);
     buttonRead.draw(window);
     buttonOut.draw(window);
     buttonEnd.draw(window);
-    buttonRun.draw(window);
-    buttonExport.draw(window);
-    buttonImport.draw(window);
+    buttonDelay200.draw(window);
+    buttonDelay600.draw(window);
+    buttonDelay1200.draw(window);
+    buttonDelay1800.draw(window);
+    buttonOutPut.draw(window);
+    buttonVariabile.draw(window);
+    buttonCode.draw(window);
     if(open_tab == 1)
         window.draw(OutputText);
     else if(open_tab == 2)

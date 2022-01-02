@@ -158,7 +158,7 @@ void clearSchema(Node* p) {
     if(p->urmFalse) clearSchema(p->urmFalse);
 }
 
-int delay = 500;
+int delay = 600;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
@@ -166,8 +166,27 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     clearSchema(p);
     Clock myclock;
     Time mytime;
-    while(p != NULL)
-    {
+    while(p != NULL) {
+        Event evnt;
+        while (window.pollEvent(evnt)) {
+            if(evnt.type == Event::MouseButtonPressed) {
+                if(evnt.mouseButton.button == Mouse::Left) {
+                    Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+                    if(isInsideButton(pos, buttonDelay200)) {
+                        delay = 200;
+                    }
+                    else if(isInsideButton(pos, buttonDelay600)) {
+                        delay = 600;
+                    }
+                    else if(isInsideButton(pos, buttonDelay1200)) {
+                        delay = 1200;
+                    }
+                    else if(isInsideButton(pos, buttonDelay1800)) {
+                        delay = 1800;
+                    }
+                }
+            }
+        }
         p->activateNode();
         window.clear();
         DeseneazaPeEcran(window, nodes, lines);
