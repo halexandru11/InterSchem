@@ -11,7 +11,7 @@ using namespace sf;
 using namespace std;
 
 string code = "Code:\n";
-string tabb =  "   ";
+string tabb =  "      ";
 int nr_tabs = 1;
 Node* common;
 
