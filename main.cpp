@@ -131,13 +131,23 @@ int main()
                     if(isInsideButton(pos, buttonImport))
                         ImportFromFile(nodes,lines);
 
-                    if(isInsideButton(pos, buttonOutPut))
+                    if(isInsideButton(pos, buttonOutPut)) {
+                        buttonOutPut.setBgColor(Color(163, 184, 81));
+                        buttonVariabile.setBgColor(Color(44, 61, 27));
+                        buttonCode.setBgColor(Color(44, 61, 27));
                         open_tab = 1;
-                    if(isInsideButton(pos, buttonVariabile))
+                    }
+                    if(isInsideButton(pos, buttonVariabile)) {
+                        buttonOutPut.setBgColor(Color(44, 61, 27));
+                        buttonVariabile.setBgColor(Color(163, 184, 81));
+                        buttonCode.setBgColor(Color(44, 61, 27));
                         open_tab = 2;
-                    if(isInsideButton(pos, buttonCode))
-                    {
-                        RunSchema(StartSchema);
+                    }
+                    if(isInsideButton(pos, buttonCode)) {
+                        buttonOutPut.setBgColor(Color(44, 61, 27));
+                        buttonVariabile.setBgColor(Color(44, 61, 27));
+                        buttonCode.setBgColor(Color(163, 184, 81));
+//                        RunSchema(StartSchema, window, nodes, lines);
                         writeCode(StartSchema);
                         open_tab = 3;
                     }

@@ -2,7 +2,7 @@
 
 class Constants {
 public:
-    static const int Width = 1280;
+    static const int Width = 1295;
     static const int Height = 720;
 
     enum NodeType {
