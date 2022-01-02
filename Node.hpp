@@ -1,5 +1,10 @@
 #pragma once
 
+#include <string>
+#include <cstring>
+#include <bits/stdc++.h>
+#include "Constants.hpp"
+
 static const sf::Color BACKGROUND_COLOR          = sf::Color(198, 255,  0);
 static const sf::Color BACKGROUND_COLOR_ACTIVE   = sf::Color(238, 255, 65);
 static const sf::Color BACKGROUND_COLOR_INACTIVE = sf::Color(175, 180, 43);
@@ -123,6 +128,8 @@ public:
     Constants::NodeType nodeType;
     float height = 30;
     float width = 100;
+    int vizT = 0;
+    int vizF = 0;
     sf::RectangleShape hitbox;
     sf::Text text;
     Node* urm = NULL;
@@ -294,3 +301,6 @@ private:
     bool m_isActive = false;
     int m_padding = 10;
 };
+
+int q;
+std::vector<Node*> nodes;

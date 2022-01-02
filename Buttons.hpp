@@ -51,7 +51,8 @@ private:
 
 Node* StartSchema;
 Text OutputText;
-
+Text VariabileText;
+Text CodText;
 RectangleShape workbench    (Vector2f(900.0f,720.0f));
 
 Button buttonClear     (Vector2f(125.0f, 50.0f));
@@ -75,7 +76,10 @@ void initializareButoane(Font &font)
     OutputText.setCharacterSize(17);
     OutputText.setFillColor(Color::White);
     OutputText.setPosition(Vector2f(1040.0f,30.0f));
+    CodText = OutputText;
     OutputText.setString("Output:\n");
+    VariabileText.setString("Variabile:\n");
+    CodText.setString("Cod:\n");
 
 
     popupSetup();
@@ -150,7 +154,6 @@ void initializareButoane(Font &font)
 void afisareButoane(RenderWindow &window)
 {
     window.draw(workbench);
-    window.draw(OutputText);
     buttonClear.draw(window);
     buttonStart.draw(window);
     buttonAssign.draw(window);
@@ -161,6 +164,12 @@ void afisareButoane(RenderWindow &window)
     buttonRun.draw(window);
     buttonExport.draw(window);
     buttonImport.draw(window);
+    if(open_tab == 1)
+        window.draw(OutputText);
+    else if(open_tab == 2)
+        window.draw(VariabileText);
+    else if(open_tab == 3)
+        window.draw(CodText);
 }
 
 bool isInsideButton(Vector2f MousePos, Button q)

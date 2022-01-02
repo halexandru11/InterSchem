@@ -15,6 +15,7 @@ int nrVariabile = 0;
 
 datatype logpow(datatype a, datatype b)
 {
+    is_expo = 1;
     datatype r = 1;
     int b_floored = b;
     if(b - b_floored >= eps)
@@ -37,9 +38,9 @@ datatype logpow(datatype a, datatype b)
 }
 
 
-datatype to_nr_pointer(char *q)
+datatype to_nr_pointer(char *&q)
 {
-    //cout << q;
+    ///cout << q << '\n';
     datatype r = 0;
     datatype offset = 0.1;
     int semn = 1;
@@ -73,6 +74,7 @@ datatype to_nr_pointer(char *q)
         q++;
     }
     r *= semn;
+    ///cout << q << '\n';
     return r;
 }
 
@@ -262,11 +264,15 @@ datatype termen(char *&p)
 datatype factor(char *&p)
 {
     ///std:: cout << "factor" << ' ' << *p << '\n';
+    ///cout << p << '\n';
     datatype r = functii(p);
+    ///cout << p << '\n';
     while(*p == '^')
     {
         p++;
-        datatype pow = functii(p);
+        ///cout << p << '\n';
+        datatype pow = expresie(p);
+        ///cout << r << ' '  << pow << '\n';
         r = logpow(r, pow);
     }
     return r;
