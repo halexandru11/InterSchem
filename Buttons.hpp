@@ -14,6 +14,8 @@ RectangleShape workbench(Vector2f(900.0f,720.0f));
 RectangleShape buttonStart(Vector2f(125.0f,50.0f));
 
 Text OutputText;
+Text VariabileText;
+Text CodText;
 CircleShape circle = CircleShape(3, 14);
 RectangleShape buttonAssign(Vector2f(125.0f,50.0f));
 
@@ -33,14 +35,22 @@ RectangleShape buttonImport(Vector2f(125.0f,50.0f));
 RectangleShape buttonExport(Vector2f(125.0f,50.0f));
 RectangleShape buttonClear(Vector2f(125.0f,30.0f));
 
+RectangleShape buttonOutPut(Vector2f(80.0f,30.0f));
+RectangleShape buttonVariabile(Vector2f(80.0f,30.0f));
+RectangleShape buttonCode(Vector2f(80.0f,30.0f));
+
 void initializareButoane(Font &font)
 {
 
     OutputText.setFont(font);
     OutputText.setCharacterSize(17);
     OutputText.setFillColor(Color::White);
-    OutputText.setPosition(Vector2f(1040.0f,30.0f));
+    OutputText.setPosition(Vector2f(1040.0f,50.0f));
+    VariabileText = OutputText;
+    CodText = OutputText;
     OutputText.setString("Output:\n");
+    VariabileText.setString("Variabile:\n");
+    CodText.setString("Cod:\n");
 
 
     popupSetup();
@@ -94,6 +104,18 @@ void initializareButoane(Font &font)
     buttonImport.setPosition(62.5f, 675.0f);
 
 
+    buttonOutPut.setFillColor(Color::Red);
+    buttonOutPut.setOrigin(40.0f, 15.0f);
+    buttonOutPut.setPosition(1025.0f + 40.0f, 15.0f);
+
+    buttonVariabile.setFillColor(Color::Green);
+    buttonVariabile.setOrigin(40.0f, 15.0f);
+    buttonVariabile.setPosition(1025.0f + 120.0f, 15.0f);
+
+    buttonCode.setFillColor(Color::Blue);
+    buttonCode.setOrigin(40.0f, 15.0f);
+    buttonCode.setPosition(1025.0f + 200.0f, 15.0f);
+
     Text text;
     text.setFont(font);
     text.setCharacterSize(17);
@@ -140,7 +162,22 @@ void initializareButoane(Font &font)
     text.setPosition(10.0f, 663.0f);
     text.setString("Import");
     ButtonText.push_back(text);
-    ///cout << ButtonText.size()<< '\n';
+
+
+    text.setPosition(1035.0f, 3.5f);
+    text.setString("Output");
+    ButtonText.push_back(text);
+
+
+    text.setPosition(1026.0f + 80.0f, 3.5f);
+    text.setString("Variabile");
+    ButtonText.push_back(text);
+    ///cout << ButtonText.size()<< '
+
+
+    text.setPosition(1046.0f + 160.0f, 3.5f);
+    text.setString("Cod");
+    ButtonText.push_back(text);
 }
 
 void afisareButoane(RenderWindow &window)
@@ -153,10 +190,17 @@ void afisareButoane(RenderWindow &window)
         window.draw(buttonEnd);
         window.draw(buttonRead);
         window.draw(buttonRun);
-        window.draw(OutputText);
-        window.draw(buttonExport);
+        if(open_tab == 1)
+            window.draw(OutputText);
+        else if(open_tab == 2)
+            window.draw(VariabileText);
+        else if(open_tab == 3)
+            window.draw(CodText);        window.draw(buttonExport);
         window.draw(buttonImport);
         window.draw(buttonClear);
+        window.draw(buttonOutPut);
+        window.draw(buttonVariabile);
+        window.draw(buttonCode);
         for(int i = 0; i < ButtonText.size(); ++i)
             window.draw(ButtonText[i]);
 }

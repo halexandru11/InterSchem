@@ -9,6 +9,7 @@
 #include "functiiAuxiliare.hpp"
 #include "inputText.hpp"
 #include "import_export.hpp"
+#include "code.hpp"
 
 using namespace sf;
 using namespace std;
@@ -19,11 +20,9 @@ int main()
     settings.antialiasingLevel = 10;
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
     initializareButoane(font);
-    vector<Node*> nodes; nodes.clear();
+    nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
-    /** TEST EXPRESIE
-    */
 
     bool hold = false;
     Vector2i oldPos;
@@ -121,7 +120,6 @@ int main()
                     if(isInsideButton(pos, buttonRun))
                         RunSchema(StartSchema);
 
-
                     if(isInsideButton(pos, buttonClear))
                         ClearScreen(nodes,lines);
 
@@ -129,6 +127,17 @@ int main()
                         ExportToFile(nodes);
                     if(isInsideButton(pos, buttonImport))
                         ImportFromFile(nodes,lines);
+
+                    if(isInsideButton(pos, buttonOutPut))
+                        open_tab = 1;
+                    if(isInsideButton(pos, buttonVariabile))
+                        open_tab = 2;
+                    if(isInsideButton(pos, buttonCode))
+                    {
+                        RunSchema(StartSchema);
+                        writeCode(StartSchema);
+                        open_tab = 3;
+                    }
                 }
                 else if(evnt.mouseButton.button == Mouse::Right)
                 {

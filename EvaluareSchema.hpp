@@ -14,6 +14,7 @@ using namespace std;
 using namespace sf;
 
 string OutputContent;
+string OutputVariabile;
 
 
 Node* RunStartNode(Node* p)
@@ -153,6 +154,7 @@ Node* RunNode(Node *p)
 
 void RunSchema(Node *p)
 {
+    Node *dublura = p;
     while(p != NULL)
     {
         ///colorez nodul curent cumva
@@ -160,4 +162,13 @@ void RunSchema(Node *p)
         p = RunNode(p);
         /// + delay de cateva secunde + modificare delay
     }
+    OutputVariabile = "Variabile:\n";
+    for(auto it : variabileCod)
+    {
+        OutputVariabile += it.first + " = ";
+        cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
+        OutputVariabile += to_string(variabile[it.second]) + "\n";
+    }
+    VariabileText.setString(OutputVariabile);
+    p = dublura;
 }

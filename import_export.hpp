@@ -84,7 +84,7 @@ void ExportToFile(vector <Node*> v)
         fereastra_citire.display();
     }
     isPOPup = false;
-
+    if(filePath.size() == 0) return;
     ofstream g(filePath);
     g << v.size() << '\n';
     for(int i = 0; i < v.size(); ++i)
@@ -204,6 +204,7 @@ void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
     }
     isPOPup = false;
 
+    if(filePath.size() == 0) return;
     ifstream f(filePath);
     ClearScreen(v, linii);
     int lg;

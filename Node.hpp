@@ -2,8 +2,10 @@
 
 #include <string>
 #include <cstring>
+#include <bits/stdc++.h>
 
 #include "Constants.hpp"
+using namespace std;
 
 struct Node {
 public:
@@ -105,6 +107,8 @@ public:
     Constants::NodeType nodeType;
     float height = 30;
     float width = 100;
+    int vizT = 0;
+    int vizF = 0;
     sf::RectangleShape hitbox;
     sf::Text text;
     Node* urm = NULL;
@@ -261,3 +265,6 @@ private:
     bool m_shapeAssigned = false;
     int m_padding = 10;
 };
+
+int q;
+vector<Node*> nodes;
