@@ -12,9 +12,10 @@
 
 using namespace sf;
 using namespace std;
-int cnt;
+
 int main()
 {
+    sf::Clock clock;
     sf::ContextSettings settings = ContextSettings();
     settings.antialiasingLevel = 10;
     RenderWindow window(VideoMode(Constants::Width, Constants::Height), "Interschem", Style::Close | Style::Titlebar);
@@ -28,12 +29,14 @@ int main()
     bool hold = false;
     Vector2i oldPos;
     int target = -1;
-    int emptyRectangle = -1;
     bool lineStarted = false;
     vector<Line> lines; lines.clear();
     int lineParentNode = -1;
     while (window.isOpen())
     {
+        if(clock.getElapsedTime().asSeconds() > 4) {
+            clock.restart();
+        }
         Event evnt;
         while (window.pollEvent(evnt))
         {
@@ -78,7 +81,7 @@ int main()
                         for(int i = 0; i < nodes.size(); ++i) {
                             if(isInside(mousePos, nodes[i])) {
                                 if(i != lineParentNode) {
-                                    lines.back().connectToNode(nodes[i], Constants::CoordIn);
+                                    lines.back().connectToNode(nodes[i]);
                                     lineStarted = false;
                                     break;
                                 }
@@ -119,8 +122,7 @@ int main()
                         adauga_nod(nodes, Constants::ReadNode);
 
                     if(isInsideButton(pos, buttonRun))
-                        RunSchema(StartSchema);
-
+                        RunSchema(StartSchema, window, nodes, lines);
 
                     if(isInsideButton(pos, buttonClear))
                         ClearScreen(nodes,lines);
@@ -216,8 +218,8 @@ int main()
             }
             nodes[target]->setNodeCoordonates(coordMe);
         }
-        window.clear();
-        DeseneazaPeEcran(window,nodes, lines);
+        window.clear(Color(57, 77, 0));
+        DeseneazaPeEcran(window, nodes, lines);
         window.display();
     }
     return 0;
