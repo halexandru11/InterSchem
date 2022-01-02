@@ -44,6 +44,8 @@ public:
         case Constants::CoordOutFalse:
             m_parent->urmFalse = m_child;
             break;
+        default:
+            break;
         }
     }
 
@@ -76,7 +78,7 @@ private:
         for(size_t index = 0; index < m_line.size(); ++index) {
             m_line[index].color = m_mainColor;
         }
-        if(m_accentColorPosition < m_line.size()) {
+        if(m_accentColorPosition < int(m_line.size())) {
             m_line[m_accentColorPosition].color = m_accentColor;
         }
     }

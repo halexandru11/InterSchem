@@ -50,9 +50,9 @@ public:
 
     void setTextString(std::string textString) {
         text.setString(textString);
-        for(int i = 0; i < textString.size(); ++i)
+        for(int i = 0; i < int(textString.size()); ++i)
             content[i] = textString[i];
-        content[textString.size()] = NULL;
+        content[textString.size()] = '\0';
         // determin dimensiunile nodului
         width = text.getGlobalBounds().width + 2*m_padding;
         height = text.getGlobalBounds().height + 2*m_padding;

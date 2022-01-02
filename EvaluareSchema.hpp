@@ -24,7 +24,7 @@ Node* RunReadNode(Node* p)
     char s[500];
     strcpy(s, p->content);
     string variabilaNoua;
-    for(int i = 0; i < strlen(s) ; ++i)
+    for(int i = 0; i < int(strlen(s)) ; ++i)
         variabilaNoua.push_back(s[i]);
     datatype valoare = -1.234;
 
@@ -72,7 +72,7 @@ Node* RunAssignNode(Node*p)
     strcpy(s, p->content);
     char q[strlen(s) + 50];
     int nq = 0;
-    for(int i = 0; i < strlen(s); ++i)
+    for(int i = 0; i < int(strlen(s)); ++i)
     {
         if(s[i] == ' ') continue;
         q[nq++] = s[i];
@@ -158,7 +158,7 @@ void clearSchema(Node* p) {
     if(p->urmFalse) clearSchema(p->urmFalse);
 }
 
-int delay = 600;
+int delay = 400;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
@@ -168,7 +168,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     Time mytime;
     while(p != NULL) {
         p->activateNode();
-        window.clear();
+        window.clear(Color(38, 43, 19));
         DeseneazaPeEcran(window, nodes, lines);
         window.display();
         if(p->nodeType == Constants::StopNode) {
@@ -177,7 +177,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                 mytime += myclock.restart();
             }
             p->deactivateNode();
-            window.clear();
+            window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             window.display();
             return;
@@ -214,13 +214,66 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                         window.close();
                         return;
                     }
+                    else if(evnt.type == Event::MouseButtonPressed) {
+                        if(evnt.mouseButton.button == Mouse::Left) {
+                            Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+
+                            if(isInsideButton(pos, buttonDelay200)) {
+                                buttonDelay200.setBgColor(Color(163, 184, 81));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 200;
+                            }
+                            else if(isInsideButton(pos, buttonDelay400)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(163, 184, 81));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 400;
+                            }
+                            else if(isInsideButton(pos, buttonDelay700)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(163, 184, 81));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 700;
+                            }
+                            else if(isInsideButton(pos, buttonDelay1200)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(163, 184, 81));
+                                delay = 1200;
+                            }
+                            else if(isInsideButton(pos, buttonOutPut)) {
+                                buttonOutPut.setBgColor(Color(163, 184, 81));
+                                buttonVariabile.setBgColor(Color(44, 61, 27));
+                                buttonCode.setBgColor(Color(44, 61, 27));
+                                open_tab = 1;
+                            }
+                            else if(isInsideButton(pos, buttonVariabile)) {
+                                buttonOutPut.setBgColor(Color(44, 61, 27));
+                                buttonVariabile.setBgColor(Color(163, 184, 81));
+                                buttonCode.setBgColor(Color(44, 61, 27));
+                                open_tab = 2;
+                            }
+                            else if(isInsideButton(pos, buttonCode)) {
+                                buttonOutPut.setBgColor(Color(44, 61, 27));
+                                buttonVariabile.setBgColor(Color(44, 61, 27));
+                                buttonCode.setBgColor(Color(163, 184, 81));
+                                writeCode(StartSchema);
+                                open_tab = 3;
+                            }
+                        }
+                    }
                 }
                 mytime += myclock.restart();
             }
             p->deactivateNode();
             if(child != NULL)
                 line.updateLineColor();
-            window.clear();
+            window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             if(child != NULL)
                 window.draw(&line.getLine(window)[0], line.getLine(window).size(), Lines);

@@ -73,9 +73,9 @@ Button buttonRead      (Vector2f(125.0f, 50.0f));
 Button buttonOut       (Vector2f(125.0f, 50.0f));
 Button buttonEnd       (Vector2f(125.0f, 50.0f));
 Button buttonDelay200  (Vector2f(62.5f, 50.0f));
-Button buttonDelay600  (Vector2f(62.5f, 50.0f));
-Button buttonDelay1200 (Vector2f(62.5f, 50.0f));
-Button buttonDelay1800  (Vector2f(62.5f, 50.0f));
+Button buttonDelay400  (Vector2f(62.5f, 50.0f));
+Button buttonDelay700 (Vector2f(62.5f, 50.0f));
+Button buttonDelay1200  (Vector2f(62.5f, 50.0f));
 
 Button buttonOutPut    (Vector2f(300, 300));
 Button buttonVariabile (Vector2f(300, 300));
@@ -168,25 +168,25 @@ void initializareButoane(Font &font)
                     Vector2f(0, 615.0f),
                     Vector2f(10.0f, 213.0f),
                     "200", 17, -2,
-                    Color(158, 157, 36));
+                    Color(95, 107, 47));
 
-    buttonDelay600.init(Vector2f(60.0f, 40.0f),
+    buttonDelay400.init(Vector2f(60.0f, 40.0f),
                     Vector2f(65.0f, 615.0f),
                     Vector2f(10.0f, 213.0f),
-                    "600", 17, -2,
-                    Color(158, 157, 36));
+                    "400", 17, -2,
+                    Color(163, 184, 81));
 
-    buttonDelay1200.init(Vector2f(60.0f, 40.0f),
+    buttonDelay700.init(Vector2f(60.0f, 40.0f),
                     Vector2f(0, 660.0f),
                     Vector2f(10.0f, 213.0f),
-                    "1200", 17, -2,
-                    Color(158, 157, 36));
+                    "700", 17, -2,
+                    Color(95, 107, 47));
 
-    buttonDelay1800.init(Vector2f(60.0f, 40.0f),
+    buttonDelay1200.init(Vector2f(60.0f, 40.0f),
                     Vector2f(65.0f, 660.0f),
                     Vector2f(10.0f, 213.0f),
-                    "1800", 17, -2,
-                    Color(158, 157, 36));
+                    "1200", 17, -2,
+                    Color(95, 107, 47));
 
     buttonOutPut.init(Vector2f(90.0f, 40.0f),
                     Vector2f(1025.0f, 0.0f),
@@ -222,9 +222,9 @@ void afisareButoane(RenderWindow &window)
     buttonOut.draw(window);
     buttonEnd.draw(window);
     buttonDelay200.draw(window);
-    buttonDelay600.draw(window);
+    buttonDelay400.draw(window);
+    buttonDelay700.draw(window);
     buttonDelay1200.draw(window);
-    buttonDelay1800.draw(window);
     buttonOutPut.draw(window);
     buttonVariabile.draw(window);
     buttonCode.draw(window);

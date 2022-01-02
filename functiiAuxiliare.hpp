@@ -84,7 +84,7 @@ void adauga_nod(vector <Node*> &D, int type)
 }
 
 void stergeToateLiniile(vector<Line>& lines, Node*& node) {
-    for(int index = 0; index < lines.size(); ++index) {
+    for(int index = 0; index < int(lines.size()); ++index) {
         Node* parent = lines[index].getParent();
         Node* child = lines[index].getChild();
         if(child == node) {
@@ -106,7 +106,7 @@ void stergeToateLiniile(vector<Line>& lines, Node*& node) {
 }
 
 void stergeLinie(vector<Line>& lines, Node*& node, Constants::CoordType coordType) {
-    for(int index = 0; index < lines.size(); ++index) {
+    for(int index = 0; index < int(lines.size()); ++index) {
         Node* parent = lines[index].getParent();
         Node* child = lines[index].getChild();
         if(node == parent) {

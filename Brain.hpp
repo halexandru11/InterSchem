@@ -1,13 +1,14 @@
 #pragma once
 
+#include "code.hpp"
 #include "Constants.hpp"
-#include "Line.hpp"
-#include "Node.hpp"
-#include "ui.hpp"
+#include "EvaluareSchema.hpp"
 #include "functiiAuxiliare.hpp"
+#include "Line.hpp"
 #include "import_export.hpp"
 #include "inputText.hpp"
-#include "code.hpp"
+#include "Node.hpp"
+#include "ui.hpp"
 
 using namespace sf;
 using namespace std;
@@ -49,7 +50,7 @@ void eventHandlerBrain(RenderWindow& window,
                     if(all or benchEdit) {
                         Vector2f mousePos{Mouse::getPosition(window).x, Mouse::getPosition(window).y};
                         if(lineStarted == false) {
-                            for(int i = 0; i < nodes.size(); ++i) {
+                            for(int i = 0; i < int(nodes.size()); ++i) {
                                 if(isInside(mousePos, nodes[i])) {
                                     lineParentNode = i;
                                     if(nodes[i]->nodeType != Constants::ConditionalNode) {
@@ -72,7 +73,7 @@ void eventHandlerBrain(RenderWindow& window,
                             }
                         }
                         else {
-                            for(int i = 0; i < nodes.size(); ++i) {
+                            for(int i = 0; i < int(nodes.size()); ++i) {
                                 if(isInside(mousePos, nodes[i])) {
                                     if(i != lineParentNode) {
                                         lines.back().connectToNode(nodes[i]);
@@ -107,16 +108,32 @@ void eventHandlerBrain(RenderWindow& window,
 
                     if(all or delayButtons) {
                         if(isInsideButton(pos, buttonDelay200)) {
+                            buttonDelay200.setBgColor(Color(163, 184, 81));
+                            buttonDelay400.setBgColor(Color(95, 107, 47));
+                            buttonDelay700.setBgColor(Color(95, 107, 47));
+                            buttonDelay1200.setBgColor(Color(95, 107, 47));
                             delay = 200;
                         }
-                        else if(isInsideButton(pos, buttonDelay600)) {
-                            delay = 600;
+                        else if(isInsideButton(pos, buttonDelay400)) {
+                            buttonDelay200.setBgColor(Color(95, 107, 47));
+                            buttonDelay400.setBgColor(Color(163, 184, 81));
+                            buttonDelay700.setBgColor(Color(95, 107, 47));
+                            buttonDelay1200.setBgColor(Color(95, 107, 47));
+                            delay = 400;
+                        }
+                        else if(isInsideButton(pos, buttonDelay700)) {
+                            buttonDelay200.setBgColor(Color(95, 107, 47));
+                            buttonDelay400.setBgColor(Color(95, 107, 47));
+                            buttonDelay700.setBgColor(Color(163, 184, 81));
+                            buttonDelay1200.setBgColor(Color(95, 107, 47));
+                            delay = 700;
                         }
                         else if(isInsideButton(pos, buttonDelay1200)) {
+                            buttonDelay200.setBgColor(Color(95, 107, 47));
+                            buttonDelay400.setBgColor(Color(95, 107, 47));
+                            buttonDelay700.setBgColor(Color(95, 107, 47));
+                            buttonDelay1200.setBgColor(Color(163, 184, 81));
                             delay = 1200;
-                        }
-                        else if(isInsideButton(pos, buttonDelay1800)) {
-                            delay = 1800;
                         }
                     }
 

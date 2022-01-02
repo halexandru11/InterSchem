@@ -5,7 +5,6 @@
 #include "Constants.hpp"
 #include "Evaluare.hpp"
 #include "Node.hpp"
-#include "EvaluareSchema.hpp"
 #include "Buttons.hpp"
 using namespace sf;
 using namespace std;
@@ -53,14 +52,14 @@ Node* PrintStartNode(Node *p)
 Node* PrintAssignNode(Node *p)
 {
     putTabs();
-    for(int i = 0; i < strlen(p->content); ++i)
+    for(int i = 0; i < int(strlen(p->content)); ++i)
         code += p->content[i];
     code += ";\n";
     return p->urm;
 }
 Node* PrintIfNode(Node *p)
 {
-    for(int i = 0; i < nodes.size(); ++i)
+    for(int i = 0; i < int(nodes.size()); ++i)
     {
         nodes[i]->vizF = 0;
         nodes[i]->vizT = 0;
@@ -71,7 +70,7 @@ Node* PrintIfNode(Node *p)
     DFS(p->urmFalse, 1);
     putTabs();
     code += "if(";
-    for(int i = 0; i < strlen(p->content); ++i)
+    for(int i = 0; i < int(strlen(p->content)); ++i)
         code += p->content[i];
     code += ")\n";
     putTabs();
@@ -97,7 +96,7 @@ Node* PrintPrintNode(Node *p)
     putTabs();
     code += "cout << ";
 
-    for(int i = 0; i < strlen(p->content); ++i)
+    for(int i = 0; i < int(strlen(p->content)); ++i)
         code += p->content[i];
     code += " << '\\n';\n";
     return p->urm;}
@@ -106,7 +105,7 @@ Node* PrintReadNode(Node *p)
     putTabs();
     code += "cin >> ";
 
-    for(int i = 0; i < strlen(p->content); ++i)
+    for(int i = 0; i < int(strlen(p->content)); ++i)
         code += p->content[i];
     code += ";\n";
     return p->urm;
@@ -150,7 +149,7 @@ void writeCode(Node *p)
             if(it->nodeType == Constants::NodeType::ReadNode || it->nodeType == Constants::NodeType::AssignNode )
             {
                 string varr;
-                for(int i = 0; i < strlen(it->content); ++i)
+                for(int i = 0; i < int(strlen(it->content)); ++i)
                 {
                     if(it->content[i] == '=') break;
                     if(it->content[i] != ' ')
