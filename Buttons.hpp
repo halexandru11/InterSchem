@@ -54,16 +54,20 @@ Text OutputText;
 
 RectangleShape workbench    (Vector2f(900.0f,720.0f));
 
-Button buttonStart  (Vector2f(125.0f, 50.0f));
-Button buttonAssign (Vector2f(125.0f, 50.0f));
-Button buttonCond   (Vector2f(125.0f, 50.0f));
-Button buttonRead   (Vector2f(125.0f, 50.0f));
-Button buttonOut    (Vector2f(125.0f, 50.0f));
-Button buttonEnd    (Vector2f(125.0f, 50.0f));
-Button buttonRun    (Vector2f(125.0f, 50.0f));
-Button buttonImport (Vector2f(125.0f, 50.0f));
-Button buttonExport (Vector2f(125.0f, 50.0f));
-Button buttonClear  (Vector2f(125.0f, 30.0f));
+Button buttonClear     (Vector2f(125.0f, 50.0f));
+Button buttonRun       (Vector2f(125.0f, 50.0f));
+Button buttonImport    (Vector2f(125.0f, 50.0f));
+Button buttonExport    (Vector2f(125.0f, 50.0f));
+Button buttonStart     (Vector2f(125.0f, 50.0f));
+Button buttonAssign    (Vector2f(125.0f, 50.0f));
+Button buttonCond      (Vector2f(125.0f, 50.0f));
+Button buttonRead      (Vector2f(125.0f, 50.0f));
+Button buttonOut       (Vector2f(125.0f, 50.0f));
+Button buttonEnd       (Vector2f(125.0f, 50.0f));
+Button buttonDelay200  (Vector2f(62.5f, 50.0f));
+Button buttonDelay600  (Vector2f(62.5f, 50.0f));
+Button buttonDelay1200 (Vector2f(62.5f, 50.0f));
+Button buttonDelay1800  (Vector2f(62.5f, 50.0f));
 
 void initializareButoane(Font &font)
 {
