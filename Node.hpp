@@ -3,9 +3,15 @@
 #include <string>
 #include <cstring>
 #include <bits/stdc++.h>
-
 #include "Constants.hpp"
-using namespace std;
+
+static const sf::Color BACKGROUND_COLOR          = sf::Color(198, 255,  0);
+static const sf::Color BACKGROUND_COLOR_ACTIVE   = sf::Color(238, 255, 65);
+static const sf::Color BACKGROUND_COLOR_INACTIVE = sf::Color(175, 180, 43);
+
+static const sf::Color OUTLINE_COLOR             = sf::Color(55, 55, 55);
+static const sf::Color OUTLINE_COLOR_ACTIVE      = sf::Color(66, 66, 66);
+static const sf::Color OUTLINE_COLOR_INACTIVE    = sf::Color(33, 33, 33);
 
 struct Node {
 public:
@@ -16,11 +22,13 @@ public:
         text.setCharacterSize(16);
         text.setFillColor(sf::Color::Black);
         setTextString("");
+
+        hitbox = sf::RectangleShape();
     }
 
     void setNodeCoordonates(sf::Vector2f coord) {
         m_coord = coord;
-        m_shape = setShape();
+        setShape();
 
         setCoordonates();
     }
@@ -55,11 +63,11 @@ public:
             height *= 1.5f;
             width = std::max(width, 40.0f);
             if(width > 100) {
-                height += (width - 100) * 0.2;
+                height += (width - 100) * 0.1 ;
             }
         }
         setCoordonates();
-        m_shape = setShape();
+        setShape();
     }
 
     sf::ConvexShape getShape() {
@@ -68,23 +76,9 @@ public:
         }
         if(!m_shapeAssigned) {
             m_shapeAssigned = true;
-            m_shape = setShape();
+            setShape();
         }
         return m_shape;
-    }
-
-    bool collides(Node* other) {
-        if(other == NULL) {
-            return false;
-        }
-
-        sf::Vector2f meTL = hitbox.getPosition();
-        sf::Vector2f meBR = meTL + hitbox.getSize();
-
-        sf::Vector2f otherTL = other->hitbox.getPosition();
-        sf::Vector2f otherBR = otherTL + other->hitbox.getSize();
-
-        return (meTL.x < otherBR.x) * (otherTL.x < meBR.x) * (meTL.y < otherBR.y) * (otherTL.y < meBR.y);
     }
 
     bool collides(sf::Vector2i mousePosition, sf::Vector2f hitboxSize) {
@@ -103,6 +97,33 @@ public:
         return true;
     }
 
+    void resetNode() {
+        m_isActive = false;
+        m_backgroundColor = BACKGROUND_COLOR;
+        m_outlineColor = OUTLINE_COLOR;
+        m_shape.setFillColor(m_backgroundColor);
+        m_shape.setOutlineColor(m_outlineColor);
+    }
+
+    void activateNode() {
+        m_isActive = true;
+        m_backgroundColor = BACKGROUND_COLOR_ACTIVE;
+        m_outlineColor = OUTLINE_COLOR_ACTIVE;
+        m_shape.setFillColor(m_backgroundColor);
+        m_shape.setOutlineColor(m_outlineColor);
+    }
+
+    void deactivateNode() {
+        m_backgroundColor = BACKGROUND_COLOR_INACTIVE;
+        m_outlineColor = OUTLINE_COLOR_INACTIVE;
+        m_shape.setFillColor(m_backgroundColor);
+        m_shape.setOutlineColor(m_outlineColor);
+    }
+
+    bool isActive() {
+        return m_isActive;
+    }
+
 public:
     Constants::NodeType nodeType;
     float height = 30;
@@ -118,59 +139,58 @@ public:
 
 private:
     void setCoordonates() {
-        if(nodeType == Constants::ConditionalNode) {
-            m_coordIn        = m_coord + sf::Vector2f{       0, -2*height/3};
-            m_coordOut       = m_coord + sf::Vector2f{       0,    height/3};
-            m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,    height/3};
-            m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,    height/3};
-        }
-        else {
-            m_coordIn        = m_coord + sf::Vector2f{       0, -height/2};
-            m_coordOut       = m_coord + sf::Vector2f{       0,  height/2};
-            m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  height/2};
-            m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  height/2};
-        }
-    }
-
-    sf::ConvexShape setShape() {
-        hitbox = sf::RectangleShape(sf::Vector2f{width-1, height-1});
-        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height/2});
-        hitbox.setFillColor(sf::Color::Transparent);
-        hitbox.setOutlineColor(sf::Color::Green);
-        hitbox.setOutlineThickness(2);
+        m_coordIn       = m_coord + sf::Vector2f{       0, -height/2};
+        m_coordOut      = m_coord + sf::Vector2f{       0,  height/2};
+        m_coordOutTrue  = m_coord + sf::Vector2f{-width/2,  height/2};
+        m_coordOutFalse = m_coord + sf::Vector2f{ width/2,  height/2};
 
         float textH = text.getGlobalBounds().height;
         float textW = text.getGlobalBounds().width;
-        text.setPosition(m_coord - sf::Vector2f{textW/2, 4*textH/5});
+        text.setPosition(m_coordOut - sf::Vector2f{0.5f*textW, textH + 15});
+    }
 
+    void setShape() {
         switch(nodeType) {
         case Constants::StartNode:
-            return startNodeShape();
+            m_shape = startNodeShape();
+            break;
         case Constants::AssignNode:
-            return assignNodeShape();
+            m_shape = assignNodeShape();
+            break;
         case Constants::ConditionalNode:
-            return conditionalNodeShape();
+            m_shape = conditionalNodeShape();
+            break;
         case Constants::StopNode:
-            return stopNodeShape();
+            m_shape = stopNodeShape();
+            break;
         case Constants::OutputNode:
-            return outputNodeShape();
+            m_shape = outputNodeShape();
+            break;
         case Constants::ReadNode:
-            return readNodeShape();
+            m_shape = readNodeShape();
+            break;
         default:
-            return sf::ConvexShape(0);
+            m_shape = sf::ConvexShape(0);
         }
+        m_shape.setFillColor(m_backgroundColor);
+        setHitbox();
     }
 
     sf::ConvexShape startNodeShape() {
         sf::ConvexShape convexShape;
-        convexShape.setPointCount(4);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
+        convexShape.setPointCount(8);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
 
-        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2, -height/2});
-        convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2, -height/2});
-        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2});
-        convexShape.setPoint(3, m_coord + sf::Vector2f{-width/2,  height/2});
+        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2,   -height/2+5});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{-width/2+5, -height/2});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2-5, -height/2});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,   -height/2+5});
+        convexShape.setPoint(4, m_coord + sf::Vector2f{ width/2,    height/2-5});
+        convexShape.setPoint(5, m_coord + sf::Vector2f{ width/2-5,  height/2});
+        convexShape.setPoint(6, m_coord + sf::Vector2f{-width/2+5,  height/2});
+        convexShape.setPoint(7, m_coord + sf::Vector2f{-width/2,    height/2-5});
 
         return convexShape;
     }
@@ -178,8 +198,9 @@ private:
     sf::ConvexShape assignNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
 
         convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2-5, -height/2});
         convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2+5, -height/2});
@@ -191,47 +212,31 @@ private:
 
     sf::ConvexShape conditionalNodeShape() {
         hitbox.setSize(sf::Vector2f{width, height});
-        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height-20});
+        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height});
 
         sf::ConvexShape convexShape;
         convexShape.setPointCount(6);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
 
-        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height+20});  // -2*height/3});
-        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height+20});  // -2*height/3});
-        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  0});  //    height/3-10});
-        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,  20});  //    height/3});
-        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2,  20});  //    height/3});
-        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2,  0});  //    height/3-10});
-
-        m_coordIn        = m_coord + sf::Vector2f{       0, -height+20};
-        m_coordOut       = m_coord + sf::Vector2f{       0,  20};
-        m_coordOutTrue   = m_coord + sf::Vector2f{-width/2,  20};
-        m_coordOutFalse  = m_coord + sf::Vector2f{ width/2,  20};
+        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height/2});  // -2*height/3});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height/2});  // -2*height/3});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2-20});  //    height/3-10});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,  height/2});  //    height/3});
+        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2,  height/2});  //    height/3});
+        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2,  height/2-20});  //    height/3-10});
 
         return convexShape;
     }
 
-    sf::ConvexShape stopNodeShape() {
-        sf::ConvexShape convexShape;
-        convexShape.setPointCount(4);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
-
-        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2, -height/2});
-        convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2, -height/2});
-        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2});
-        convexShape.setPoint(3, m_coord + sf::Vector2f{-width/2,  height/2});
-
-        return convexShape;
-    }
 
     sf::ConvexShape outputNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
 
         convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2+5, -height/2});
         convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2-5, -height/2});
@@ -244,8 +249,9 @@ private:
     sf::ConvexShape readNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
-        convexShape.setOutlineThickness(2);
-        convexShape.setOutlineColor(sf::Color::Red);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
 
         convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2-5, -height/2});
         convexShape.setPoint(1, m_coord + sf::Vector2f{ width/2+5, -height/2});
@@ -255,6 +261,33 @@ private:
         return convexShape;
     }
 
+    sf::ConvexShape stopNodeShape() {
+        sf::ConvexShape convexShape;
+        convexShape.setPointCount(8);
+        convexShape.setOutlineThickness(-2);
+        convexShape.setFillColor(m_backgroundColor);
+        convexShape.setOutlineColor(m_outlineColor);
+
+        convexShape.setPoint(0, m_coord + sf::Vector2f{-width/2,   -height/2+5});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{-width/2+5, -height/2});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2-5, -height/2});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,   -height/2+5});
+        convexShape.setPoint(4, m_coord + sf::Vector2f{ width/2,    height/2-5});
+        convexShape.setPoint(5, m_coord + sf::Vector2f{ width/2-5,  height/2});
+        convexShape.setPoint(6, m_coord + sf::Vector2f{-width/2+5,  height/2});
+        convexShape.setPoint(7, m_coord + sf::Vector2f{-width/2,    height/2-5});
+
+        return convexShape;
+    }
+
+    void setHitbox() {
+        hitbox.setSize(sf::Vector2f{width-1, height-1});
+        hitbox.setPosition(m_coord - sf::Vector2f{width/2, height/2});
+        hitbox.setFillColor(sf::Color::Transparent);
+        hitbox.setOutlineColor(sf::Color::Green);
+        hitbox.setOutlineThickness(2);
+    }
+
 private:
     sf::Vector2f m_coord = sf::Vector2f{-1, -1};
     sf::Vector2f m_coordIn;
@@ -262,9 +295,12 @@ private:
     sf::Vector2f m_coordOutTrue;
     sf::Vector2f m_coordOutFalse;
     sf::ConvexShape m_shape;
+    sf::Color m_backgroundColor = BACKGROUND_COLOR;
+    sf::Color m_outlineColor = OUTLINE_COLOR;
     bool m_shapeAssigned = false;
+    bool m_isActive = false;
     int m_padding = 10;
 };
 
 int q;
-vector<Node*> nodes;
+std::vector<Node*> nodes;
