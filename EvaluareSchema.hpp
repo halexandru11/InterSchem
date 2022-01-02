@@ -11,6 +11,7 @@ using namespace std;
 using namespace sf;
 
 string OutputContent;
+string OutputVariabile;
 
 Node* RunStartNode(Node* p)
 {
@@ -161,6 +162,7 @@ int delay = 500;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
+    Node *dublura = p;
     clearSchema(p);
     Clock myclock;
     Time mytime;
@@ -216,4 +218,13 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
 //        cout << p->nodeType << '\n';
         /// + delay de cateva secunde + modificare delay
     }
+    OutputVariabile = "Variabile:\n";
+    for(auto it : variabileCod)
+    {
+        OutputVariabile += it.first + " = ";
+        cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
+        OutputVariabile += to_string(variabile[it.second]) + "\n";
+    }
+    VariabileText.setString(OutputVariabile);
+    p = dublura;
 }

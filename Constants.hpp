@@ -24,3 +24,5 @@ public:
 };
 
 sf::Font font;
+int open_tab = 1;
+bool is_expo = 0;
