@@ -1,5 +1,7 @@
 #pragma once
 
+#include "inputText.hpp"
+
 #define Dad v[i]
 #define Kid v[a]
 #define caracter E.text.unicode

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <bits/stdc++.h>
 #include "Node.hpp"
 
 class Line {
@@ -197,3 +199,5 @@ private:
     sf::Color m_accentColor = sf::Color(233, 233, 233);
     int m_accentColorPosition = -1;
 };
+
+std::vector<Line> lines{};
