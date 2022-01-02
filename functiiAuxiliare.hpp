@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Buttons.hpp"
+
 using namespace sf;
 using namespace std;
 
