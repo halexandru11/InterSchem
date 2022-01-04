@@ -3,6 +3,8 @@
 #include "Evaluare.hpp"
 #include "ui.hpp"
 #include "functiiAuxiliare.hpp"
+#include "code.hpp"
+
 
 #define caracter E.text.unicode
 

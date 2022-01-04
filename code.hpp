@@ -5,7 +5,6 @@
 #include "Constants.hpp"
 #include "Evaluare.hpp"
 #include "Node.hpp"
-#include "EvaluareSchema.hpp"
 #include "Buttons.hpp"
 using namespace sf;
 using namespace std;

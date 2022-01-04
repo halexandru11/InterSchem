@@ -1,29 +1,17 @@
 #include<iostream>
 using namespace std;
-double pow(double a, double b)
-{
-    double r = 1;
-    int b_floored = b;
-    if(b - b_floored >= 0.00001)
-    {
-        perror("Exponentiala cu exponent real");
-        exit(1);
-    }
-    if(b_floored < 0)
-    {
-        a = 1 / a;
-        b_floored = -b_floored;
-    }
-    while(b_floored)
-    {
-        if(b_floored & 1) r *= a;
-        a *= a;
-        b_floored >>= 1;
-    }
-    return r;
-}
+double i, j;
 int main()
 {
-      cout << pow(2,3) << '\n';
+      i = 3;
+      while(i > 0)
+      {
+            j =2 ;
+            while(j > 0)
+            {
+                  j = j - 1;
+            }
+            i = i - 1;
+      }
       return 0;
 }
