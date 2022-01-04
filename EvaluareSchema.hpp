@@ -215,9 +215,9 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
             while(mytime.asMilliseconds() < delay) {
                 Event evnt;
                 while (window.pollEvent(evnt)) {
-                    if(evnt.type == Event::MouseButtonPressed) {
-                        if(evnt.mouseButton.button == Mouse::Left) {
-                        }
+                    if(evnt.type == Event::Closed) {
+                        window.close();
+                        return;
                     }
                 }
                 mytime += myclock.restart();

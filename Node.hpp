@@ -1,7 +1,6 @@
 #pragma once
 
-#include <string>
-#include <cstring>
+#include <SFML/Graphics.hpp>
 #include <bits/stdc++.h>
 #include "Constants.hpp"
 

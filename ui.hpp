@@ -1,6 +1,11 @@
 #pragma once
 
+#include <SFML/Graphics.hpp>
+#include <bits/stdc++.h>
+
 #include "Buttons.hpp"
+#include "Line.hpp"
+#include "Node.hpp"
 
 using namespace sf;
 using namespace std;
