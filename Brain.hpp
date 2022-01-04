@@ -183,6 +183,9 @@ void eventHandlerBrain(RenderWindow& window,
                             writeCode(StartSchema);
                             open_tab = 3;
                         }
+                        if(open_tab == 3 and isInsideButton(pos, buttonClipboard)) {
+                            copyToClipboard();
+                        }
                     }
                 }
                 else if(evnt.mouseButton.button == Mouse::Right)

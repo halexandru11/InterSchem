@@ -74,12 +74,12 @@ Button buttonOut       (Vector2f(125.0f, 50.0f));
 Button buttonEnd       (Vector2f(125.0f, 50.0f));
 Button buttonDelay200  (Vector2f(62.5f, 50.0f));
 Button buttonDelay400  (Vector2f(62.5f, 50.0f));
-Button buttonDelay700 (Vector2f(62.5f, 50.0f));
-Button buttonDelay1200  (Vector2f(62.5f, 50.0f));
-
+Button buttonDelay700  (Vector2f(62.5f, 50.0f));
+Button buttonDelay1200 (Vector2f(62.5f, 50.0f));
 Button buttonOutPut    (Vector2f(300, 300));
 Button buttonVariabile (Vector2f(300, 300));
 Button buttonCode      (Vector2f(300, 300));
+Button buttonClipboard (Vector2f(300, 300));
 
 void initializareButoane(Font &font)
 {
@@ -87,13 +87,13 @@ void initializareButoane(Font &font)
     OutputText.setCharacterSize(17);
     OutputText.setFillColor(Color::White);
     OutputText.setPosition(Vector2f(1040.0f,50.0f));
-    OutputText.setString("Output:\n");
+    OutputText.setString("");
 
     VariabileText = OutputText;
-    VariabileText.setString("Variabile:\n");
+    VariabileText.setString("");
 
     CodText = OutputText;
-    CodText.setString("Cod:\n");
+    CodText.setString("");
 
     popupSetup();
 
@@ -205,6 +205,12 @@ void initializareButoane(Font &font)
                     Vector2f(10.0f, 213.0f),
                     "CODE", 17, -2,
                     Color(44, 61, 27));
+
+    buttonClipboard.init(Vector2f(65.0f, 35.0f),
+                    Vector2f(1225.0f, 70.0f),
+                    Vector2f(10.0f, 213.0f),
+                    "Copy", 17, -2,
+                    Color(44, 61, 27));
 }
 
 void afisareButoane(RenderWindow &window)
@@ -232,8 +238,10 @@ void afisareButoane(RenderWindow &window)
         window.draw(OutputText);
     else if(open_tab == 2)
         window.draw(VariabileText);
-    else if(open_tab == 3)
+    else if(open_tab == 3) {
         window.draw(CodText);
+        buttonClipboard.draw(window);
+    }
 }
 
 bool isInsideButton(Vector2f MousePos, Button q)

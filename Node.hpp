@@ -129,10 +129,10 @@ public:
         window.draw(text);
         if(nodeType == Constants::ConditionalNode) {
             sf::Text caz("T", font, 17);
-            caz.setPosition(m_coordOutTrue + sf::Vector2f(5, -20));
+            caz.setPosition(m_coordOutTrue + sf::Vector2f(-15, -20));
             window.draw(caz);
             caz.setString("F");
-            caz.setPosition(m_coordOutFalse + sf::Vector2f(-15, -20));
+            caz.setPosition(m_coordOutFalse + sf::Vector2f(5, -20));
             window.draw(caz);
         }
     }
@@ -153,10 +153,10 @@ public:
 
 private:
     void setCoordonates() {
-        m_coordIn       = m_coord + sf::Vector2f{       0, -height/2};
-        m_coordOut      = m_coord + sf::Vector2f{       0,  height/2};
-        m_coordOutTrue  = m_coord + sf::Vector2f{-width/2,  height/2};
-        m_coordOutFalse = m_coord + sf::Vector2f{ width/2,  height/2};
+        m_coordIn       = m_coord + sf::Vector2f{          0, -height/2};
+        m_coordOut      = m_coord + sf::Vector2f{          0,  height/2};
+        m_coordOutTrue  = m_coord + sf::Vector2f{-width/2+21,  height/2};
+        m_coordOutFalse = m_coord + sf::Vector2f{ width/2-20,  height/2};
 
         float textH = text.getGlobalBounds().height;
         float textW = text.getGlobalBounds().width;

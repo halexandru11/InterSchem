@@ -1,17 +1,20 @@
 #include<iostream>
 using namespace std;
-double i, j;
+double a, b;
 int main()
 {
-      i = 3;
-      while(i > 0)
+      cin >> a;
+      cin >> b;
+      while(a != b)
       {
-            j =2 ;
-            while(j > 0)
+            if(a > b)
             {
-                  j = j - 1;
+                  a = a - b;
             }
-            i = i - 1;
+            else{
+                  b = b - a;
+            }
       }
+      cout << a << '\n';
       return 0;
 }
