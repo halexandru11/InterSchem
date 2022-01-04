@@ -17,7 +17,7 @@ string OutputVariabile;
 
 Node* RunStartNode(Node* p)
 {
-    OutputContent = "Output:\n";
+    OutputContent = "";
     initializare();
     return p->urm;
 }
@@ -194,7 +194,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         ///colorez nodul curent cumva
         Node* child = RunNode(p);
 
-        OutputVariabile = "Variabile:\n";
+        OutputVariabile = "";
         for(auto it : variabileCod)
         {
             OutputVariabile += it.first + " = ";

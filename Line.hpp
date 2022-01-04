@@ -173,18 +173,16 @@ private:
         m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x, coordBottom + parentMargin)));
 
         m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x,       coordBottom + parentMargin)));
-        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-childMargin, coordBottom + parentMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordBottom + parentMargin)));
 
-        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-childMargin, coordBottom + parentMargin)));
-        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-childMargin, coordTop - childMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordBottom + parentMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordTop - childMargin)));
 
-        if(m_child != NULL) {
-            m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-childMargin, coordTop - childMargin)));
-            m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x,        coordTop - childMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordTop - childMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x,        coordTop - childMargin)));
 
-            m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, coordTop - childMargin)));
-            m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, m_coordChild.y)));
-        }
+        m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, coordTop - childMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, m_coordChild.y)));
 
         m_repTimes = 5;
     }
