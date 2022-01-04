@@ -147,14 +147,14 @@ datatype Evalueaza_Expresie(char s[])
 {
     char q[strlen(s) + 50];
     int nq = 0;
-    for(int i = 0; i < strlen(s); ++i)
+    for(int i = 0; i < int(strlen(s)); ++i)
     {
         if(s[i] == ' ') continue;
         q[nq++] = s[i];
         if('A' <= s[i] && s[i] <= 'Z')
             q[nq - 1] = s[i] - 'A' + 'a';
     }
-    q[nq] = NULL;
+    q[nq] = '\0';
     char *w = q;
     //cout << "start " << w << '\n';
     return andor(w);
@@ -374,7 +374,7 @@ datatype to_nr(string q)
         semn = -1;
     }
     if(q[i] == '+') i++;
-    while(i < q.size())
+    while(i < int(q.size()))
     {
         if(q[i] == '.')
         {
@@ -407,7 +407,7 @@ datatype to_nr(string q)
 
 void adaugaVariabila(string s, datatype val)
 {
-    for(int i = 0; i < s.size(); ++i)
+    for(int i = 0; i < int(s.size()); ++i)
         if('A' <= s[i] && s[i] <= 'Z')
             s[i] = s[i] - 'A' + 'a';
 

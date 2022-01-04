@@ -2,8 +2,10 @@
 
 class Constants {
 public:
-    static const int Width = 1295;
-    static const int Height = 720;
+    static constexpr float Width = 1295;
+    static constexpr float Height = 720;
+    static constexpr float BenchLeft = 125;
+    static constexpr float BenchWidth = 900;
 
     enum NodeType {
         StartNode = 1,

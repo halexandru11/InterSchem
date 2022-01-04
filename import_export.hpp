@@ -20,7 +20,7 @@ void PrintEdges(vector <Node*> v, ofstream &g)
     for(auto p : v)
     {
         int q = -1;
-        for(int i = 0; i < v.size(); ++i)
+        for(int i = 0; i < int(v.size()); ++i)
             if(p->urm == v[i])
             {
                 q = i;
@@ -29,7 +29,7 @@ void PrintEdges(vector <Node*> v, ofstream &g)
         g << q << ' ';
 
         q = -1;
-        for(int i = 0; i < v.size(); ++i)
+        for(int i = 0; i < int(v.size()); ++i)
             if(p->urmTrue == v[i])
             {
                 q = i;
@@ -38,7 +38,7 @@ void PrintEdges(vector <Node*> v, ofstream &g)
         g << q << ' ';
 
         q = -1;
-        for(int i = 0; i < v.size(); ++i)
+        for(int i = 0; i < int(v.size()); ++i)
             if(p->urmFalse == v[i])
             {
                 q = i;
@@ -84,7 +84,7 @@ void ExportToFile(vector <Node*> v)
     if(filePath.size() == 0) return;
     ofstream g(filePath);
     g << v.size() << '\n';
-    for(int i = 0; i < v.size(); ++i)
+    for(int i = 0; i < int(v.size()); ++i)
         PrintNode(v[i],g);
     PrintEdges(v,g);
     g.close();
@@ -99,7 +99,7 @@ void EnterNode(ifstream &f, vector <Node*> &v)
     f >> type >> x >> y;
     f.get();
     f.get(buff, 501);
-    for(int i = 0; i < strlen(buff); ++i)
+    for(int i = 0; i < int(strlen(buff)); ++i)
         ct.push_back(buff[i]);
     Node*p;
     if(type == Constants::StartNode)
@@ -133,7 +133,7 @@ void EnterNode(ifstream &f, vector <Node*> &v)
 
 void setLines(ifstream &f, vector <Node*> &v, vector<Line>& linii)
 {
-    for(int i = 0; i < v.size(); ++i)
+    for(int i = 0; i < int(v.size()); ++i)
     {
         int a;
         f >> a ;

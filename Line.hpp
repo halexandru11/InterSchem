@@ -44,6 +44,8 @@ public:
         case Constants::CoordOutFalse:
             m_parent->urmFalse = m_child;
             break;
+        default:
+            break;
         }
     }
 
@@ -67,8 +69,9 @@ public:
         return m_child;
     }
 
-    size_t getLineSize() {
-        return m_line.size();
+    size_t getRepTimes() {
+        setLine();
+        return m_repTimes;
     }
 
 private:
@@ -76,7 +79,7 @@ private:
         for(size_t index = 0; index < m_line.size(); ++index) {
             m_line[index].color = m_mainColor;
         }
-        if(m_accentColorPosition < m_line.size()) {
+        if(m_accentColorPosition < int(m_line.size())) {
             m_line[m_accentColorPosition].color = m_accentColor;
         }
     }
@@ -114,6 +117,7 @@ private:
             m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x, m_coordParent.y + (mul+1)*deltaY)));
         }
         m_line.back().position = m_coordChild;
+        m_repTimes = 3;
     }
 
     void almostStraightLine() {
@@ -129,6 +133,7 @@ private:
             m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, m_coordParent.y + (mul+1)*deltaY)));
         }
         m_line.back().position = m_coordChild;
+        m_repTimes = 4;
     }
 
     void cabLine() {
@@ -142,14 +147,16 @@ private:
 
         m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  midY}));
         m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  m_coordChild.y}));
+
+        m_repTimes = 3;
     }
 
     void detourCabLine() {
         float childMargin = (m_child ? 10 : 0);
         float parentMargin = 10;
-        float parentWidth  = m_parent->width/2  + 10;
+        float parentWidth  = m_parent->width/2;
         float parentHeight = m_parent->height;
-        float childWidth  = (m_child ? m_child->width  : 0) / 2 + childMargin;
+        float childWidth  = (m_child ? m_child->width  : 0) / 2;
         float childHeight = (m_child ? m_child->height : 0) / 2 + 2*childMargin;
         if(m_coordParent.x > m_coordChild.x) {
             parentWidth *= -1;
@@ -157,13 +164,6 @@ private:
         else {
             childWidth *= -1;
         }
-
-//            +---------------+
-//            |
-//            |
-//            |
-//            |       |
-//            +--------+
 
         float coordLeft   = std::min(m_coordParent.x - parentWidth, m_coordChild.x - childWidth);
         float coordTop    = std::min(m_coordParent.y - parentHeight, m_coordChild.y);
@@ -185,6 +185,8 @@ private:
             m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, coordTop - childMargin)));
             m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, m_coordChild.y)));
         }
+
+        m_repTimes = 5;
     }
 
 private:
@@ -198,6 +200,7 @@ private:
     sf::Color m_mainColor   = sf::Color( 33,  33,  33);
     sf::Color m_accentColor = sf::Color(233, 233, 233);
     int m_accentColorPosition = -1;
+    size_t m_repTimes = 0;
 };
 
 std::vector<Line> lines{};
