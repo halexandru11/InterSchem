@@ -161,6 +161,8 @@ void eventHandlerBrain(RenderWindow& window,
                             ImportFromFile(nodes,lines);
                         if(isInsideButton(pos, buttonExport))
                             ExportToFile(nodes);
+                        if(isInsideButton(pos, buttonHelp))
+                            HelpPopUp();
                     }
 
                     if(all or tabButtons) {
