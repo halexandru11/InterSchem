@@ -162,6 +162,11 @@ int delay = 600;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
+    if(!isOkToRun())
+    {
+        cout << "NU SUNT START/STOP\n";
+        return;
+    }
     Node *dublura = p;
     clearSchema(p);
     Clock myclock;

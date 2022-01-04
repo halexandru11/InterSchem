@@ -203,12 +203,16 @@ void CodeSchema(Node *p, Node *stopp)
 void writeCode(Node *p)
 {
     for(auto it : nodes)
+    {
         it->viz = false;
+        if(strstr(it->content, "pow"))
+            is_expo = 1;
+    }
     CodText.setCharacterSize(10);
     code = "Cod:\n";
     code += "#include<iostream>\nusing namespace std;\n";
     if(is_expo)
-        code += "double logpow(double a, double b)\n{\n    double r = 1;\n    int b_floored = b;\n    if(b - b_floored >= eps)\n    {\n        perror(\"Exponentiala cu exponent real\");        exit(1);\n    }\n    if(b_floored < 0)\n    {\n        a = 1 / a;\n        b_floored = -b_floored;\n    }\n    while(b_floored)\n    {\n        if(b_floored & 1) r *= a;\n        a *= a;\n        b_floored >>= 1;\n    }\n    return r;\n}";
+        code += "double pow(double a, double b)\n{\n    double r = 1;\n    int b_floored = b;\n    if(b - b_floored >= 0.00001)\n    {\n        perror(\"Exponentiala cu exponent real\");\n        exit(1);\n    }\n    if(b_floored < 0)\n    {\n        a = 1 / a;\n        b_floored = -b_floored;\n    }\n    while(b_floored)\n    {\n        if(b_floored & 1) r *= a;\n        a *= a;\n        b_floored >>= 1;\n    }\n    return r;\n}";
     bool amVars = 0;
     for(auto it : nodes)
             if(it->nodeType == Constants::NodeType::ReadNode || it->nodeType == Constants::NodeType::AssignNode )

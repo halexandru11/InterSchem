@@ -135,3 +135,8 @@ void ClearScreen(vector <Node*> &v, vector<Line>& lines)
     isStopNode = false;
     StartSchema = NULL;
 }
+
+bool isOkToRun()
+{
+    return isStartNode & isStopNode;
+}
