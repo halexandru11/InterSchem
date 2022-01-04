@@ -163,7 +163,8 @@ Node* PrintPrintNode(Node *p)
     for(int i = 0; i < strlen(p->content); ++i)
         code += p->content[i];
     code += " << '\\n';\n";
-    return p->urm;}
+    return p->urm;
+}
 Node* PrintReadNode(Node *p)
 {
     putTabs();

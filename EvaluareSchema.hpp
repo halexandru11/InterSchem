@@ -24,7 +24,7 @@ Node* RunReadNode(Node* p)
     char s[500];
     strcpy(s, p->content);
     string variabilaNoua;
-    for(int i = 0; i < strlen(s) ; ++i)
+    for(int i = 0; i < int(strlen(s)) ; ++i)
         variabilaNoua.push_back(s[i]);
     datatype valoare = -1.234;
 
@@ -72,7 +72,7 @@ Node* RunAssignNode(Node*p)
     strcpy(s, p->content);
     char q[strlen(s) + 50];
     int nq = 0;
-    for(int i = 0; i < strlen(s); ++i)
+    for(int i = 0; i < int(strlen(s)); ++i)
     {
         if(s[i] == ' ') continue;
         q[nq++] = s[i];
@@ -158,7 +158,7 @@ void clearSchema(Node* p) {
     if(p->urmFalse) clearSchema(p->urmFalse);
 }
 
-int delay = 600;
+int delay = 400;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
@@ -171,9 +171,11 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     clearSchema(p);
     Clock myclock;
     Time mytime;
+    int target = -1;
+    bool hold = false;
     while(p != NULL) {
         p->activateNode();
-        window.clear();
+        window.clear(Color(38, 43, 19));
         DeseneazaPeEcran(window, nodes, lines);
         window.display();
         if(p->nodeType == Constants::StopNode) {
@@ -182,7 +184,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                 mytime += myclock.restart();
             }
             p->deactivateNode();
-            window.clear();
+            window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             window.display();
             return;
@@ -210,7 +212,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
             line = Line(*p, *child, Constants::CoordOutFalse, child);
         }
 
-        for(size_t times = 0; times < line.getLine(window).size() / 2; ++times) {
+        for(size_t times = 0; times < line.getRepTimes(); ++times) {
             mytime = microseconds(0);
             while(mytime.asMilliseconds() < delay) {
                 Event evnt;
@@ -219,13 +221,120 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                         window.close();
                         return;
                     }
+                    else if(evnt.type == Event::MouseButtonPressed) {
+                        if(evnt.mouseButton.button == Mouse::Left) {
+                            Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+                            hold = true;
+                            for(size_t i = 0; i < nodes.size(); ++i) {
+                                if(isInside(pos, nodes[i])) {
+                                    target = i;
+                                    break;
+                                }
+                            }
+
+                            if(isInsideButton(pos, buttonDelay200)) {
+                                buttonDelay200.setBgColor(Color(163, 184, 81));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 200;
+                            }
+                            else if(isInsideButton(pos, buttonDelay400)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(163, 184, 81));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 400;
+                            }
+                            else if(isInsideButton(pos, buttonDelay700)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(163, 184, 81));
+                                buttonDelay1200.setBgColor(Color(95, 107, 47));
+                                delay = 700;
+                            }
+                            else if(isInsideButton(pos, buttonDelay1200)) {
+                                buttonDelay200.setBgColor(Color(95, 107, 47));
+                                buttonDelay400.setBgColor(Color(95, 107, 47));
+                                buttonDelay700.setBgColor(Color(95, 107, 47));
+                                buttonDelay1200.setBgColor(Color(163, 184, 81));
+                                delay = 1200;
+                            }
+                            else if(isInsideButton(pos, buttonOutPut)) {
+                                buttonOutPut.setBgColor(Color(163, 184, 81));
+                                buttonVariabile.setBgColor(Color(44, 61, 27));
+                                buttonCode.setBgColor(Color(44, 61, 27));
+                                open_tab = 1;
+                            }
+                            else if(isInsideButton(pos, buttonVariabile)) {
+                                buttonOutPut.setBgColor(Color(44, 61, 27));
+                                buttonVariabile.setBgColor(Color(163, 184, 81));
+                                buttonCode.setBgColor(Color(44, 61, 27));
+                                open_tab = 2;
+                            }
+                            else if(isInsideButton(pos, buttonCode)) {
+                                buttonOutPut.setBgColor(Color(44, 61, 27));
+                                buttonVariabile.setBgColor(Color(44, 61, 27));
+                                buttonCode.setBgColor(Color(163, 184, 81));
+                                writeCode(StartSchema);
+                                open_tab = 3;
+                            }
+                            else if(isInsideButton(pos, buttonRun)) {
+                                return;
+                            }
+                        }
+
+                    }
+                    else if(evnt.type == Event::MouseButtonReleased)
+                    {
+                        target = -1;
+                        hold = false;
+                    }
+                }
+                if(target != -1 and hold == true) {
+                    float horOffset = nodes[target]->hitbox.getLocalBounds().width / 2;
+                    float verOffset = nodes[target]->hitbox.getLocalBounds().height / 2;
+
+                    Vector2i pozitieMouse = Mouse::getPosition(window);
+                    Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
+                    coordMe.x = max(coordMe.x, Constants::BenchLeft + horOffset);
+                    coordMe.x = min(coordMe.x, Constants::BenchLeft + Constants::BenchWidth - horOffset);
+                    coordMe.y = max(coordMe.y, verOffset);
+                    coordMe.y = min(coordMe.y, Constants::Height - verOffset);
+                    for(size_t i = 0; i < nodes.size(); ++i) {
+                        if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
+                            Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                            Vector2f var = coordMe;
+                            Vector2f delta{nodes[i]->width + nodes[target]->width, nodes[i]->height + nodes[target]->height};
+                            if(coordMe.x > coordOther.x) {
+                                var.x = max(coordMe.x, coordOther.x + delta.x/2);
+                            }
+                            else {
+                                var.x = min(coordMe.x, coordOther.x - delta.x/2);
+                            }
+                            if(coordMe.y > coordOther.y) {
+                                var.y = max(coordMe.y, coordOther.y + delta.y/2);
+                            }
+                            else {
+                                var.y = min(coordMe.y, coordOther.y - delta.y/2);
+                            }
+
+                            if(fabs(var.x - coordMe.x) * delta.y < fabs(var.y - coordMe.y) * delta.x) {
+                                coordMe.x = var.x;
+                            }
+                            else {
+                                coordMe.y = var.y;
+                            }
+                        }
+                    }
+                    nodes[target]->setNodeCoordonates(coordMe);
                 }
                 mytime += myclock.restart();
             }
             p->deactivateNode();
             if(child != NULL)
                 line.updateLineColor();
-            window.clear();
+            window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             if(child != NULL)
                 window.draw(&line.getLine(window)[0], line.getLine(window).size(), Lines);
