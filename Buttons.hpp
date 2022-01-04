@@ -81,6 +81,8 @@ Button buttonOutPut    (Vector2f(300, 300));
 Button buttonVariabile (Vector2f(300, 300));
 Button buttonCode      (Vector2f(300, 300));
 
+Button buttonHelp (Vector2f(20.0f,20.0f));
+
 void initializareButoane(Font &font)
 {
     OutputText.setFont(font);
@@ -205,6 +207,12 @@ void initializareButoane(Font &font)
                     Vector2f(10.0f, 213.0f),
                     "CODE", 17, -2,
                     Color(44, 61, 27));
+
+    buttonHelp.init(Vector2f(30.0f, 30.0f),
+                    Vector2f(1295.0f - 30.0f, 720.0f - 30.0f),
+                    Vector2f(0.0f, 0.0f),
+                    "?", 17, -2,
+                    Color(44, 61, 27));
 }
 
 void afisareButoane(RenderWindow &window)
@@ -225,6 +233,7 @@ void afisareButoane(RenderWindow &window)
     buttonDelay400.draw(window);
     buttonDelay700.draw(window);
     buttonDelay1200.draw(window);
+    buttonHelp.draw(window);
     buttonOutPut.draw(window);
     buttonVariabile.draw(window);
     buttonCode.draw(window);

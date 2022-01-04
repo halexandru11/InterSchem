@@ -82,3 +82,55 @@ inline void getInputPop(Event &evnt)
     }
     //cout << bufferp << '\n';
 }
+
+void HelpPopUp()
+{
+    RenderWindow windowHelp(VideoMode(1000, 800), "Help", Style::Close | Style::Titlebar);
+
+    auto imageIcon = sf::Image{};
+    imageIcon.loadFromFile("ICON3.png");
+    windowHelp.setIcon(imageIcon.getSize().x, imageIcon.getSize().y, imageIcon.getPixelsPtr());
+
+    Text helpText;
+    Text Trademarkk;
+    helpText.setFont(font);
+    helpText.setCharacterSize(17);
+    helpText.setFillColor(Color::White);
+    helpText.setPosition(Vector2f(150.0f, 430.0f));
+///    helpText.setStyle(sf::Text::Bold);
+    Texture imagineBG;
+    imagineBG.loadFromFile("ICON2.png");
+    sf :: Sprite imag(imagineBG);
+    imag.setPosition(Vector2f(280.0f, 0.0f));
+    imag.setOrigin(Vector2f(0.0f, 0.0f));
+    imag.scale(Vector2f(0.7f, 0.7f));
+    Trademarkk = helpText;
+    string message ="                                                                  Help\n";
+    message += "Butoanele se actioneaza cu Click Stanga\n";
+    message += "Nodurile se misca cu drag&drop\n";
+    message += "Conectarea acestora se face astfel: Ctrl+Click Stanga(se selecteaza primul nod,\n";
+    message += "apoi nodul urmator; selectia se anuleaza daca se face click pe spatiul gol)\n";
+    message += "Pentru a edita un nod se apasa Click Dreapta pe el, si apoi se poate tasta\n";
+    message += "Pentru a termina editarea se apasa tasta Enter\n";
+    message += "Pentru a sterge un nod se foloseste Click3(click-ul de pe Scroll)\n";
+    helpText.setString(message);
+    Trademarkk.setString("Proiect realizat de Hritcan Alexandru & Vamanu Petru");
+    Trademarkk.setPosition(Vector2f(270,780));
+    while(windowHelp.isOpen())
+    {
+        Event E;
+        while(windowHelp.pollEvent(E))
+        {
+            if(E.type == Event::Closed)
+            {
+                windowHelp.close();
+            }
+        }
+        windowHelp.clear(Color(90,120,50));
+        windowHelp.draw(imag);
+        windowHelp.draw(helpText);
+        windowHelp.draw(Trademarkk);
+        windowHelp.display();
+    }
+}
+
