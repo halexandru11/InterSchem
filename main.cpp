@@ -13,6 +13,9 @@ int main()
     nodes.clear();
     font.loadFromFile("Fonts\\Poppins\\Poppins-Regular.ttf");
 
+    auto imageIcon = sf::Image{};
+    imageIcon.loadFromFile("ICON3.png");
+    window.setIcon(imageIcon.getSize().x, imageIcon.getSize().y, imageIcon.getPixelsPtr());
     eventHandlerBrain(window);
     return 0;
 }

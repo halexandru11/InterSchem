@@ -5,6 +5,7 @@
 #include "Constants.hpp"
 #include "Evaluare.hpp"
 #include "Node.hpp"
+#include "EvaluareSchema.hpp"
 #include "Buttons.hpp"
 using namespace sf;
 using namespace std;
@@ -67,7 +68,7 @@ Node* PrintStartNode(Node *p)
 Node* PrintAssignNode(Node *p)
 {
     putTabs();
-    for(int i = 0; i < int(strlen(p->content)); ++i)
+    for(int i = 0; i < strlen(p->content); ++i)
         code += p->content[i];
     code += ";\n";
     return p->urm;
@@ -77,7 +78,7 @@ Node* PrintIfNode(Node *p)
     cout << "FAC NODUL " << p->content << '\n';
     Node* common1;
     Node* common2;
-    for(int i = 0; i < int(nodes.size()); ++i)
+    for(int i = 0; i < nodes.size(); ++i)
     {
         nodes[i]->vizF = 0;
         nodes[i]->vizT = 0;
@@ -133,7 +134,7 @@ Node* PrintIfNode(Node *p)
     }
     putTabs();
     code += "if(";
-    for(int i = 0; i < int(strlen(p->content)); ++i)
+    for(int i = 0; i < strlen(p->content); ++i)
         code += p->content[i];
     code += ")\n";
     putTabs();
@@ -159,7 +160,7 @@ Node* PrintPrintNode(Node *p)
     putTabs();
     code += "cout << ";
 
-    for(int i = 0; i < int(strlen(p->content)); ++i)
+    for(int i = 0; i < strlen(p->content); ++i)
         code += p->content[i];
     code += " << '\\n';\n";
     return p->urm;
@@ -169,7 +170,7 @@ Node* PrintReadNode(Node *p)
     putTabs();
     code += "cin >> ";
 
-    for(int i = 0; i < int(strlen(p->content)); ++i)
+    for(int i = 0; i < strlen(p->content); ++i)
         code += p->content[i];
     code += ";\n";
     return p->urm;
@@ -203,12 +204,16 @@ void CodeSchema(Node *p, Node *stopp)
 void writeCode(Node *p)
 {
     for(auto it : nodes)
+    {
         it->viz = false;
+        if(strstr(it->content, "pow"))
+            is_expo = 1;
+    }
     CodText.setCharacterSize(10);
     code = "Cod:\n";
     code += "#include<iostream>\nusing namespace std;\n";
     if(is_expo)
-        code += "double logpow(double a, double b)\n{\n    double r = 1;\n    int b_floored = b;\n    if(b - b_floored >= eps)\n    {\n        perror(\"Exponentiala cu exponent real\");        exit(1);\n    }\n    if(b_floored < 0)\n    {\n        a = 1 / a;\n        b_floored = -b_floored;\n    }\n    while(b_floored)\n    {\n        if(b_floored & 1) r *= a;\n        a *= a;\n        b_floored >>= 1;\n    }\n    return r;\n}";
+        code += "double pow(double a, double b)\n{\n    double r = 1;\n    int b_floored = b;\n    if(b - b_floored >= 0.00001)\n    {\n        perror(\"Exponentiala cu exponent real\");\n        exit(1);\n    }\n    if(b_floored < 0)\n    {\n        a = 1 / a;\n        b_floored = -b_floored;\n    }\n    while(b_floored)\n    {\n        if(b_floored & 1) r *= a;\n        a *= a;\n        b_floored >>= 1;\n    }\n    return r;\n}";
     bool amVars = 0;
     for(auto it : nodes)
             if(it->nodeType == Constants::NodeType::ReadNode || it->nodeType == Constants::NodeType::AssignNode )
@@ -224,7 +229,7 @@ void writeCode(Node *p)
             if(it->nodeType == Constants::NodeType::ReadNode || it->nodeType == Constants::NodeType::AssignNode )
             {
                 string varr;
-                for(int i = 0; i < int(strlen(it->content)); ++i)
+                for(int i = 0; i < strlen(it->content); ++i)
                 {
                     if(it->content[i] == '=') break;
                     if(it->content[i] != ' ')
