@@ -51,6 +51,7 @@
 			<Add directory="E:/My programs/CodeBlocks/SFML/SFML-2.5.1/lib" />
 			<Add directory="C:/SFML/lib" />
 		</Linker>
+		<Unit filename="Brain.hpp" />
 		<Unit filename="Buttons.hpp" />
 		<Unit filename="Constants.hpp" />
 		<Unit filename="Evaluare.hpp" />
@@ -77,9 +78,6 @@
 		<Unit filename="ui.hpp" />
 		<Extensions>
 			<lib_finder disable_auto="1" />
-			<code_completion />
-			<envvars />
-			<debugger />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

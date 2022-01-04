@@ -246,8 +246,15 @@ void eventHandlerBrain(RenderWindow& window,
         if(hold && target != -1)
         {
             if(all or benchEdit) {
+                float horOffset = nodes[target]->hitbox.getLocalBounds().width / 2;
+                float verOffset = nodes[target]->hitbox.getLocalBounds().height / 2;
+
                 Vector2i pozitieMouse = Mouse::getPosition(window);
                 Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
+                coordMe.x = max(coordMe.x, Constants::BenchLeft + horOffset);
+                coordMe.x = min(coordMe.x, Constants::BenchLeft + Constants::BenchWidth - horOffset);
+                coordMe.y = max(coordMe.y, verOffset);
+                coordMe.y = min(coordMe.y, Constants::Height - verOffset);
                 for(size_t i = 0; i < nodes.size(); ++i) {
                     if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
                         Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);

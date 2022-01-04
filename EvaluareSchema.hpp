@@ -166,6 +166,8 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     clearSchema(p);
     Clock myclock;
     Time mytime;
+    int target = -1;
+    bool hold = false;
     while(p != NULL) {
         p->activateNode();
         window.clear(Color(38, 43, 19));
@@ -205,7 +207,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
             line = Line(*p, *child, Constants::CoordOutFalse, child);
         }
 
-        for(size_t times = 0; times < line.getLine(window).size() / 2; ++times) {
+        for(size_t times = 0; times < line.getRepTimes(); ++times) {
             mytime = microseconds(0);
             while(mytime.asMilliseconds() < delay) {
                 Event evnt;
@@ -217,6 +219,13 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                     else if(evnt.type == Event::MouseButtonPressed) {
                         if(evnt.mouseButton.button == Mouse::Left) {
                             Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
+                            hold = true;
+                            for(size_t i = 0; i < nodes.size(); ++i) {
+                                if(isInside(pos, nodes[i])) {
+                                    target = i;
+                                    break;
+                                }
+                            }
 
                             if(isInsideButton(pos, buttonDelay200)) {
                                 buttonDelay200.setBgColor(Color(163, 184, 81));
@@ -265,8 +274,55 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                                 writeCode(StartSchema);
                                 open_tab = 3;
                             }
+                            else if(isInsideButton(pos, buttonRun)) {
+                                return;
+                            }
+                        }
+
+                    }
+                    else if(evnt.type == Event::MouseButtonReleased)
+                    {
+                        target = -1;
+                        hold = false;
+                    }
+                }
+                if(target != -1 and hold == true) {
+                    float horOffset = nodes[target]->hitbox.getLocalBounds().width / 2;
+                    float verOffset = nodes[target]->hitbox.getLocalBounds().height / 2;
+
+                    Vector2i pozitieMouse = Mouse::getPosition(window);
+                    Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
+                    coordMe.x = max(coordMe.x, Constants::BenchLeft + horOffset);
+                    coordMe.x = min(coordMe.x, Constants::BenchLeft + Constants::BenchWidth - horOffset);
+                    coordMe.y = max(coordMe.y, verOffset);
+                    coordMe.y = min(coordMe.y, Constants::Height - verOffset);
+                    for(size_t i = 0; i < nodes.size(); ++i) {
+                        if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
+                            Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
+                            Vector2f var = coordMe;
+                            Vector2f delta{nodes[i]->width + nodes[target]->width, nodes[i]->height + nodes[target]->height};
+                            if(coordMe.x > coordOther.x) {
+                                var.x = max(coordMe.x, coordOther.x + delta.x/2);
+                            }
+                            else {
+                                var.x = min(coordMe.x, coordOther.x - delta.x/2);
+                            }
+                            if(coordMe.y > coordOther.y) {
+                                var.y = max(coordMe.y, coordOther.y + delta.y/2);
+                            }
+                            else {
+                                var.y = min(coordMe.y, coordOther.y - delta.y/2);
+                            }
+
+                            if(fabs(var.x - coordMe.x) * delta.y < fabs(var.y - coordMe.y) * delta.x) {
+                                coordMe.x = var.x;
+                            }
+                            else {
+                                coordMe.y = var.y;
+                            }
                         }
                     }
+                    nodes[target]->setNodeCoordonates(coordMe);
                 }
                 mytime += myclock.restart();
             }

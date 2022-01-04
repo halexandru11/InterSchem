@@ -60,7 +60,8 @@ public:
         height = std::max(height, 30.0f);
         if(nodeType == Constants::ConditionalNode) {
             height *= 1.5f;
-            width = std::max(width, 40.0f);
+            width += 40;
+            width = std::max(width, 80.0f);
             if(width > 100) {
                 height += (width - 100) * 0.1 ;
             }
@@ -128,10 +129,10 @@ public:
         window.draw(text);
         if(nodeType == Constants::ConditionalNode) {
             sf::Text caz("T", font, 17);
-            caz.setPosition(m_coordOutTrue + sf::Vector2f(-15, -20));
+            caz.setPosition(m_coordOutTrue + sf::Vector2f(5, -20));
             window.draw(caz);
             caz.setString("F");
-            caz.setPosition(m_coordOutFalse + sf::Vector2f(5, -20));
+            caz.setPosition(m_coordOutFalse + sf::Vector2f(-15, -20));
             window.draw(caz);
         }
     }
@@ -233,12 +234,12 @@ private:
         convexShape.setFillColor(m_backgroundColor);
         convexShape.setOutlineColor(m_outlineColor);
 
-        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height/2});  // -2*height/3});
-        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height/2});  // -2*height/3});
-        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2,  height/2-20});  //    height/3-10});
-        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2,  height/2});  //    height/3});
-        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2,  height/2});  //    height/3});
-        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2,  height/2-20});  //    height/3-10});
+        convexShape.setPoint(0, m_coord + sf::Vector2f{     -10, -height/2});
+        convexShape.setPoint(1, m_coord + sf::Vector2f{      10, -height/2});
+        convexShape.setPoint(2, m_coord + sf::Vector2f{ width/2-20,  height/2-20});
+        convexShape.setPoint(3, m_coord + sf::Vector2f{ width/2-20,  height/2});
+        convexShape.setPoint(4, m_coord + sf::Vector2f{-width/2+20,  height/2});
+        convexShape.setPoint(5, m_coord + sf::Vector2f{-width/2+20,  height/2-20});
 
         return convexShape;
     }
@@ -294,11 +295,11 @@ private:
     }
 
     void setHitbox() {
-        hitbox.setSize(sf::Vector2f{width-1, height-1});
+        hitbox.setSize(sf::Vector2f{width, height});
         hitbox.setPosition(m_coord - sf::Vector2f{width/2, height/2});
         hitbox.setFillColor(sf::Color::Transparent);
         hitbox.setOutlineColor(sf::Color::Green);
-        hitbox.setOutlineThickness(2);
+        hitbox.setOutlineThickness(-2);
     }
 
 private:

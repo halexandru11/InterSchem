@@ -47,7 +47,8 @@ void adauga_nod(vector <Node*> &D, int type)
         if(isStartNode)
             return;
         D.push_back(new Node(Constants::StartNode, font));
-        D[D.size() - 1]->setTextString("Start");
+        D.back()->setTextString("Start");
+        D.back()->setNodeCoordonates({180, 275});
         isStartNode = 1;
         StartSchema = D[D.size() - 1];
     }
@@ -55,16 +56,25 @@ void adauga_nod(vector <Node*> &D, int type)
     {
         D.push_back(new Node(Constants::AssignNode, font));
         D[D.size() - 1]->setTextString("Assign");
+        D.back()->setNodeCoordonates({180, 330});
     }
     if(type == Constants::ConditionalNode)
     {
         D.push_back(new Node(Constants::ConditionalNode, font));
         D[D.size() - 1]->setTextString("Conditional");
+        D.back()->setNodeCoordonates({200, 385});
+    }
+    if(type == Constants::ReadNode)
+    {
+        D.push_back(new Node(Constants::ReadNode, font));
+        D[D.size() - 1]->setTextString("Read");
+        D.back()->setNodeCoordonates({180, 440});
     }
     if(type == Constants::OutputNode)
     {
         D.push_back(new Node(Constants::OutputNode, font));
         D[D.size() - 1]->setTextString("Output");
+        D.back()->setNodeCoordonates({180, 495});
     }
     if(type == Constants::StopNode)
     {
@@ -72,15 +82,9 @@ void adauga_nod(vector <Node*> &D, int type)
             return;
         D.push_back(new Node(Constants::StopNode, font));
         D[D.size() - 1]->setTextString("Stop");
+        D.back()->setNodeCoordonates({180, 550});
         isStopNode = 1;
     }
-    if(type == Constants::ReadNode)
-    {
-        D.push_back(new Node(Constants::ReadNode, font));
-        D[D.size() - 1]->setTextString("Read");
-    }
-
-    D[D.size() - 1]->setNodeCoordonates(sf::Vector2f{1000, 200});
 }
 
 void stergeToateLiniile(vector<Line>& lines, Node*& node) {

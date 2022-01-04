@@ -61,7 +61,7 @@ Text VariabileText;
 Text CodText;
 Text delayText("Delay:", font, 17);
 
-RectangleShape workbench    (Vector2f(900.0f,720.0f));
+RectangleShape workbench (Vector2f(900.0f,720.0f));
 Button buttonClear     (Vector2f(125.0f, 50.0f));
 Button buttonRun       (Vector2f(125.0f, 50.0f));
 Button buttonImport    (Vector2f(125.0f, 50.0f));
@@ -111,7 +111,7 @@ void initializareButoane(Font &font)
     buttonRun.init(Vector2f(125.0f, 50.0f),
                     Vector2f(0, 55.0f),
                     Vector2f(10.0f, 213.0f),
-                    "RUN", 17, -2,
+                    "RUN/STOP", 17, -2,
                     Color(87, 80, 15));
 
     buttonImport.init(Vector2f(125.0f, 50.0f),
