@@ -57,7 +57,7 @@ private:
 
 Node* StartSchema;
 Text OutputText;
-Text VariabileText;
+vector<Text> VariabileText;
 Text CodText;
 Text delayText("Delay:", font, 17);
 
@@ -80,8 +80,7 @@ Button buttonOutPut    (Vector2f(300, 300));
 Button buttonVariabile (Vector2f(300, 300));
 Button buttonCode      (Vector2f(300, 300));
 Button buttonClipboard (Vector2f(300, 300));
-
-Button buttonHelp (Vector2f(20.0f,20.0f));
+Button buttonHelp      (Vector2f(20.0f,20.0f));
 
 void initializareButoane(Font &font)
 {
@@ -91,15 +90,13 @@ void initializareButoane(Font &font)
     OutputText.setPosition(Vector2f(1040.0f,50.0f));
     OutputText.setString("");
 
-    VariabileText = OutputText;
-    VariabileText.setString("");
-
     CodText = OutputText;
     CodText.setString("");
 
+    VariabileText.clear();
+
     popupSetup();
 
-//    workbench.setFillColor(Color(59,71,57,255));
     workbench.setFillColor(Color(90,120,50));
     workbench.setOrigin(0.0f, 0.0f);
     workbench.setPosition(125.0f, 0.0f);
@@ -209,15 +206,16 @@ void initializareButoane(Font &font)
                     Color(44, 61, 27));
 
     buttonClipboard.init(Vector2f(65.0f, 35.0f),
-                    Vector2f(1225.0f, 70.0f),
+                    Vector2f(1225.0f, 47.0f),
                     Vector2f(10.0f, 213.0f),
                     "Copy", 17, -2,
-                     Color(44, 61, 27));
+                    Color(87, 80, 15));
 
     buttonHelp.init(Vector2f(30.0f, 30.0f),
-                    Vector2f(1295.0f - 30.0f, 720.0f - 30.0f),
+//                    Vector2f(1295.0f - 30.0f, 720.0f - 30.0f),
+                    Vector2f(1025.0f-30, 0.0f),
                     Vector2f(0.0f, 0.0f),
-                    "?", 17, -2,
+                    "?", 17, -1,
                     Color(44, 61, 27));
 }
 
@@ -239,14 +237,17 @@ void afisareButoane(RenderWindow &window)
     buttonDelay400.draw(window);
     buttonDelay700.draw(window);
     buttonDelay1200.draw(window);
-    buttonHelp.draw(window);
     buttonOutPut.draw(window);
     buttonVariabile.draw(window);
     buttonCode.draw(window);
+    buttonHelp.draw(window);
     if(open_tab == 1)
         window.draw(OutputText);
-    else if(open_tab == 2)
-        window.draw(VariabileText);
+    else if(open_tab == 2) {
+        for(auto var : VariabileText) {
+            window.draw(var);
+        }
+    }
     else if(open_tab == 3) {
         window.draw(CodText);
         buttonClipboard.draw(window);
