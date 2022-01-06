@@ -14,6 +14,7 @@ using namespace sf;
 
 string OutputContent;
 string OutputVariabile;
+map<string, bool> modificat;
 
 Node* RunStartNode(Node* p)
 {
@@ -60,7 +61,7 @@ Node* RunReadNode(Node* p)
         fereastra_citire.display();
     }
     isPOPup = false;
-
+    modificat[variabilaNoua] = true;
 
     adaugaVariabila(variabilaNoua, valoare);
     return p->urm;
@@ -80,17 +81,16 @@ Node* RunAssignNode(Node*p)
         q[nq++] = s[i];
     }
     w = q;
-    cout << "---------- " << q << "\n";
-    while(*w != '=' && *w != NULL)
-    {
+    while(*w != '=' && *w != NULL) {
         variabila.push_back(*w);
         w++;
     }
+    modificat[variabila] = true;
     w++;
     char exp[500];
     strcpy(exp, w);
     datatype rezultat = Evalueaza_Expresie(exp);
-    atribuieVariabila(variabila,rezultat);
+    atribuieVariabila(variabila, rezultat);
     return p->urm;
 }
 
@@ -200,32 +200,6 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         }
         ///colorez nodul curent cumva
         Node* child = RunNode(p);
-
-        VariabileText.clear();
-        float yPos = 50.0f;
-        for(auto it : variabileCod) {
-            OutputVariabile = "";
-            OutputVariabile += it.first + " = ";
-            double val = variabile[it.second];
-            int flr = val;
-            if( abs(val - flr)  < eps)
-                OutputVariabile += to_string(flr) + "\n";
-            else
-                OutputVariabile += to_string(variabile[it.second]) + "\n";
-            
-            Text var;
-            var.setFont(font);
-            var.setCharacterSize(17);
-            var.setFillColor(Color::White);
-            var.setPosition(Vector2f(1040.0f, yPos));
-            var.setString(OutputVariabile);
-            yPos += 20;
-            VariabileText.push_back(var);
-        }
-//        if(VariabileText.size()) {
-//            VariabileText.back().setFillColor(Color(255, 160, 0));
-//        }
-
         Line line(p, Constants::CoordOut, window);
         if(child == p->urm) {
             line = Line(*p, *child, Constants::CoordOut, child);
@@ -239,6 +213,34 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
 
         for(size_t times = 0; times < line.getRepTimes(); ++times) {
             mytime = microseconds(0);
+
+            VariabileText.clear();
+            float yPos = 50.0f;
+            for(auto it : variabileCod) {
+                OutputVariabile = "";
+                OutputVariabile += it.first + "=";
+                double val = variabile[it.second];
+                int flr = val;
+                if( abs(val - flr)  < eps)
+                    OutputVariabile += to_string(flr) + "\n";
+                else
+                    OutputVariabile += to_string(variabile[it.second]) + "\n";
+
+                Text var;
+                var.setFont(font);
+                var.setCharacterSize(17);
+                var.setPosition(Vector2f(1040.0f, yPos));
+                var.setString(OutputVariabile);
+                if(modificat[it.first]) {
+                    var.setFillColor(Color(255, 160, 0));
+                }
+                else {
+                    var.setFillColor(Color::White);
+                }
+                yPos += 20;
+                VariabileText.push_back(var);
+            }
+
             while(mytime.asMilliseconds() < delay) {
                 Event evnt;
                 while (window.pollEvent(evnt)) {
@@ -249,13 +251,6 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                     else if(evnt.type == Event::MouseButtonPressed) {
                         if(evnt.mouseButton.button == Mouse::Left) {
                             Vector2f pos(Mouse::getPosition(window).x, Mouse::getPosition(window).y);
-                            hold = true;
-                            for(size_t i = 0; i < nodes.size(); ++i) {
-                                if(isInside(pos, nodes[i])) {
-                                    target = i;
-                                    break;
-                                }
-                            }
 
                             if(isInsideButton(pos, buttonDelay200)) {
                                 buttonDelay200.setBgColor(Color(163, 184, 81));
@@ -310,55 +305,17 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
                         }
 
                     }
-                    else if(evnt.type == Event::MouseButtonReleased)
-                    {
-                        target = -1;
-                        hold = false;
-                    }
-                }
-                if(target != -1 and hold == true) {
-                    float horOffset = nodes[target]->hitbox.getLocalBounds().width / 2;
-                    float verOffset = nodes[target]->hitbox.getLocalBounds().height / 2;
-
-                    Vector2i pozitieMouse = Mouse::getPosition(window);
-                    Vector2f coordMe = Vector2f{float(pozitieMouse.x), float(pozitieMouse.y)};
-                    coordMe.x = max(coordMe.x, Constants::BenchLeft + horOffset);
-                    coordMe.x = min(coordMe.x, Constants::BenchLeft + Constants::BenchWidth - horOffset);
-                    coordMe.y = max(coordMe.y, verOffset);
-                    coordMe.y = min(coordMe.y, Constants::Height - verOffset);
-                    for(size_t i = 0; i < nodes.size(); ++i) {
-                        if(i != target and nodes[i]->collides(pozitieMouse, nodes[target]->hitbox.getSize())) {
-                            Vector2f coordOther = nodes[i]->getNodeCoordonates(Constants::CoordNode);
-                            Vector2f var = coordMe;
-                            Vector2f delta{nodes[i]->width + nodes[target]->width, nodes[i]->height + nodes[target]->height};
-                            if(coordMe.x > coordOther.x) {
-                                var.x = max(coordMe.x, coordOther.x + delta.x/2);
-                            }
-                            else {
-                                var.x = min(coordMe.x, coordOther.x - delta.x/2);
-                            }
-                            if(coordMe.y > coordOther.y) {
-                                var.y = max(coordMe.y, coordOther.y + delta.y/2);
-                            }
-                            else {
-                                var.y = min(coordMe.y, coordOther.y - delta.y/2);
-                            }
-
-                            if(fabs(var.x - coordMe.x) * delta.y < fabs(var.y - coordMe.y) * delta.x) {
-                                coordMe.x = var.x;
-                            }
-                            else {
-                                coordMe.y = var.y;
-                            }
-                        }
-                    }
-                    nodes[target]->setNodeCoordonates(coordMe);
                 }
                 mytime += myclock.restart();
             }
             p->deactivateNode();
             if(child != NULL)
                 line.updateLineColor();
+
+            for(auto& [var, state] : modificat) {
+                state = false;
+            }
+
             window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             if(child != NULL)

@@ -86,12 +86,9 @@ void initializareButoane(Font &font)
 {
     OutputText.setFont(font);
     OutputText.setCharacterSize(17);
-    OutputText.setFillColor(Color(255, 160, 0));
+    OutputText.setFillColor(Color::White);
     OutputText.setPosition(Vector2f(1040.0f,50.0f));
     OutputText.setString("");
-
-//    VariabileText = OutputText;
-//    VariabileText.setString("");
 
     CodText = OutputText;
     CodText.setString("");
