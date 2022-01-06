@@ -201,23 +201,24 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         ///colorez nodul curent cumva
         Node* child = RunNode(p);
 
-//        OutputVariabile = "";
-//        for(auto it : variabileCod)
-//        {
-//            OutputVariabile += it.first + " = ";
-//            cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
-//            OutputVariabile += to_string(variabile[it.second]) + "\n";
-//        }
-//        VariabileText.setString(OutputVariabile);
         VariabileText.clear();
         float yPos = 50.0f;
         for(auto it : variabileCod) {
+            OutputVariabile = "";
+            OutputVariabile += it.first + " = ";
+            double val = variabile[it.second];
+            int flr = val;
+            if( abs(val - flr)  < eps)
+                OutputVariabile += to_string(flr) + "\n";
+            else
+                OutputVariabile += to_string(variabile[it.second]) + "\n";
+            
             Text var;
             var.setFont(font);
             var.setCharacterSize(17);
             var.setFillColor(Color::White);
             var.setPosition(Vector2f(1040.0f, yPos));
-            var.setString(it.first + " = " + to_string(variabile[it.second]));
+            var.setString(OutputVariabile);
             yPos += 20;
             VariabileText.push_back(var);
         }
