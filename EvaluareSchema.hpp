@@ -198,8 +198,13 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         for(auto it : variabileCod)
         {
             OutputVariabile += it.first + " = ";
+            double val = variabile[it.second];
+            int flr = val;
+            if( abs(val - flr)  < eps)
+                OutputVariabile += to_string(flr) + "\n";
+            else
+                OutputVariabile += to_string(variabile[it.second]) + "\n";
             cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
-            OutputVariabile += to_string(variabile[it.second]) + "\n";
         }
         VariabileText.setString(OutputVariabile);
 
