@@ -137,6 +137,11 @@ public:
         }
     }
 
+    void setColor(sf::Color backgroundColor, sf::Color outlineColor) {
+        m_backgroundColor = backgroundColor;
+        m_outlineColor = outlineColor;
+    }
+
 public:
     Constants::NodeType nodeType;
     float height = 30;

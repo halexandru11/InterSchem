@@ -80,6 +80,7 @@ Node* RunAssignNode(Node*p)
         q[nq++] = s[i];
     }
     w = q;
+    cout << "---------- " << q << "\n";
     while(*w != '=' && *w != NULL)
     {
         variabila.push_back(*w);
@@ -150,14 +151,16 @@ Node* RunNode(Node *p)
     return nullptr;
 }
 
-void clearSchema(Node* p) {
-    if(p->isActive() == false) {
-        return;
+void colorSchema(Color bkColor, Color outlineColor) {
+    for(Node*& node : nodes) {
+        node->setColor(bkColor, outlineColor);
     }
-    p->resetNode();
-    if(p->urm) clearSchema(p->urm);
-    if(p->urmTrue) clearSchema(p->urmTrue);
-    if(p->urmFalse) clearSchema(p->urmFalse);
+}
+
+void clearSchema() {
+    for(auto& node : nodes) {
+        node->resetNode();
+    }
 }
 
 int delay = 400;
@@ -167,10 +170,14 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
     if(!isOkToRun())
     {
         cout << "NU SUNT START/STOP\n";
+        colorSchema(Color::Red, Color::White);
+        window.clear(Color(38, 43, 19));
+        DeseneazaPeEcran(window, nodes, lines);
+        window.display();
         return;
     }
     Node *dublura = p;
-    clearSchema(p);
+    clearSchema();
     Clock myclock;
     Time mytime;
     int target = -1;
@@ -194,14 +201,29 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
         ///colorez nodul curent cumva
         Node* child = RunNode(p);
 
-        OutputVariabile = "";
-        for(auto it : variabileCod)
-        {
-            OutputVariabile += it.first + " = ";
-            cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
-            OutputVariabile += to_string(variabile[it.second]) + "\n";
+//        OutputVariabile = "";
+//        for(auto it : variabileCod)
+//        {
+//            OutputVariabile += it.first + " = ";
+//            cout << it.first << ' ' << to_string(variabile[it.second])  << '\n';
+//            OutputVariabile += to_string(variabile[it.second]) + "\n";
+//        }
+//        VariabileText.setString(OutputVariabile);
+        VariabileText.clear();
+        float yPos = 50.0f;
+        for(auto it : variabileCod) {
+            Text var;
+            var.setFont(font);
+            var.setCharacterSize(17);
+            var.setFillColor(Color::White);
+            var.setPosition(Vector2f(1040.0f, yPos));
+            var.setString(it.first + " = " + to_string(variabile[it.second]));
+            yPos += 20;
+            VariabileText.push_back(var);
         }
-        VariabileText.setString(OutputVariabile);
+//        if(VariabileText.size()) {
+//            VariabileText.back().setFillColor(Color(255, 160, 0));
+//        }
 
         Line line(p, Constants::CoordOut, window);
         if(child == p->urm) {
