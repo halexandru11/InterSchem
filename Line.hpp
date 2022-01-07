@@ -66,7 +66,7 @@ public:
             m_accentColorPosition = 0;
         }
     }
-
+  
     void setErrorLineColor() {
         m_mainColor = sf::Color(255, 100, 0);
         m_accentColor = sf::Color(255, 100, 0);
