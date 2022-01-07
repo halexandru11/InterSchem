@@ -12,6 +12,9 @@ public:
         m_parentCoordType = parentCoordType;
         m_coordParent = m_parent->getNodeCoordonates(m_parentCoordType);
         connectToNode(childAdress);
+        m_triangle.setOrigin(m_triangle.getRadius()-0.5f, m_triangle.getRadius()-0.5f);
+        m_triangle.setRotation(180);
+        m_triangle.setFillColor(sf::Color::Black);
     }
 
     Line(Node*& parent, Constants::CoordType parentCoordType, sf::RenderWindow& window) {
@@ -21,6 +24,9 @@ public:
         sf::Vector2f mousePos = sf::Vector2f{sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
         m_coordChild = mousePos;
         m_connected = false;
+        m_triangle.setOrigin(m_triangle.getRadius()-0.5f, m_triangle.getRadius()-0.5f);
+        m_triangle.setRotation(180);
+        m_triangle.setFillColor(sf::Color::Black);
     }
 
     std::vector<sf::Vertex> getLine(sf::RenderWindow& window) {
@@ -61,6 +67,22 @@ public:
         }
     }
 
+    void draw(sf::RenderWindow& window) {
+        getLine(window);
+        window.draw(&m_line[0], m_line.size(), Lines);
+        for(size_t index = 0; index < m_trianglePositions.size(); ++index) {
+            m_triangle.setPosition(m_trianglePositions[index]);
+            m_triangle.setRotation(m_triangleRotations[index]);
+            if(index == m_triangleAccentColorPosition) {
+                m_triangle.setFillColor(sf::Color(127, 127, 127));
+            }
+            else {
+                m_triangle.setFillColor(sf::Color::Black);
+            }
+            window.draw(m_triangle);
+        }
+    }
+
     Node* getParent() {
         return m_parent;
     }
@@ -93,19 +115,63 @@ private:
         if(m_coordChild.y > m_coordParent.y-1) {
             if(fabs(m_coordChild.x - m_coordParent.x) < 1) {
                 straightLine();
+                if(m_trianglePositions.size() == 1) {
+                    m_triangleAccentColorPosition = m_accentColorPosition == 3 ? 0 : -1;
+                }
+                else {
+                    switch(m_accentColorPosition) {
+                    case 1:
+                        m_triangleAccentColorPosition = 0;
+                        break;
+                    case 3:
+                        m_triangleAccentColorPosition = 1;
+                        break;
+                    default:
+                        m_triangleAccentColorPosition = -1;
+                    }
+                }
             }
-            else if(fabs(m_coordChild.x - m_coordParent.x) < 5) {
+            else if(fabs(m_coordChild.x - m_coordParent.x) < 15) {
                 almostStraightLine();
                 if(m_accentColorPosition == 5) {
                     m_accentColorPosition += 2;
                 }
+                switch(m_accentColorPosition) {
+                case 1:
+                    m_triangleAccentColorPosition = 0;
+                    break;
+                case 7:
+                    m_triangleAccentColorPosition = 1;
+                    break;
+                default:
+                    m_triangleAccentColorPosition = -1;
+                }
             }
             else {
                 cabLine();
+                if(m_accentColorPosition > 0) {
+                    m_triangleAccentColorPosition = m_accentColorPosition / 2;
+                }
+                else {
+                    m_triangleAccentColorPosition = -1;
+                }
             }
         }
         else {
             detourCabLine();
+            switch(m_accentColorPosition) {
+            case 3:
+                m_triangleAccentColorPosition = 0;
+                break;
+            case 5:
+                m_triangleAccentColorPosition = 1;
+                break;
+            case 7:
+                m_triangleAccentColorPosition = 2;
+                break;
+            default:
+                m_triangleAccentColorPosition = -1;
+            }
         }
         setLineColor();
     }
@@ -118,6 +184,21 @@ private:
         }
         m_line.back().position = m_coordChild;
         m_repTimes = 3;
+
+        m_trianglePositions.clear();
+        m_triangleRotations.clear();
+        if(m_coordChild.y - m_coordParent.y > 15.0f) {
+            if(m_coordChild.y - m_coordParent.y < 100.0f) {
+                m_trianglePositions.push_back(sf::Vector2f(m_coordParent.x, m_coordParent.y + (m_coordChild.y - m_coordParent.y) * 0.5f));
+                m_triangleRotations.push_back(180);
+            }
+            else {
+                m_trianglePositions.push_back(sf::Vector2f(m_coordParent.x, m_coordParent.y + deltaY));
+                m_trianglePositions.push_back(sf::Vector2f(m_coordParent.x, m_coordParent.y + 2*deltaY));
+                m_triangleRotations.push_back(180);
+                m_triangleRotations.push_back(180);
+            }
+        }
     }
 
     void almostStraightLine() {
@@ -134,6 +215,15 @@ private:
         }
         m_line.back().position = m_coordChild;
         m_repTimes = 4;
+
+        m_trianglePositions.clear();
+        m_triangleRotations.clear();
+        if(m_coordChild.y - m_coordParent.y > 15.0f) {
+            m_trianglePositions.push_back(sf::Vector2f(m_coordParent.x, m_coordParent.y + deltaY));
+            m_trianglePositions.push_back(sf::Vector2f(m_coordChild.x,  m_coordChild.y  - deltaY));
+            m_triangleRotations.push_back(180);
+            m_triangleRotations.push_back(180);
+        }
     }
 
     void cabLine() {
@@ -149,6 +239,22 @@ private:
         m_line.push_back(sf::Vertex(sf::Vector2f{m_coordChild.x,  m_coordChild.y}));
 
         m_repTimes = 3;
+
+        float deltaY = (m_coordChild.y - m_coordParent.y) * 0.25f;
+        m_trianglePositions.clear();
+        m_triangleRotations.clear();
+        if(m_coordChild.y - m_coordParent.y > 15.0f) {
+            m_trianglePositions.push_back(sf::Vector2f(m_coordParent.x, m_coordParent.y + deltaY));
+            m_trianglePositions.push_back(sf::Vector2f((m_coordParent.x + m_coordChild.x)/2, midY));
+            m_trianglePositions.push_back(sf::Vector2f(m_coordChild.x,  m_coordChild.y  - deltaY));
+            m_triangleRotations.push_back(180);
+            m_triangleRotations.push_back(150 + 60*(m_coordParent.x < m_coordChild.x));
+            m_triangleRotations.push_back(180);
+        }
+        else {
+            m_trianglePositions.push_back(sf::Vector2f((m_coordParent.x + m_coordChild.x)/2, midY));
+            m_triangleRotations.push_back(150 + 60*(m_coordParent.x < m_coordChild.x));
+        }
     }
 
     void detourCabLine() {
@@ -158,12 +264,6 @@ private:
         float parentHeight = m_parent->height;
         float childWidth  = (m_child ? m_child->width  : 0) / 2;
         float childHeight = (m_child ? m_child->height : 0) / 2 + 2*childMargin;
-        if(m_coordParent.x > m_coordChild.x) {
-            parentWidth *= -1;
-        }
-        else {
-            childWidth *= -1;
-        }
 
         float coordLeft   = std::min(m_coordParent.x - parentWidth, m_coordChild.x - childWidth);
         float coordTop    = std::min(m_coordParent.y - parentHeight, m_coordChild.y);
@@ -172,7 +272,7 @@ private:
         m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x, m_coordParent.y)));
         m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x, coordBottom + parentMargin)));
 
-        m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x,       coordBottom + parentMargin)));
+        m_line.push_back(sf::Vertex(sf::Vector2f(m_coordParent.x,        coordBottom + parentMargin)));
         m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordBottom + parentMargin)));
 
         m_line.push_back(sf::Vertex(sf::Vector2f(coordLeft-parentMargin, coordBottom + parentMargin)));
@@ -185,12 +285,24 @@ private:
         m_line.push_back(sf::Vertex(sf::Vector2f(m_coordChild.x, m_coordChild.y)));
 
         m_repTimes = 5;
+
+        m_trianglePositions.clear();
+        m_trianglePositions.push_back(sf::Vector2f((coordLeft-parentMargin + m_coordParent.x)/2, coordBottom + parentMargin));
+        m_trianglePositions.push_back(sf::Vector2f(coordLeft-parentMargin, (coordTop + coordBottom)/2));
+        m_trianglePositions.push_back(sf::Vector2f((coordLeft-parentMargin + m_coordChild.x)/2, coordTop - childMargin));
+        m_triangleRotations.clear();
+        m_triangleRotations.push_back(150);
+        m_triangleRotations.push_back(240);
+        m_triangleRotations.push_back(210);
     }
 
 private:
     sf::Vector2f m_coordParent = sf::Vector2f(-1, -1);
     sf::Vector2f m_coordChild  = sf::Vector2f(-1, -1);
     std::vector<sf::Vertex> m_line;
+    sf::CircleShape m_triangle = sf::CircleShape(5, 3);
+    std::vector<sf::Vector2f> m_trianglePositions;
+    std::vector<float> m_triangleRotations;
     Constants::CoordType m_parentCoordType;
     Node* m_parent = NULL;
     Node* m_child = NULL;
@@ -198,6 +310,7 @@ private:
     sf::Color m_mainColor   = sf::Color( 33,  33,  33);
     sf::Color m_accentColor = sf::Color(233, 233, 233);
     int m_accentColorPosition = -1;
+    int m_triangleAccentColorPosition = -1;
     size_t m_repTimes = 0;
 };
 

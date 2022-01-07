@@ -30,8 +30,7 @@ void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 void afiseazaLinii(RenderWindow &window, const vector<Line>& lines)
 {
     for(Line line : lines) {
-        auto shape = line.getLine(window);
-        window.draw(&shape[0], shape.size(), Lines);
+        line.draw(window);
     }
 }
 

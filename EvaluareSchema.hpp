@@ -319,7 +319,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const 
             window.clear(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             if(child != NULL)
-                window.draw(&line.getLine(window)[0], line.getLine(window).size(), Lines);
+                line.draw(window);
             window.display();
         }
         mytime = microseconds(0);
