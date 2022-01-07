@@ -201,8 +201,13 @@ void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
     }
     isPOPup = false;
 
-    if(filePath.size() == 0) return;
     ifstream f(filePath);
+    if(!f) {
+        changeTab(1);
+        OutputText.setString("Fisierul nu a putut fi deschis");
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    }
     ClearScreen(v, linii);
     int lg;
     f >> lg;

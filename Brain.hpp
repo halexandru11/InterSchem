@@ -138,29 +138,45 @@ void eventHandlerBrain(RenderWindow& window,
                     }
 
                     if(all or nodeButtons) {
-                        if(isInsideButton(pos, buttonStart))
+                        if(isInsideButton(pos, buttonStart)) {
                             adauga_nod(nodes, Constants::StartNode);
+                            buttonStart.setBgColor(Color(105, 105, 20));
+                        }
                         if(isInsideButton(pos, buttonAssign))
                             adauga_nod(nodes, Constants::AssignNode);
                         if(isInsideButton(pos, buttonCond))
                             adauga_nod(nodes, Constants::ConditionalNode);
                         if(isInsideButton(pos, buttonOut))
                             adauga_nod(nodes, Constants::OutputNode);
-                        if(isInsideButton(pos, buttonEnd))
+                        if(isInsideButton(pos, buttonEnd)) {
                             adauga_nod(nodes, Constants::StopNode);
+                            buttonEnd.setBgColor(Color(105, 105, 20));
+                        }
                         if(isInsideButton(pos, buttonRead))
                             adauga_nod(nodes, Constants::ReadNode);
                     }
 
                     if(all or funcButtons) {
-                        if(isInsideButton(pos, buttonClear))
+                        if(isInsideButton(pos, buttonClear)) {
+                            OutputText.setString("");
+                            OutputText.setFillColor(Color::White);
                             ClearScreen(nodes,lines);
-                        if(isInsideButton(pos, buttonRun))
+                        }
+                        if(isInsideButton(pos, buttonRun)) {
+                            OutputText.setString("");
+                            OutputText.setFillColor(Color::White);
                             RunSchema(StartSchema, window, nodes, lines);
-                        if(isInsideButton(pos, buttonImport))
+                        }
+                        if(isInsideButton(pos, buttonImport)) {
+                            OutputText.setString("");
+                            OutputText.setFillColor(Color::White);
                             ImportFromFile(nodes,lines);
-                        if(isInsideButton(pos, buttonExport))
+                        }
+                        if(isInsideButton(pos, buttonExport)) {
+                            OutputText.setString("");
+                            OutputText.setFillColor(Color::White);
                             ExportToFile(nodes);
+                        }
                         if(isInsideButton(pos, buttonHelp))
                             HelpPopUp();
                     }
@@ -168,24 +184,12 @@ void eventHandlerBrain(RenderWindow& window,
                     if(all or tabButtons) {
                         if(isInsideButton(pos, buttonOutPut)) {
                             changeTab(1);
-//                            buttonOutPut.setBgColor(Color(163, 184, 81));
-//                            buttonVariabile.setBgColor(Color(44, 61, 27));
-//                            buttonCode.setBgColor(Color(44, 61, 27));
-//                            open_tab = 1;
                         }
                         if(isInsideButton(pos, buttonVariabile)) {
                             changeTab(2);
-//                            buttonOutPut.setBgColor(Color(44, 61, 27));
-//                            buttonVariabile.setBgColor(Color(163, 184, 81));
-//                            buttonCode.setBgColor(Color(44, 61, 27));
-//                            open_tab = 2;
                         }
                         if(isInsideButton(pos, buttonCode)) {
                             changeTab(3);
-//                            buttonOutPut.setBgColor(Color(44, 61, 27));
-//                            buttonVariabile.setBgColor(Color(44, 61, 27));
-//                            buttonCode.setBgColor(Color(163, 184, 81));
-//                            open_tab = 3;
                             writeCode(StartSchema);
                         }
                         if(open_tab == 3 and isInsideButton(pos, buttonClipboard)) {
@@ -232,11 +236,14 @@ void eventHandlerBrain(RenderWindow& window,
                         {
                             if(strcmp(nodes[ nodes.size() - 1 ]->content, "Start") == 0)
                             {
-                               StartSchema = nullptr;
-                               isStartNode = false;
+                                StartSchema = nullptr;
+                                isStartNode = false;
+                                buttonStart.setBgColor(Color(158, 157, 36));
                             }
-                            if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0)
-                               isStopNode = false;
+                            if(strcmp(nodes[ nodes.size() - 1 ]->content, "Stop") == 0) {
+                                isStopNode = false;
+                                buttonEnd.setBgColor(Color(158, 157, 36));
+                            }
 
                             stergeToateLiniile(lines, nodes.back());
                             delete nodes.back();
