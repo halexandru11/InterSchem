@@ -78,9 +78,6 @@ datatype to_nr_pointer(char *&q)
     return r;
 }
 
-
-
-
 datatype numar(char *&p)
 {
     if(*p == 'p' && *(p + 1) == 'i')

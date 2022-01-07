@@ -142,7 +142,54 @@ void ClearScreen(vector <Node*> &v, vector<Line>& lines)
     StartSchema = NULL;
 }
 
-bool isOkToRun()
+int isOkToRun()
 {
-    return isStartNode & isStopNode;
+    if(isStartNode == false and isStopNode == false) {
+        return 0;
+    }
+    if(isStartNode == false) {
+        return 1;
+    }
+    if(isStopNode == false) {
+        return 2;
+    }
+    return 3;
+}
+
+void changeTab(int tab) {
+    buttonOutPut.setBgColor(Color(44, 61, 27));
+    buttonVariabile.setBgColor(Color(44, 61, 27));
+    buttonCode.setBgColor(Color(44, 61, 27));
+    switch(tab) {
+    case 1:
+        buttonOutPut.setBgColor(Color(163, 184, 81));
+        break;
+    case 2:
+        buttonVariabile.setBgColor(Color(163, 184, 81));
+        break;
+    case 3:
+        buttonCode.setBgColor(Color(163, 184, 81));
+        break;
+    }
+    open_tab = tab;
+}
+
+pair<Node*, Node*> loopCorect() {
+    for(Node*& node : nodes) {
+        node->viz = false;
+    }
+    Node* n = StartSchema;
+    while(n != NULL and n->viz == false) {
+        n->viz = true;
+        if(n->urm != NULL) {
+            if(n->urm->viz == true and n->urm->nodeType != Constants::ConditionalNode) {
+                cout << "Dead end\n";
+                return {n, n->urm};
+            }
+            n = n->urm;
+        }
+    }
+
+    cout << "Am ajuns la final\n";
+    return {NULL, NULL};
 }

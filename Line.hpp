@@ -67,17 +67,25 @@ public:
         }
     }
 
+    void setErrorLineColor() {
+        m_mainColor = sf::Color(255, 100, 0);
+        m_accentColor = sf::Color(255, 100, 0);
+        m_triangle.setFillColor(sf::Color(255, 100, 0));
+    }
+
     void draw(sf::RenderWindow& window) {
         getLine(window);
         window.draw(&m_line[0], m_line.size(), Lines);
         for(size_t index = 0; index < m_trianglePositions.size(); ++index) {
             m_triangle.setPosition(m_trianglePositions[index]);
             m_triangle.setRotation(m_triangleRotations[index]);
-            if(index == m_triangleAccentColorPosition) {
-                m_triangle.setFillColor(sf::Color(127, 127, 127));
-            }
-            else {
-                m_triangle.setFillColor(sf::Color::Black);
+            if(m_mainColor != sf::Color(255, 100, 0)) {
+                if(index == m_triangleAccentColorPosition) {
+                    m_triangle.setFillColor(sf::Color(127, 127, 127));
+                }
+                else {
+                    m_triangle.setFillColor(sf::Color::Black);
+                }
             }
             window.draw(m_triangle);
         }
@@ -309,6 +317,7 @@ private:
     bool m_connected = false;
     sf::Color m_mainColor   = sf::Color( 33,  33,  33);
     sf::Color m_accentColor = sf::Color(233, 233, 233);
+    sf::Color m_triangleColor = sf::Color(127, 127, 127);
     int m_accentColorPosition = -1;
     int m_triangleAccentColorPosition = -1;
     size_t m_repTimes = 0;

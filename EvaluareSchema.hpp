@@ -165,15 +165,38 @@ void clearSchema() {
 
 int delay = 400;
 
-void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, const vector<Line>& lines)
+void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector<Line>& lines)
 {
-    if(!isOkToRun())
-    {
-        cout << "NU SUNT START/STOP\n";
-        colorSchema(Color::Red, Color::White);
-        window.clear(Color(38, 43, 19));
-        DeseneazaPeEcran(window, nodes, lines);
-        window.display();
+    OutputText.setString("");
+    OutputText.setFillColor(Color::White);
+    VariabileText.clear();
+    switch(isOkToRun()) {
+    case 0:
+        changeTab(1);
+        OutputText.setString("Lipsesc nodurile de Start\nsi de Stop");
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    case 1:
+        changeTab(1);
+        OutputText.setString("Lipseste nodul de Start");
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    case 2:
+        changeTab(1);
+        OutputText.setString("Lipseste nodul de Stop");
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    }
+    pair<Node*, Node*> res = loopCorect();
+    if(res.first != NULL) {
+        changeTab(1);
+        OutputText.setString("Daca doriti sa creati o\nstructura repetitiva trebuie\nsa faceti legatura catre un\nNod Conditional.");
+        OutputText.setFillColor(Color(255, 160, 0));
+        for(Line& line : lines) {
+            if(line.getParent() == res.first and line.getChild() == res.second) {
+                line.setErrorLineColor();
+            }
+        }
         return;
     }
     Node *dublura = p;
