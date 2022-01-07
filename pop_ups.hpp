@@ -11,10 +11,16 @@ using namespace sf;
 bool isPOPup = false;
 int PopType;
 
-RectangleShape popUpBG(Vector2f(1000.0f,150.0f));;
+RectangleShape popUpBG(Vector2f(1000.0f,150.0f));
+RectangleShape border;
 Text popupText;
 Text inputPopUp;
 string bufferp;
+
+void setBorder() {
+    border = RectangleShape(Vector2f(600, 40));
+    border.setPosition(200, 60);
+}
 
 void setPopupText(string s)
 {
@@ -22,8 +28,9 @@ void setPopupText(string s)
     float h = popupText.getGlobalBounds().height;
     float w = popupText.getGlobalBounds().width;
     popupText.setOrigin(w / 2, h / 2);
-    popupText.setPosition( Vector2f(1000.0f / 2.0f, 150.0f / 2.0f - 50.0f)  );
+    popupText.setPosition( Vector2f(1000.0f / 2.0f, 150.0f / 2.0f - 50.0f) );
 
+    setBorder();
 }
 
 void setPopupInputText(string s)
@@ -33,14 +40,13 @@ void setPopupInputText(string s)
     float w = inputPopUp.getGlobalBounds().width;
     inputPopUp.setOrigin(w / 2, h / 2);
     inputPopUp.setPosition( Vector2f(1000.0f / 2.0f, 150.0f / 2.0f )  );
-
 }
 
 void popupSetup()
 {
     popupText.setFont(font);
     popupText.setCharacterSize(17);
-    popupText.setFillColor(Color::Black);
+    popupText.setFillColor(Color::White);
 
     inputPopUp.setFont(font);
     inputPopUp.setCharacterSize(17);
@@ -48,16 +54,16 @@ void popupSetup()
 
     popUpBG.setOrigin(Vector2f(500.0f,75.0f));
     popUpBG.setPosition(Vector2f(1000.0f/ 2.0f , 150.0f / 2.0f ));
+    popUpBG.setFillColor(Color(77, 157, 36));
 }
 
 void afiseazaPopup(RenderWindow &window)
 {
     window.draw(popUpBG);
+    window.draw(border);
     window.draw(popupText);
     window.draw(inputPopUp);
 }
-
-
 
 inline void getInputPop(Event &evnt)
 {

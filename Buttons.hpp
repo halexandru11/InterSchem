@@ -209,7 +209,7 @@ void initializareButoane(Font &font)
                     Vector2f(1225.0f, 47.0f),
                     Vector2f(10.0f, 213.0f),
                     "Copy", 17, -2,
-                    Color(87, 80, 15));
+                    Color(100, 180, 0));
 
     buttonHelp.init(Vector2f(30.0f, 30.0f),
 //                    Vector2f(1295.0f - 30.0f, 720.0f - 30.0f),
