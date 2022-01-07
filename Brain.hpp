@@ -167,23 +167,26 @@ void eventHandlerBrain(RenderWindow& window,
 
                     if(all or tabButtons) {
                         if(isInsideButton(pos, buttonOutPut)) {
-                            buttonOutPut.setBgColor(Color(163, 184, 81));
-                            buttonVariabile.setBgColor(Color(44, 61, 27));
-                            buttonCode.setBgColor(Color(44, 61, 27));
-                            open_tab = 1;
+                            changeTab(1);
+//                            buttonOutPut.setBgColor(Color(163, 184, 81));
+//                            buttonVariabile.setBgColor(Color(44, 61, 27));
+//                            buttonCode.setBgColor(Color(44, 61, 27));
+//                            open_tab = 1;
                         }
                         if(isInsideButton(pos, buttonVariabile)) {
-                            buttonOutPut.setBgColor(Color(44, 61, 27));
-                            buttonVariabile.setBgColor(Color(163, 184, 81));
-                            buttonCode.setBgColor(Color(44, 61, 27));
-                            open_tab = 2;
+                            changeTab(2);
+//                            buttonOutPut.setBgColor(Color(44, 61, 27));
+//                            buttonVariabile.setBgColor(Color(163, 184, 81));
+//                            buttonCode.setBgColor(Color(44, 61, 27));
+//                            open_tab = 2;
                         }
                         if(isInsideButton(pos, buttonCode)) {
-                            buttonOutPut.setBgColor(Color(44, 61, 27));
-                            buttonVariabile.setBgColor(Color(44, 61, 27));
-                            buttonCode.setBgColor(Color(163, 184, 81));
+                            changeTab(3);
+//                            buttonOutPut.setBgColor(Color(44, 61, 27));
+//                            buttonVariabile.setBgColor(Color(44, 61, 27));
+//                            buttonCode.setBgColor(Color(163, 184, 81));
+//                            open_tab = 3;
                             writeCode(StartSchema);
-                            open_tab = 3;
                         }
                         if(open_tab == 3 and isInsideButton(pos, buttonClipboard)) {
                             copyToClipboard();
