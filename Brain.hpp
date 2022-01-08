@@ -44,6 +44,10 @@ void eventHandlerBrain(RenderWindow& window,
                     getInput(evnt,nodes);
 
             }
+            else if(Keyboard::isKeyPressed(Keyboard::LControl) and Keyboard::isKeyPressed(Keyboard::R))
+            {
+                clearSchema();
+            }
             else if(evnt.type == Event::MouseButtonPressed)
             {
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {

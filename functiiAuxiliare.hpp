@@ -193,3 +193,33 @@ pair<Node*, Node*> loopCorect() {
     cout << "Am ajuns la final\n";
     return {NULL, NULL};
 }
+
+void colorSchema(Color bkColor, Color outlineColor) {
+    for(Node*& node : nodes) {
+        node->setColor(bkColor, outlineColor);
+    }
+}
+
+void clearSchema() {
+    for(Node*& node : nodes) {
+        node->resetNode();
+    }
+    for(Line& line : lines) {
+        line.resetLineColor();
+    }
+}
+
+void setErrorLine(const Node* parent, const Node* child) {
+    for(size_t index = 0; index < lines.size(); ++index) {
+        if(lines[index].getParent() == parent and lines[index].getChild() == child) {
+            lines[index].setErrorLineColor();
+            swap(lines[index], lines.back());
+        }
+    }
+}
+
+void setAllErrorLines() {
+    for(Line& line : lines) {
+        line.setErrorLineColor();
+    }
+}

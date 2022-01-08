@@ -151,21 +151,9 @@ Node* RunNode(Node *p)
     return nullptr;
 }
 
-void colorSchema(Color bkColor, Color outlineColor) {
-    for(Node*& node : nodes) {
-        node->setColor(bkColor, outlineColor);
-    }
-}
-
-void clearSchema() {
-    for(auto& node : nodes) {
-        node->resetNode();
-    }
-}
-
 int delay = 400;
 
-void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector<Line>& lines)
+void RunSchema(Node *p, RenderWindow& window, vector<Node*>& nodes, vector<Line>& lines)
 {
     OutputText.setString("");
     OutputText.setFillColor(Color::White);
@@ -173,18 +161,28 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector
     switch(isOkToRun()) {
     case 0:
         changeTab(1);
-        OutputText.setString("Lipsesc nodurile de Start\nsi de Stop");
+        OutputText.setString("Lipsesc nodurile de Start\nsi de Stop.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonStart.setBgColor(sf::Color(200, 100, 0));
+        buttonEnd.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     case 1:
         changeTab(1);
-        OutputText.setString("Lipseste nodul de Start");
+        OutputText.setString("Lipseste nodul de Start.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonStart.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     case 2:
         changeTab(1);
-        OutputText.setString("Lipseste nodul de Stop");
+        OutputText.setString("Lipseste nodul de Stop.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonEnd.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     }
     pair<Node*, Node*> res = loopCorect();
@@ -192,11 +190,7 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector
         changeTab(1);
         OutputText.setString("Daca doriti sa creati o\nstructura repetitiva trebuie\nsa faceti legatura catre un\nNod Conditional.");
         OutputText.setFillColor(Color(255, 160, 0));
-        for(Line& line : lines) {
-            if(line.getParent() == res.first and line.getChild() == res.second) {
-                line.setErrorLineColor();
-            }
-        }
+        setErrorLine(res.first, res.second);
         return;
     }
     Node *dublura = p;

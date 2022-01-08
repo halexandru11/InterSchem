@@ -91,7 +91,7 @@ inline void getInputPop(Event &evnt)
 
 void HelpPopUp()
 {
-    RenderWindow windowHelp(VideoMode(1000, 800), "Help", Style::Close | Style::Titlebar);
+    RenderWindow windowHelp(VideoMode(1000, 660), "Help", Style::Close | Style::Titlebar);
 
     auto imageIcon = sf::Image{};
     imageIcon.loadFromFile("ICON3.png");
@@ -102,14 +102,16 @@ void HelpPopUp()
     helpText.setFont(font);
     helpText.setCharacterSize(17);
     helpText.setFillColor(Color::White);
-    helpText.setPosition(Vector2f(150.0f, 430.0f));
+    helpText.setPosition(Vector2f(150.0f, 330.0f));
 ///    helpText.setStyle(sf::Text::Bold);
     Texture imagineBG;
     imagineBG.loadFromFile("ICON2.png");
     sf :: Sprite imag(imagineBG);
-    imag.setPosition(Vector2f(280.0f, 0.0f));
+//    imag.setPosition(Vector2f(280.0f, 0.0f));
+    imag.setPosition(Vector2f(350.0f, 0.0f));
     imag.setOrigin(Vector2f(0.0f, 0.0f));
-    imag.scale(Vector2f(0.7f, 0.7f));
+//    imag.scale(Vector2f(0.7f, 0.7f));
+    imag.scale(Vector2f(0.5f, 0.5f));
     Trademarkk = helpText;
     string message ="                                                                  Help\n";
     message += "Butoanele se actioneaza cu Click Stanga\n";
@@ -119,9 +121,16 @@ void HelpPopUp()
     message += "Pentru a edita un nod se apasa Click Dreapta pe el, si apoi se poate tasta\n";
     message += "Pentru a termina editarea se apasa tasta Enter\n";
     message += "Pentru a sterge un nod se foloseste Click3(click-ul de pe Scroll)\n";
+    message += "Pentru a reseta culorile schemei folositi combinatia de taste Ctrl+R\n";
     helpText.setString(message);
     Trademarkk.setString("Proiect realizat de Hritcan Alexandru & Vamanu Petru");
-    Trademarkk.setPosition(Vector2f(270,780));
+    Trademarkk.setPosition(Vector2f(265,600));
+    Trademarkk.setStyle(Text::Italic);
+
+    RectangleShape box(Vector2f(760, 270));
+    box.setPosition(120, 310);
+    box.setFillColor(Color(70,100,35));
+
     while(windowHelp.isOpen())
     {
         Event E;
@@ -132,8 +141,9 @@ void HelpPopUp()
                 windowHelp.close();
             }
         }
-        windowHelp.clear(Color(90,120,50));
+        windowHelp.clear(Color(100,140,60));
         windowHelp.draw(imag);
+        windowHelp.draw(box);
         windowHelp.draw(helpText);
         windowHelp.draw(Trademarkk);
         windowHelp.display();
