@@ -54,7 +54,7 @@ void ExportToFile(vector <Node*> v)
     RenderWindow fereastra_citire(VideoMode(1000, 150), "Export", Style::Close | Style::Titlebar);
     isPOPup = true;
     filePath = "";
-    string taskk = "Introduceti numele fisierului + extenisa(optional si Path-ul acestuia):";
+    string taskk = "Introduceti numele fisierului + extenisa(*.sch, *.cpp):";
     setPopupText(taskk);
     while(fereastra_citire.isOpen())
     {
@@ -81,7 +81,14 @@ void ExportToFile(vector <Node*> v)
         fereastra_citire.display();
     }
     isPOPup = false;
-    if(filePath.size() == 0) return;
+    if(filePath.size() < 5) return;
+    if(filePath.substr(filePath.size()-4) != ".cpp" || filePath.substr(filePath.size()-4) != ".sch") {
+        throwError("Ati gresit extensia fisierului.\nDoar *.sch si *.cpp sunt\nacceptate.");
+        changeTab(1);
+        OutputText.setString(errorString);
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    }
     ofstream g(filePath);
     g << v.size() << '\n';
     for(int i = 0; i < int(v.size()); ++i)
@@ -173,7 +180,7 @@ void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
     RenderWindow fereastra_citire(VideoMode(1000, 150), "Import", Style::Close | Style::Titlebar);
     isPOPup = true;
     filePath = "";
-    string taskk = "Introduceti numele fisierului + extenisa(optional si Path-ul acestuia):";
+    string taskk = "Introduceti numele fisierului + extenisa(*.sch):";
     setPopupText(taskk);
     while(fereastra_citire.isOpen())
     {
@@ -201,10 +208,22 @@ void ImportFromFile(vector <Node*> &v, vector<Line>& linii)
     }
     isPOPup = false;
 
+    if(filePath.size() < 5) {
+        return;
+    }
+    if(filePath.substr(filePath.size()-4) != ".sch") {
+        throwError("Fisierul nu a putut fi deschis.\nAsigurati-va ca ati scris\nextensia corect(*.sch).");
+        changeTab(1);
+        OutputText.setString(errorString);
+        OutputText.setFillColor(Color(255, 160, 0));
+        return;
+    }
+
     ifstream f(filePath);
     if(!f) {
         changeTab(1);
-        OutputText.setString("Fisierul nu a putut fi deschis");
+        throwError("Acest fisier nu exista.");
+        OutputText.setString(errorString);
         OutputText.setFillColor(Color(255, 160, 0));
         return;
     }
