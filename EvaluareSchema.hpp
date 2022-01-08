@@ -18,12 +18,15 @@ map<string, bool> modificat;
 
 Node* RunStartNode(Node* p)
 {
+    if(abandon) return nullptr;
     OutputContent = "";
     initializare();
     return p->urm;
 }
 Node* RunReadNode(Node* p)
 {
+
+    if(abandon) return nullptr;
     char s[500];
     strcpy(s, p->content);
     string variabilaNoua;
@@ -69,6 +72,8 @@ Node* RunReadNode(Node* p)
 
 Node* RunAssignNode(Node*p)
 {
+
+    if(abandon) return nullptr;
     char s[500];
     string variabila;
     char *w;
@@ -96,6 +101,8 @@ Node* RunAssignNode(Node*p)
 
 Node* RunIfNode(Node*p)
 {
+
+    if(abandon) return nullptr;
     char s[500];
     string variabila;
     char *w;
@@ -109,6 +116,8 @@ Node* RunIfNode(Node*p)
 
 Node* RunPrintNode(Node*p)
 {
+
+    if(abandon) return nullptr;
     char s[500];
     strcpy(s, p->content);
     if(s[0] ==  '\"')
@@ -138,6 +147,8 @@ Node* RunPrintNode(Node*p)
 
 Node* RunNode(Node *p)
 {
+
+    if(abandon) return nullptr;
     if(p->nodeType == Constants::StartNode)
         return RunStartNode(p);
     if(p->nodeType == Constants::AssignNode)
@@ -167,9 +178,12 @@ int delay = 400;
 
 void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector<Line>& lines)
 {
+
+    if(abandon) return;
     OutputText.setString("");
     OutputText.setFillColor(Color::White);
     VariabileText.clear();
+    nrVariabile = 0;
     switch(isOkToRun()) {
     case 0:
         changeTab(1);

@@ -1,5 +1,5 @@
 #pragma once
-
+#include "eroare.hpp"
 class Constants {
 public:
     static constexpr float Width = 1295;
