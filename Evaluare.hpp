@@ -5,6 +5,7 @@
 #include <cstring>
 #define eps 0.000001
 #define PI 3.14159265
+#define euler exp(1)
 #include "Constants.hpp"
 using namespace std;
 typedef double datatype;
@@ -15,13 +16,14 @@ int nrVariabile = 0;
 
 datatype logpow(datatype a, datatype b)
 {
+    if(abandon) return 1;
     is_expo = 1;
     datatype r = 1;
     int b_floored = b;
     if(b - b_floored >= eps)
     {
-        perror("Exponentiala cu exponent real"); ///
-        exit(1);
+        throwError("Exponentiala cu exponent real");
+        return 1;
     }
     if(b_floored < 0)
     {
@@ -41,6 +43,7 @@ datatype logpow(datatype a, datatype b)
 datatype to_nr_pointer(char *&q)
 {
     ///cout << q << '\n';
+    if(abandon) return 1;
     datatype r = 0;
     datatype offset = 0.1;
     int semn = 1;
@@ -53,16 +56,15 @@ datatype to_nr_pointer(char *&q)
         {
             if(point != 0 )
             {
-                cerr << "VALOARE INTRODUSA GRESIT - .";
-                exit(1);
+                throwError("VALOARE INTRODUSA GRESIT");
+                return 1;
             }
             point = 1;
         }
         else if(!isdigit(*q))
         {
-            //cout << *q << '\n';
-            cerr << "VALOARE INTRODUSA GRESIT - . AICI?";
-            exit(1);
+                throwError("VALOARE INTRODUSA GRESIT");
+                return 1;
         }
         else if(point)
         {
@@ -80,12 +82,17 @@ datatype to_nr_pointer(char *&q)
 
 datatype numar(char *&p)
 {
-    if(*p == 'p' && *(p + 1) == 'i')
+    if(abandon) return 1;
+    if(*p == 'p' && *(p + 1) == 'i' && !isalnum(*(p + 2)))
     {
         p+=2;
         return PI;
     }
-
+    if(*p == 'e' && !isalnum(*(p + 1)))
+    {
+        p++;
+        return euler;
+    }
     if('a' <= *p && *p <= 'z')
     {
 
@@ -97,9 +104,12 @@ datatype numar(char *&p)
         }
         if(variabileCod.find(numeVariabila) == variabileCod.end())
         {
-            cout << numeVariabila << '\n';
-            cerr << "VARIABILA NEDECLARATA";
-            exit(1);
+
+            throwError("VRIABILA NEDECLARATA");
+            return 1;
+            //cout << numeVariabila << '\n';
+            //cerr << "VARIABILA NEDECLARATA";
+            //exit(1);
         }
         datatype r = variabile[variabileCod[numeVariabila]];
         return r;
@@ -125,6 +135,7 @@ datatype andor2(char *&p);
 datatype expresie(char *&p)
 {
 
+    if(abandon) return 1;
     //std:: cout << "Expresie" << ' ' << *p << '\n';
     datatype r=termen(p);
     while(*p=='+' || *p=='-')
@@ -142,6 +153,7 @@ datatype expresie(char *&p)
 }
 datatype Evalueaza_Expresie(char s[])
 {
+    if(abandon) return 1;
     char q[strlen(s) + 50];
     int nq = 0;
     for(int i = 0; i < int(strlen(s)); ++i)
@@ -160,6 +172,7 @@ datatype Evalueaza_Expresie(char s[])
 
 datatype equalities(char *&p)
 {
+    if(abandon) return 1;
     datatype r;
     r = expresie(p);
     //std:: cout << *p << '\n';
@@ -206,6 +219,7 @@ datatype equalities(char *&p)
 
 datatype andor(char *&p)
 {
+    if(abandon) return 1;
     ///std:: cout << "andor" << ' ' << *p << '\n';
     datatype r;
     r = andor2(p);
@@ -222,6 +236,7 @@ datatype andor(char *&p)
 
 datatype andor2(char *&p)
 {
+    if(abandon) return 1;
     ///std:: cout << "andor2" << ' ' << *p << '\n';
     datatype r;
     r = equalities(p);
@@ -238,6 +253,7 @@ datatype andor2(char *&p)
 
 datatype termen(char *&p)
 {
+    if(abandon) return 1;
     ///std:: cout << "termen" << ' ' << *p << '\n';
     datatype r=factor(p);
     while(*p=='*' || *p=='/')
@@ -251,8 +267,8 @@ datatype termen(char *&p)
             datatype imp = factor(p);
             if(imp == 0)
             {
-                perror("IMPARTIRE LA 0");
-                exit(1);
+                throwError("IMPARTIRE LA 0");
+                return 1;
             }
             r /= imp;
         }
@@ -260,17 +276,15 @@ datatype termen(char *&p)
 }
 datatype factor(char *&p)
 {
+    if(abandon) return 1;
     ///std:: cout << "factor" << ' ' << *p << '\n';
     ///cout << p << '\n';
-    cout << "pow " <<  p << '\n';
     if(!(*p == 'p' && *(p + 1) == 'o' && *(p + 2) == 'w'))
         return functii(p);
     datatype r = 0;
     while(*p == 'p' && *(p + 1) == 'o' && *(p + 2) == 'w')
     {
         p+=4;
-
-        cout << p << '\n';
         r = expresie(p);
         p++;
         datatype pow = expresie(p);
@@ -307,30 +321,57 @@ bool isRad(char *p)
 
 datatype functii(char *&p)
 {
+    if(abandon) return 1;
     ///std:: cout << "functii" << ' ' << *p << '\n';
     datatype r;
     char op = 'z';
     if(isLog(p) || isCos(p) || isSin(p) || isRad(p))
     {
         op = *p;
-        p += 3;
+        p += 4;
     }
-    r = expo(p);
+    else{
+        r = expo(p);
+        return r;
+    }
+    //p++;
+    r = expresie(p);
     if(op == 'l')
     {
-        if(r <= 0)
+        cout << p << '\n';
+        if(*p == ',')
         {
-            cerr << "LOG INVALID";
-            exit(1);
+            p++;
+            double argument = expresie(p);
+            if(argument <= 0)
+            {
+                throwError("ARGUMENT LOG INVALID");
+                return 1;
+            }
+
+            if(r <= 0)
+            {
+                throwError("BAZA LOG INVALID");
+                return 1;
+            }
+            r = log(argument) / log(r);
         }
-        r = log(r);
+        else{
+            if(r <= 0)
+            {
+                throwError("LOG INVALID");
+                return 1;
+            }
+            r = log(r);
+        }
     }
     else if(op == 'r')
     {
         if(r <= 0)
         {
-            cerr << "RAD INVALID";
-            exit(1);
+
+            throwError("RADICAL INVALID");
+            return 1;
         }
         r = sqrt(r);
     }
@@ -349,6 +390,7 @@ datatype functii(char *&p)
 
 datatype expo(char *&p)
 {
+    if(abandon) return 1;
 
     ///std:: cout << "expo" << ' ' << *p << '\n';
     datatype r;
@@ -365,6 +407,7 @@ datatype expo(char *&p)
 
 datatype to_nr(string q)
 {
+    if(abandon) return 1;
     cout << q;
     datatype r = 0;
     datatype offset = 0.1;
@@ -383,16 +426,16 @@ datatype to_nr(string q)
         {
             if(point != 0 )
             {
-                cerr << "VALOARE INTRODUSA GRESIT - .";
-                exit(1);
+                throwError("VALOARE INTRODUSA GRESIT");
+                return 1;
             }
             point = i;
         }
         else if(!isdigit(q[i]))
         {
-            //cout << q[i] << '\n';
-            cerr << "VALOARE INTRODUSA GRESIT - .";
-            exit(1);
+
+                throwError("VALOARE INTRODUSA GRESIT");
+                return 1;
         }
         else if(point)
         {
@@ -410,6 +453,7 @@ datatype to_nr(string q)
 
 void adaugaVariabila(string s, datatype val)
 {
+    if(abandon) return ;
     for(int i = 0; i < int(s.size()); ++i)
         if('A' <= s[i] && s[i] <= 'Z')
             s[i] = s[i] - 'A' + 'a';
@@ -421,6 +465,7 @@ void adaugaVariabila(string s, datatype val)
 
 void atribuieVariabila(string s, datatype val)
 {
+    if(abandon) return ;
     if(variabileCod.find(s) == variabileCod.end())
     {
         adaugaVariabila(s,val);
@@ -429,6 +474,7 @@ void atribuieVariabila(string s, datatype val)
 }
 void initializare()
 {
+    if(abandon) return;
     nrVariabile = 0;
     variabileCod.clear();
     for(int i = 0; i <= 50; ++i)
