@@ -5,6 +5,7 @@
 #include <cstring>
 #define eps 0.000001
 #define PI 3.14159265
+#define euler exp(1)
 #include "Constants.hpp"
 using namespace std;
 typedef double datatype;
@@ -80,12 +81,16 @@ datatype to_nr_pointer(char *&q)
 
 datatype numar(char *&p)
 {
-    if(*p == 'p' && *(p + 1) == 'i')
+    if(*p == 'p' && *(p + 1) == 'i' && !isalnum(*(p + 2)))
     {
         p+=2;
         return PI;
     }
-
+    if(*p == 'e' && !isalnum(*(p + 1)))
+    {
+        p++;
+        return euler;
+    }
     if('a' <= *p && *p <= 'z')
     {
 
@@ -262,15 +267,12 @@ datatype factor(char *&p)
 {
     ///std:: cout << "factor" << ' ' << *p << '\n';
     ///cout << p << '\n';
-    cout << "pow " <<  p << '\n';
     if(!(*p == 'p' && *(p + 1) == 'o' && *(p + 2) == 'w'))
         return functii(p);
     datatype r = 0;
     while(*p == 'p' && *(p + 1) == 'o' && *(p + 2) == 'w')
     {
         p+=4;
-
-        cout << p << '\n';
         r = expresie(p);
         p++;
         datatype pow = expresie(p);
@@ -313,17 +315,42 @@ datatype functii(char *&p)
     if(isLog(p) || isCos(p) || isSin(p) || isRad(p))
     {
         op = *p;
-        p += 3;
+        p += 4;
     }
-    r = expo(p);
+    else{
+        r = expo(p);
+        return r;
+    }
+    //p++;
+    r = expresie(p);
     if(op == 'l')
     {
-        if(r <= 0)
+        cout << p << '\n';
+        if(*p == ',')
         {
-            cerr << "LOG INVALID";
-            exit(1);
+            p++;
+            double argument = expresie(p);
+            if(argument <= 0)
+            {
+                cerr << "ARGUMENT LOG INVALID";
+                exit(1);
+            }
+
+            if(r <= 0)
+            {
+                cerr << "Baza LOG INVALID";
+                exit(1);
+            }
+            r = log(argument) / log(r);
         }
-        r = log(r);
+        else{
+            if(r <= 0)
+            {
+                cerr << "LOG INVALID";
+                exit(1);
+            }
+            r = log(r);
+        }
     }
     else if(op == 'r')
     {
