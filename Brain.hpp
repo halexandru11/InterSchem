@@ -169,6 +169,7 @@ void eventHandlerBrain(RenderWindow& window,
                         if(isInsideButton(pos, buttonRun)) {
                             OutputText.setString("");
                             OutputText.setFillColor(Color::White);
+                            abandon = 0;
                             RunSchema(StartSchema, window, nodes, lines);
                         }
                         if(isInsideButton(pos, buttonImport)) {

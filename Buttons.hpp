@@ -58,6 +58,7 @@ private:
 Node* StartSchema;
 vector<Text> VariabileText;
 Text CodText;
+Text OutputText;
 Text delayText("Delay:", font, 17);
 
 RectangleShape workbench (Vector2f(900.0f,720.0f));
@@ -240,15 +241,14 @@ void afisareButoane(RenderWindow &window)
     buttonVariabile.draw(window);
     buttonCode.draw(window);
     buttonHelp.draw(window);
-    if(abandon)
-    {
-        OutputText.setFillColor(Color(255, 160, 0));
-        OutputText.setString(error_text);
-        window.draw(OutputText);
-        abandon = 0;
-    }
+//    if(abandon)
+//    {
+//        OutputText.setFillColor(Color(255, 160, 0));
+//        OutputText.setString(error_text);
+//        window.draw(OutputText);
+//    }
 
-    else if(open_tab == 1)
+    if(open_tab == 1)
         window.draw(OutputText);
     else if(open_tab == 2) {
         for(auto var : VariabileText) {

@@ -13,7 +13,6 @@ datatype variabile[60];
 map <string, int>  variabileCod;
 int nrVariabile = 0;
 
-
 datatype logpow(datatype a, datatype b)
 {
     if(abandon) return 1;
@@ -22,7 +21,7 @@ datatype logpow(datatype a, datatype b)
     int b_floored = b;
     if(b - b_floored >= eps)
     {
-        throwError("Exponentiala cu exponent real");
+        throwError("Exponentiala cu exponent\nreal.");
         return 1;
     }
     if(b_floored < 0)
@@ -56,14 +55,14 @@ datatype to_nr_pointer(char *&q)
         {
             if(point != 0 )
             {
-                throwError("VALOARE INTRODUSA GRESIT");
+                throwError("Valoare introdusa gresit.");
                 return 1;
             }
             point = 1;
         }
         else if(!isdigit(*q))
         {
-                throwError("VALOARE INTRODUSA GRESIT");
+                throwError("Valoare introdusa gresit.");
                 return 1;
         }
         else if(point)
@@ -105,7 +104,7 @@ datatype numar(char *&p)
         if(variabileCod.find(numeVariabila) == variabileCod.end())
         {
 
-            throwError("VRIABILA NEDECLARATA");
+            throwError("Variabila nedeclarata.");
             return 1;
             //cout << numeVariabila << '\n';
             //cerr << "VARIABILA NEDECLARATA";
@@ -267,7 +266,7 @@ datatype termen(char *&p)
             datatype imp = factor(p);
             if(imp == 0)
             {
-                throwError("IMPARTIRE LA 0");
+                throwError("Impartire la 0.");
                 return 1;
             }
             r /= imp;
@@ -345,13 +344,13 @@ datatype functii(char *&p)
             double argument = expresie(p);
             if(argument <= 0)
             {
-                throwError("ARGUMENT LOG INVALID");
+                throwError("Argument LOG invalid.");
                 return 1;
             }
 
             if(r <= 0)
             {
-                throwError("BAZA LOG INVALID");
+                throwError("Baza LOG invalid.");
                 return 1;
             }
             r = log(argument) / log(r);
@@ -359,7 +358,7 @@ datatype functii(char *&p)
         else{
             if(r <= 0)
             {
-                throwError("LOG INVALID");
+                throwError("LOG invalid.");
                 return 1;
             }
             r = log(r);
@@ -370,7 +369,7 @@ datatype functii(char *&p)
         if(r <= 0)
         {
 
-            throwError("RADICAL INVALID");
+            throwError("Radical invalid.");
             return 1;
         }
         r = sqrt(r);
@@ -426,7 +425,7 @@ datatype to_nr(string q)
         {
             if(point != 0 )
             {
-                throwError("VALOARE INTRODUSA GRESIT");
+                throwError("Valoare introdusa gresit.");
                 return 1;
             }
             point = i;
@@ -434,7 +433,7 @@ datatype to_nr(string q)
         else if(!isdigit(q[i]))
         {
 
-                throwError("VALOARE INTRODUSA GRESIT");
+                throwError("Valoare introdusa gresit.");
                 return 1;
         }
         else if(point)

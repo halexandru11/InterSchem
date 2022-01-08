@@ -157,6 +157,7 @@ public:
     Node* urmTrue = NULL;
     Node* urmFalse = NULL;
     char content[500];
+    int depth = -1;
 
 private:
     void setCoordonates() {
