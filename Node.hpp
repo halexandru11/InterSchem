@@ -140,6 +140,8 @@ public:
     void setColor(sf::Color backgroundColor, sf::Color outlineColor) {
         m_backgroundColor = backgroundColor;
         m_outlineColor = outlineColor;
+        m_shape.setFillColor(m_backgroundColor);
+        m_shape.setOutlineColor(m_outlineColor);
     }
 
 public:
@@ -155,6 +157,7 @@ public:
     Node* urmTrue = NULL;
     Node* urmFalse = NULL;
     char content[500];
+    int depth = -1;
 
 private:
     void setCoordonates() {
@@ -192,6 +195,7 @@ private:
             m_shape = sf::ConvexShape(0);
         }
         m_shape.setFillColor(m_backgroundColor);
+        m_shape.setOutlineColor(m_outlineColor);
         setHitbox();
     }
 

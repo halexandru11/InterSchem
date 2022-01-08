@@ -66,11 +66,17 @@ public:
             m_accentColorPosition = 0;
         }
     }
-  
+
     void setErrorLineColor() {
         m_mainColor = sf::Color(255, 100, 0);
         m_accentColor = sf::Color(255, 100, 0);
         m_triangle.setFillColor(sf::Color(255, 100, 0));
+    }
+
+    void resetLineColor() {
+        m_mainColor   = sf::Color( 33,  33,  33);
+        m_accentColor = sf::Color(233, 233, 233);
+        m_triangle.setFillColor(sf::Color::Black);
     }
 
     void draw(sf::RenderWindow& window) {

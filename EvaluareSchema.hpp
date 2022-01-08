@@ -18,7 +18,10 @@ map<string, bool> modificat;
 
 Node* RunStartNode(Node* p)
 {
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     OutputContent = "";
     initializare();
     return p->urm;
@@ -26,7 +29,10 @@ Node* RunStartNode(Node* p)
 Node* RunReadNode(Node* p)
 {
 
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     char s[500];
     strcpy(s, p->content);
     string variabilaNoua;
@@ -73,7 +79,10 @@ Node* RunReadNode(Node* p)
 Node* RunAssignNode(Node*p)
 {
 
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     char s[500];
     string variabila;
     char *w;
@@ -102,7 +111,10 @@ Node* RunAssignNode(Node*p)
 Node* RunIfNode(Node*p)
 {
 
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     char s[500];
     string variabila;
     char *w;
@@ -117,7 +129,10 @@ Node* RunIfNode(Node*p)
 Node* RunPrintNode(Node*p)
 {
 
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     char s[500];
     strcpy(s, p->content);
     if(s[0] ==  '\"')
@@ -148,7 +163,10 @@ Node* RunPrintNode(Node*p)
 Node* RunNode(Node *p)
 {
 
-    if(abandon) return nullptr;
+    if(abandon) {
+        p->setColor(Color::Red, Color::White);
+        return nullptr;
+    }
     if(p->nodeType == Constants::StartNode)
         return RunStartNode(p);
     if(p->nodeType == Constants::AssignNode)
@@ -162,24 +180,10 @@ Node* RunNode(Node *p)
     return nullptr;
 }
 
-void colorSchema(Color bkColor, Color outlineColor) {
-    for(Node*& node : nodes) {
-        node->setColor(bkColor, outlineColor);
-    }
-}
-
-void clearSchema() {
-    for(auto& node : nodes) {
-        node->resetNode();
-    }
-}
-
 int delay = 400;
 
-void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector<Line>& lines)
+void RunSchema(Node *p, RenderWindow& window, vector<Node*>& nodes, vector<Line>& lines)
 {
-
-    if(abandon) return;
     OutputText.setString("");
     OutputText.setFillColor(Color::White);
     VariabileText.clear();
@@ -187,30 +191,44 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector
     switch(isOkToRun()) {
     case 0:
         changeTab(1);
-        OutputText.setString("Lipsesc nodurile de Start\nsi de Stop");
+        OutputText.setString("EROARE:\nLipsesc nodurile de Start\nsi de Stop.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonStart.setBgColor(sf::Color(200, 100, 0));
+        buttonEnd.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     case 1:
         changeTab(1);
-        OutputText.setString("Lipseste nodul de Start");
+        OutputText.setString("EROARE:\nLipseste nodul de Start.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonStart.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     case 2:
         changeTab(1);
-        OutputText.setString("Lipseste nodul de Stop");
+        OutputText.setString("EROARE:\nLipseste nodul de Stop.");
         OutputText.setFillColor(Color(255, 160, 0));
+        buttonEnd.setBgColor(sf::Color(200, 100, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     }
     pair<Node*, Node*> res = loopCorect();
     if(res.first != NULL) {
         changeTab(1);
-        OutputText.setString("Daca doriti sa creati o\nstructura repetitiva trebuie\nsa faceti legatura catre un\nNod Conditional.");
+        OutputText.setString("EROARE:\nDaca doriti sa creati o\nstructura repetitiva trebuie\nsa faceti legatura catre un\nNod Conditional.");
         OutputText.setFillColor(Color(255, 160, 0));
-        for(Line& line : lines) {
-            if(line.getParent() == res.first and line.getChild() == res.second) {
-                line.setErrorLineColor();
-            }
-        }
+        setErrorLine(res.first, res.second);
+        return;
+    }
+    if(!ajungeLaStop(StartSchema)) {
+        changeTab(1);
+        OutputText.setString("EROARE:\nToate drumurile trebuie sa\najunga in nodul Stop.");
+        OutputText.setFillColor(Color(255, 160, 0));
+        colorSchema(Color(240, 80, 80), Color(220, 220, 220));
+        setAllErrorLines();
         return;
     }
     Node *dublura = p;
@@ -358,6 +376,13 @@ void RunSchema(Node *p, RenderWindow& window, const vector<Node*>& nodes, vector
             if(child != NULL)
                 line.draw(window);
             window.display();
+            if(abandon) {
+                OutputText.setString(errorString);
+                OutputText.setFillColor(Color(255, 160, 0));
+                changeTab(1);
+                p->setColor(Color(240, 80, 80), Color(220, 220, 220));
+                return;
+            }
         }
         mytime = microseconds(0);
         while(mytime.asMilliseconds() < delay) {

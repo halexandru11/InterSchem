@@ -175,21 +175,129 @@ void changeTab(int tab) {
 }
 
 pair<Node*, Node*> loopCorect() {
+    const int inf = 1e9 + 7;
+
     for(Node*& node : nodes) {
-        node->viz = false;
+        node->depth = inf;
     }
-    Node* n = StartSchema;
-    while(n != NULL and n->viz == false) {
-        n->viz = true;
-        if(n->urm != NULL) {
-            if(n->urm->viz == true and n->urm->nodeType != Constants::ConditionalNode) {
-                cout << "Dead end\n";
-                return {n, n->urm};
+    Node* p = StartSchema;
+    queue<Node*> q;
+    q.push(p);
+    p->depth = 0;
+    while(!q.empty()) {
+        Node* curr = q.front();
+        q.pop();
+        if(curr->urm != NULL) {
+            if(curr->urm->depth == inf) {
+                curr->urm->depth = curr->depth + 1;
+                q.push(curr->urm);
             }
-            n = n->urm;
+            else if(curr->urm->depth < curr->depth and curr->urm->nodeType != Constants::ConditionalNode) {
+                return {curr, curr->urm};
+            }
+        }
+        if(curr->urmTrue != NULL) {
+            if(curr->urmTrue->depth == inf) {
+                curr->urmTrue->depth = curr->depth + 1;
+                q.push(curr->urmTrue);
+            }
+            else if(curr->urmTrue->depth < curr->depth and curr->urmTrue->nodeType != Constants::ConditionalNode) {
+                return {curr, curr->urmTrue};
+            }
+        }
+        if(curr->urmFalse != NULL) {
+            if(curr->urmFalse->depth == inf) {
+                curr->urmFalse->depth = curr->depth + 1;
+                q.push(curr->urmFalse);
+            }
+            else if(curr->urmFalse->depth < curr->depth) {
+                return {curr, curr->urmFalse};
+            }
         }
     }
-
-    cout << "Am ajuns la final\n";
     return {NULL, NULL};
+}
+
+void printNodeType(Node* node) {
+    switch(node->nodeType) {
+    case Constants::StartNode:
+        cout << "Start Node\n";
+        break;
+    case Constants::AssignNode:
+        cout << "Assign Node\n";
+        break;
+    case Constants::ConditionalNode:
+        cout << "Conditional Node\n";
+        break;
+    case Constants::ReadNode:
+        cout << "Read Node\n";
+        break;
+    case Constants::OutputNode:
+        cout << "Output Node\n";
+        break;
+    case Constants::StopNode:
+        cout << "Stop Node\n";
+        break;
+    default:
+        cout << "Unknown Node: " << node->nodeType <<  "\n";
+    }
+}
+
+bool ajungeLaStop(Node* p) {
+    for(Node*& node : nodes) {
+        node->depth = -1;
+    }
+    queue<Node*> q;
+    q.push(p);
+    p->depth = 1;
+    while(!q.empty()) {
+        Node* curr = q.front();
+        q.pop();
+        if(curr->urm == NULL and curr->urmTrue == NULL and curr->urmFalse == NULL) {
+            return curr->nodeType == Constants::StopNode;
+        }
+        if(curr->urm != NULL and curr->urm->depth == -1) {
+            curr->urm->depth = 1;
+            q.push(curr->urm);
+        }
+        if(curr->urmTrue != NULL and curr->urmTrue->depth == -1) {
+            curr->urmTrue->depth = 1;
+            q.push(curr->urmTrue);
+        }
+        if(curr->urmFalse != NULL and curr->urmFalse->depth == -1) {
+            curr->urmFalse->depth = 1;
+            q.push(curr->urmFalse);
+        }
+    }
+    return false;
+}
+
+void colorSchema(Color bkColor, Color outlineColor) {
+    for(Node*& node : nodes) {
+        node->setColor(bkColor, outlineColor);
+    }
+}
+
+void clearSchema() {
+    for(Node*& node : nodes) {
+        node->resetNode();
+    }
+    for(Line& line : lines) {
+        line.resetLineColor();
+    }
+}
+
+void setErrorLine(const Node* parent, const Node* child) {
+    for(size_t index = 0; index < lines.size(); ++index) {
+        if(lines[index].getParent() == parent and lines[index].getChild() == child) {
+            lines[index].setErrorLineColor();
+            swap(lines[index], lines.back());
+        }
+    }
+}
+
+void setAllErrorLines() {
+    for(Line& line : lines) {
+        line.setErrorLineColor();
+    }
 }

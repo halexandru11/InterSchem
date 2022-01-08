@@ -44,6 +44,10 @@ void eventHandlerBrain(RenderWindow& window,
                     getInput(evnt,nodes);
 
             }
+            else if(Keyboard::isKeyPressed(Keyboard::LControl) and Keyboard::isKeyPressed(Keyboard::R))
+            {
+                clearSchema();
+            }
             else if(evnt.type == Event::MouseButtonPressed)
             {
                 if(evnt.mouseButton.button == Mouse::Left and Keyboard::isKeyPressed(Keyboard::LControl)) {
@@ -165,6 +169,7 @@ void eventHandlerBrain(RenderWindow& window,
                         if(isInsideButton(pos, buttonRun)) {
                             OutputText.setString("");
                             OutputText.setFillColor(Color::White);
+                            abandon = 0;
                             RunSchema(StartSchema, window, nodes, lines);
                         }
                         if(isInsideButton(pos, buttonImport)) {
