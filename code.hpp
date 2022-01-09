@@ -209,7 +209,7 @@ void writeCode(Node *p)
             is_expo = 1;
     }
     CodText.setCharacterSize(10);
-    code = "#include<iostream>\nusing namespace std;\n";
+    code = "#include<iostream>\n#include<cmath>\nusing namespace std;\n";
     if(is_expo)
         code += "double pow(double a, double b)\n{\n    double r = 1;\n    int b_floored = b;\n    if(b - b_floored >= 0.00001)\n    {\n        perror(\"Exponentiala cu exponent real\");\n        exit(1);\n    }\n    if(b_floored < 0)\n    {\n        a = 1 / a;\n        b_floored = -b_floored;\n    }\n    while(b_floored)\n    {\n        if(b_floored & 1) r *= a;\n        a *= a;\n        b_floored >>= 1;\n    }\n    return r;\n}";
     bool amVars = 0;
