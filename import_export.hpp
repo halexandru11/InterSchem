@@ -82,7 +82,7 @@ void ExportToFile(vector <Node*> v)
     }
     isPOPup = false;
     if(filePath.size() < 5) return;
-    if(filePath.substr(filePath.size()-4) != ".cpp" || filePath.substr(filePath.size()-4) != ".sch") {
+    if(filePath.substr(filePath.size()-4) != ".cpp" && filePath.substr(filePath.size()-4) != ".sch") {
         throwError("Ati gresit extensia fisierului.\nDoar *.sch si *.cpp sunt\nacceptate.");
         changeTab(1);
         OutputText.setString(errorString);
