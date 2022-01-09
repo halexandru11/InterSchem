@@ -240,6 +240,8 @@ void RunSchema(Node *p, RenderWindow& window, vector<Node*>& nodes, vector<Line>
     while(p != NULL) {
         p->activateNode();
         window.clear(Color(38, 43, 19));
+        leftBanner.setFillColor(Color(38, 43, 19));
+        rightBanner.setFillColor(Color(38, 43, 19));
         DeseneazaPeEcran(window, nodes, lines);
         window.display();
         if(p->nodeType == Constants::StopNode) {
@@ -249,6 +251,8 @@ void RunSchema(Node *p, RenderWindow& window, vector<Node*>& nodes, vector<Line>
             }
             p->deactivateNode();
             window.clear(Color(38, 43, 19));
+            leftBanner.setFillColor(Color(38, 43, 19));
+            rightBanner.setFillColor(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             window.display();
             return;
@@ -372,6 +376,8 @@ void RunSchema(Node *p, RenderWindow& window, vector<Node*>& nodes, vector<Line>
             }
 
             window.clear(Color(38, 43, 19));
+            leftBanner.setFillColor(Color(38, 43, 19));
+            rightBanner.setFillColor(Color(38, 43, 19));
             DeseneazaPeEcran(window, nodes, lines);
             if(child != NULL)
                 line.draw(window);

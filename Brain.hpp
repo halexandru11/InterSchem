@@ -24,13 +24,17 @@ void eventHandlerBrain(RenderWindow& window,
                         bool nodeDelete = false) {
 
     bool hold = false;
-    Vector2i oldPos;
     int target = -1;
+    Vector2i oldPos;
+    Vector2f prevMousePos(-1, -1);
+    Vector2f delta;
     bool lineStarted = false;
     int lineParentNode = -1;
 
+        bool moveAll = false;
     while (window.isOpen())
     {
+        delta = Vector2f(0, 0);
         Event evnt;
         while (window.pollEvent(evnt))
         {
@@ -262,6 +266,18 @@ void eventHandlerBrain(RenderWindow& window,
                 target = -1;
                 hold = false;
             }
+            if(evnt.type == Event::MouseMoved) {
+                if(prevMousePos != Vector2f(-1, -1)) {
+                    delta = Vector2f(evnt.mouseMove.x, evnt.mouseMove.y) - prevMousePos;
+                }
+                if(Keyboard::isKeyPressed(Keyboard::LShift)) {
+                    for(Node*& node : nodes) {
+                        node->setNodeCoordonates(node->getNodeCoordonates(Constants::CoordNode) + delta);
+                    }
+                }
+                prevMousePos.x = evnt.mouseMove.x;
+                prevMousePos.y = evnt.mouseMove.y;
+            }
         }
         if(hold && target != -1)
         {
@@ -305,6 +321,8 @@ void eventHandlerBrain(RenderWindow& window,
             }
         }
         window.clear(Color(57, 77, 0));
+        leftBanner.setFillColor(Color(57, 77, 0));
+        rightBanner.setFillColor(Color(57, 77, 0));
         DeseneazaPeEcran(window, nodes, lines);
         window.display();
     }

@@ -10,6 +10,10 @@
 using namespace sf;
 using namespace std;
 
+RectangleShape leftBanner(Vector2f(125, 720));
+RectangleShape rightBanner(Vector2f(270, 720));
+RectangleShape workbench (Vector2f(900.0f,720.0f));
+
 void afiseazaNoduri(RenderWindow &window, const vector<Node*>& nodes)
 {
     for(size_t index = 0; index < nodes.size(); ++index) {
@@ -36,7 +40,14 @@ void afiseazaLinii(RenderWindow &window, const vector<Line>& lines)
 
 void DeseneazaPeEcran(RenderWindow &window, const vector<Node*>& nodes, const vector<Line>& lines)
 {
-    afisareButoane(window);
+    leftBanner.setPosition(0, 0);
+    workbench.setFillColor(Color(90,120,50));
+    workbench.setPosition(125.0f, 0.0f);
+    rightBanner.setPosition(1025, 0);
+    window.draw(workbench);
     afiseazaNoduri(window, nodes);
     afiseazaLinii(window, lines);
+    window.draw(leftBanner);
+    window.draw(rightBanner);
+    afisareButoane(window);
 }

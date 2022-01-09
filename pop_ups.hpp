@@ -102,7 +102,7 @@ void HelpPopUp()
     helpText.setFont(font);
     helpText.setCharacterSize(17);
     helpText.setFillColor(Color::White);
-    helpText.setPosition(Vector2f(150.0f, 330.0f));
+    helpText.setPosition(Vector2f(150.0f, 315.0f));
 ///    helpText.setStyle(sf::Text::Bold);
     Texture imagineBG;
     imagineBG.loadFromFile("ICON2.png");
@@ -122,6 +122,7 @@ void HelpPopUp()
     message += "Pentru a termina editarea se apasa tasta Enter\n";
     message += "Pentru a sterge un nod se foloseste Click3(click-ul de pe Scroll)\n";
     message += "Pentru a reseta culorile schemei folositi combinatia de taste Ctrl+R\n";
+    message += "Pentru a muta toata schema tineti apasat tasta Shift si miscati mouse-ul\n";
     helpText.setString(message);
     Trademarkk.setString("Proiect realizat de Hritcan Alexandru & Vamanu Petru");
     Trademarkk.setPosition(Vector2f(265,600));
