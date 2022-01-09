@@ -61,7 +61,6 @@ Text CodText;
 Text OutputText;
 Text delayText("Delay:", font, 17);
 
-RectangleShape workbench (Vector2f(900.0f,720.0f));
 Button buttonClear     (Vector2f(125.0f, 50.0f));
 Button buttonRun       (Vector2f(125.0f, 50.0f));
 Button buttonImport    (Vector2f(125.0f, 50.0f));
@@ -96,10 +95,6 @@ void initializareButoane(Font &font)
     VariabileText.clear();
 
     popupSetup();
-
-    workbench.setFillColor(Color(90,120,50));
-    workbench.setOrigin(0.0f, 0.0f);
-    workbench.setPosition(125.0f, 0.0f);
 
     buttonClear.init(Vector2f(125.0f, 50.0f),
                     Vector2f(0.0f, 0.0f),
@@ -221,7 +216,6 @@ void initializareButoane(Font &font)
 
 void afisareButoane(RenderWindow &window)
 {
-    window.draw(workbench);
     window.draw(delayText);
     buttonClear.draw(window);
     buttonRun.draw(window);

@@ -59,6 +59,7 @@
 		<Unit filename="Line.hpp" />
 		<Unit filename="Node.hpp" />
 		<Unit filename="code.hpp" />
+		<Unit filename="eroare.hpp" />
 		<Unit filename="functiiAuxiliare.hpp" />
 		<Unit filename="import_export.hpp" />
 		<Unit filename="inputText.hpp" />
