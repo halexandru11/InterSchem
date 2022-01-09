@@ -92,11 +92,11 @@ datatype numar(char *&p)
         p++;
         return euler;
     }
-    if('a' <= *p && *p <= 'z')
+    if( ('a' <= *p && *p <= 'z') || ('A' <= *p && *p <= 'Z') )
     {
 
         string numeVariabila;
-        while('a' <= *p && *p <= 'z')
+        while( ('a' <= *p && *p <= 'z') || ('A' <= *p && *p <= 'Z') )
         {
             numeVariabila.push_back(*p);
             p++;
@@ -159,8 +159,6 @@ datatype Evalueaza_Expresie(char s[])
     {
         if(s[i] == ' ') continue;
         q[nq++] = s[i];
-        if('A' <= s[i] && s[i] <= 'Z')
-            q[nq - 1] = s[i] - 'A' + 'a';
     }
     q[nq] = '\0';
     char *w = q;
@@ -313,7 +311,7 @@ bool isLog(char *p)
 }
 bool isRad(char *p)
 {
-    if(*p == 'r' && *(p + 1) == 'a' && *(p + 2) == 'd')
+    if(*p == 's' && *(p + 1) == 'q' && *(p + 2) == 'r'&& *(p + 3) == 't')
         return 1;
     return 0;
 }
@@ -327,6 +325,11 @@ datatype functii(char *&p)
     if(isLog(p) || isCos(p) || isSin(p) || isRad(p))
     {
         op = *p;
+        if(isRad(p))
+        {
+            p++;
+            op = 'r';
+        }
         p += 4;
     }
     else{
@@ -337,7 +340,6 @@ datatype functii(char *&p)
     r = expresie(p);
     if(op == 'l')
     {
-        cout << p << '\n';
         if(*p == ',')
         {
             p++;
@@ -453,9 +455,6 @@ datatype to_nr(string q)
 void adaugaVariabila(string s, datatype val)
 {
     if(abandon) return ;
-    for(int i = 0; i < int(s.size()); ++i)
-        if('A' <= s[i] && s[i] <= 'Z')
-            s[i] = s[i] - 'A' + 'a';
 
     variabileCod[ s ] = nrVariabile++;
     variabile[ variabileCod[ s ] ] = val;

@@ -1,8 +1,9 @@
 #include<iostream>
+#include<math.h>
 using namespace std;
-double a;
+
 int main()
 {
-      a = 23.3.3;
+      cout << sqrt(25) << '\n';
       return 0;
 }
