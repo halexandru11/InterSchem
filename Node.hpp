@@ -253,7 +253,6 @@ private:
         return convexShape;
     }
 
-
     sf::ConvexShape outputNodeShape() {
         sf::ConvexShape convexShape;
         convexShape.setPointCount(4);
