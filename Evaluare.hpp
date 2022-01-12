@@ -49,7 +49,7 @@ datatype to_nr_pointer(char *&q)
     int i = 0;
     int point = 0;
 
-    while(*q != NULL && strchr("-+=^()*/,", *q) == NULL && !isalpha(*q))
+    while(*q != NULL && strchr("-+=<>^()*/,|&", *q) == NULL && !isalpha(*q))
     {
         if(*q == '.')
         {
@@ -282,10 +282,14 @@ datatype factor(char *&p)
     while(*p == 'p' && *(p + 1) == 'o' && *(p + 2) == 'w')
     {
         p+=4;
+        cout << p << '\n';
         r = expresie(p);
+        cout << p << '\n';
+        if(*p == ')') p++;
         p++;
+        cout << p << '\n';
         datatype pow = expresie(p);
-        ///cout << r << ' '  << pow << '\n';
+        cout << r << ' '  << pow << '\n';
         p++;
         r = logpow(r, pow);
     }
