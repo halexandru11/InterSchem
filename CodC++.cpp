@@ -1,9 +1,9 @@
 #include<iostream>
-#include<math.h>
+#include<cmath>
 using namespace std;
 
 int main()
 {
-      cout << sqrt(25) << '\n';
+      cout << sqrt(1.21) << '\n';
       return 0;
 }
