@@ -169,6 +169,8 @@ void eventHandlerBrain(RenderWindow& window,
                             OutputText.setString("");
                             OutputText.setFillColor(Color::White);
                             ClearScreen(nodes,lines);
+                            buttonStart.setBgColor(Color(158, 157, 36));
+                            buttonEnd.setBgColor(Color(158, 157, 36));
                         }
                         if(isInsideButton(pos, buttonRun)) {
                             OutputText.setString("");
